@@ -1905,7 +1905,10 @@ Route::get('settings/edit-cast/{id}', 'App\Http\Controllers\SettingController@ca
 Route::post('settings/updateCast', 'App\Http\Controllers\SettingController@updateCast');
 
 Route::get('settings/vw-subcast', 'App\Http\Controllers\SettingController@subcastGet');
-Route::post('settings/add-sub-caste', 'App\Http\Controllers\SettingController@addsubcast');
+Route::get('settings/add-sub-caste', 'App\Http\Controllers\SettingController@addsubcast');
+Route::post('settings/add-sub-caste', 'App\Http\Controllers\SettingController@saveSubCasteData');
+Route::get('settings/edit-sub-cast/{id}', 'App\Http\Controllers\SettingController@editSubCast');
+Route::post('settings/update-sub-cast', 'App\Http\Controllers\SettingController@updateSubCast');
 
 Route::get('settings/vw-religion', 'App\Http\Controllers\SettingController@getReligion');
 Route::get('settings/add-new-religion', 'App\Http\Controllers\SettingController@viewAddNewReligion');

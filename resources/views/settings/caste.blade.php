@@ -79,7 +79,6 @@
 											<thead>
 												<tr>
 													<th>Sl. No.</th>
-                									<th>idcaste_master</th>
                 									<th>Caste Name</th>
                 									<th>Status</th>
 													<th>Action</th>
@@ -94,10 +93,9 @@
 												   
                                         <tr>
                                             <td><?php echo $i++; ?></td>
-                                            <td>{{ $entry->idcaste_master}}</td>
-                                            <td>{{ $entry->caste_name}}</td>
-                                            <td>{{ $entry->status}}</td>
-                                            <td><a href="{{url('settings/edit-cast/'.$entry->idcaste_master)}}" data-toggle="tooltip"data-placement="bottom" title="Edit"><img  style="width: 14px;" src="{{ asset('assets/img/edit.png')}}"></a></td>
+                                            <td>{{ $entry->cast_name}}</td>
+                                            <td>{{ $entry->cast_status}}</td>
+                                            <td><a href="{{url('settings/edit-cast/'.$entry->id)}}" data-toggle="tooltip"data-placement="bottom" title="Edit"><img  style="width: 14px;" src="{{ asset('assets/img/edit.png')}}"></a></td>
                                         </tr>
                                     @endforeach  
 											</tbody>

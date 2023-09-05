@@ -72,37 +72,55 @@
 									<h4 class="card-title"><i class="far fa-building"></i> New caste</h4>
 								</div>
 								<div class="card-body" style="">
-									<form action="{{url('settings/updateCast')}}" method="post" enctype="multipart/form-data">
-									 {{csrf_field()}}
-									<div class="row">
-										<input type="hidden" name="id" value="<?php if (!empty($cast[0]->id)) { echo $cast[0]->id; } ?>">
-										<div class="col-md-4">
-										<div class="form-group">
-											<label for="inputFloatingLabel" class="placeholder">Caste Name</label>
-											<input type="text" class="form-control" required id="cast_name" name="cast_name" value="<?php if (!empty($cast[0]->cast_name)) { echo $cast[0]->cast_name; } ?>">
-										</div>
-										</div>
-									<div class="col-md-4">
-										<div class="form-group">
-											<label>Status</label>
-                                            <select class="form-control" name="cast_status" required>
-                                                <option value="">Select Status</option>
-                                                <option value="active">Active</option>
-												<option value="inactive">Inactive</option>
-                                            </select>
-											<!-- <label for="inputFloatingLabel" class="placeholder">Status</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="status" /> -->
-										</div>
-									</div>
+									<form action="{{url('settings/update-sub-cast')}}" method="post" enctype="multipart/form-data">
 										
-
-
+										<input type="hidden" name="_token" value="{{ csrf_token() }}">
+										<input type="hidden" name="id" value="<?php echo $getCast[0]->id;   ?>">
+										<div class="row form-group">
+											<div class="col-md-6">
+												<label for="text-input" class=" form-control-label">Select Caste <span>(*)</span></label>
+												<?php //print_r($getCast); exit; 
+												?>
+												<select class="form-control" name="cast_id" required>
+													<option value='' selected disabled>Select</option>
+			
+													@foreach($getCast as $cast)
+													<option value='{{ $cast->id }}' <?php if ($getCast[0]->cast_name == $cast->cast_name) { echo 'selected'; } ?> <?php if (old('cast_id') == $cast->cast_name) { echo "selected"; } ?>>{{ $cast->cast_name }}</option>
+													@endforeach
+												</select>
+			
+												@if ($errors->has('cast_id'))
+												<div class="error" style="color:red;">{{ $errors->first('cast_id') }}</div>
+												@endif
 											</div>
+			
+			
+											<div class="col-md-6">
+												<label for="email-input" class=" form-control-label">Enter Sub Caste Name <span>(*)</span></label>
+												<input type="text" id="designation_name" required name="sub_cast_name" class="form-control" value="<?php echo $getCast[0]->sub_cast_name;   ?>{{ old('sub_cast_name') }}">
+												@if ($errors->has('sub_cast_name'))
+												<div class="error" style="color:red;">{{ $errors->first('sub_cast_name') }}</div>
+												@endif
 											</div>
-											<div class="form-group">
+										   
+			
+											<div class="col-md-6">
+													<label for="text-input" class=" form-control-label">Status<span>(*)</span></label>
+													<select class="form-control" name="cast_status">
+														<option value="active">Active</option>
+														<option value="inactive">Inactive</option>
+													</select>
+			
+											</div>
+			
+										  
+										</div>
+			
+			
+										<div class="row form-group">
 										<div class="col-md-2"><button type="submit" class="btn btn-default">Submit</button></div>
 										</div>
-										</div>
+								
 									</form>
 								</div>
 							</div>

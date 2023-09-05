@@ -20,6 +20,9 @@ use App\Models\ProfessionalRecords;
 use App\Models\MiscDocuments;
 use App\Models\PayStructure;
 use App\Models\Deduction;
+use App\Models\Masters\Cast;
+use App\Models\Masters\Sub_cast;
+
 
 
 class EmployeeController extends Controller
@@ -140,10 +143,17 @@ class EmployeeController extends Controller
     }
 //employee start
 public function getEmployeeAddFun(){
-     
+
+    $data['employee_code'] = rand(1000, 10000);
     $data['department']=DB::table('department')->get();
-    $data['designation']=DB::table('designation')->get();
-    return view("employee/employeeAdd",$data);
+    $data['cast'] = Cast::where('cast_status', '=', 'active')->get();
+    $data['sub_cast'] = Sub_cast::where('sub_cast_status', '=', 'active')->get();
+    $data['religion']=DB::table('religion_master')->get();
+    // $data['designation']=DB::table('designation')->get();
+    // $data['department']=DB::table('department')->get();
+    // $data['designation']=DB::table('designation')->get();
+    //dd($data['department']);
+    return view("employee/employee-master",$data);
 }
 //employee update 
 public function employeeupdatepage($id){

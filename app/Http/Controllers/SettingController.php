@@ -10,6 +10,8 @@ use Session;
 use Validator;
 use view;
 use App\Models\RateDetail;
+use App\Models\Masters\Cast;
+use App\Models\Masters\Sub_cast;
 
 class SettingController extends Controller
 {
@@ -725,18 +727,143 @@ class SettingController extends Controller
 
     public function getCaste()
     {
-        $data['enteries'] = DB::table('caste_master')->get();
-        return view('settings/caste', $data);
+       // $data['enteries'] = DB::table('caste_master')->get();
+        $data['enteries'] = Cast::get();
+        return view('settings/caste', $data); 
     }
     public function subcastGet()
     {
-        $data['enteries'] = DB::table('sub_cast')->get();
+        // $data['enteries'] = DB::table('sub_cast')->get();
+        $data['enteries'] = Sub_cast::leftJoin('casts', 'sub_casts.cast_id', '=', 'casts.id')
+        // ->where('sub_cast_status','=','active')
+        ->select('sub_casts.*', 'casts.cast_name')
+        ->get();
         return view('settings/sub-cast-reli', $data);
     }
     public function addsubcast(){
-        DB::table('sub_cast')->insert($_POST);
-        return view('settings/sub_cast_add');
+        // DB::table('sub_cast')->insert($_POST);
+        $data['getCast'] = Cast::where('cast_status', '=', 'active')->get();
+        return view('settings/sub_cast_add',$data);
     }
+
+    public function saveSubCasteData(Request $request){
+        $sub_cast_name = strtoupper(trim($request->sub_cast_name));
+      if (is_numeric($sub_cast_name) == 1) {
+        Session::flash('error', 'Sub cast Should not be numeric.');
+        return redirect('settings/vw-subcast');
+      }
+      $subcast_id = $request->sub_cast_id;
+      $subcast_name = strtoupper($request->sub_cast_name);
+      $cast_id = $request->cast_id;
+      $validator = Validator::make(
+        $request->all(),
+        [
+          'cast_id' => 'required',
+          'sub_cast_name' => 'required|max:255'
+
+        ],
+        [
+          //'cast_id.required'=>'Cast ID Required',
+          'sub_cast_name.required' => 'Sub Cast Name Required',
+          'sub_cast_id.required' => 'Sub Cast ID Required',
+        ]
+      );
+
+      if ($validator->fails()) {
+        return redirect('masters/add-sub-cast')->withErrors($validator)->withInput();
+      } else {
+
+        $data = array(
+          'cast_id' => $cast_id,
+          'sub_cast_id' => $subcast_id,
+          'sub_cast_name' => $subcast_name,
+          'sub_cast_status' => 'active'
+
+        );
+
+        $subcastemdb = Sub_cast::where('sub_cast_name', '=', trim($request->sub_cast_name))->where('sub_cast_status', '=', 'active')->first();
+
+        if (empty($subcastemdb)) {
+          $check_sub_cast = Sub_cast::where('sub_cast_name', $sub_cast_name)->first();
+          if (!empty($check_sub_cast)) {
+            Session::flash('message', 'Already Exists.');
+            return redirect('settings/vw-subcast');
+          }
+          $dataInsert = Sub_cast::insert($data);
+          Session::flash('message', 'Sub Cast Successfully saved.');
+        //   return redirect('settings/sub-cast-reli');
+        } else {
+          Session::flash('error', 'Sub Cast Already Exits.');
+        }
+        return redirect('settings/vw-subcast');
+      }
+
+
+    }
+
+    public function editSubCast($id){
+        if ($id != ' ') {
+            $data['getCast'] = Sub_cast::leftJoin('casts', 'sub_casts.cast_id', '=', 'casts.id')
+              ->where('sub_casts.id', '=', $id)
+              ->select('sub_casts.*', 'casts.cast_name')
+              ->get();
+            //$data['getCast']=DB::table('cast')->where('cast_status','=','active')->get();
+            return view('settings/sub-cast-edit', $data);
+          } else {
+    
+            $data['getCast'] = Cast::where('cast_status', '=', 'active')->get();
+            return view('settings/sub_cast_add',$data);
+          }
+    }
+
+    public function updateSubCast(Request $request)
+  {
+  
+
+      $sub_cast_name = strtoupper(trim($request->sub_cast_name));
+      if (is_numeric($sub_cast_name) == 1) {
+        Session::flash('error', 'Sub cast Should not be numeric.');
+        return redirect('settings/vw-subcast');
+      }
+
+
+
+      $subcast_id = $request->sub_cast_id;
+      $subcast_name = strtoupper($request->sub_cast_name);
+      $cast_id = $request->cast_id;
+      $validator = Validator::make(
+        $request->all(),
+        [
+          'cast_id' => 'required',
+          'sub_cast_name' => 'required|max:255'
+
+        ],
+        [
+          //'cast_id.required'=>'Cast ID Required',
+          'sub_cast_name.required' => 'Sub Cast Name Required',
+          'sub_cast_id.required' => 'Sub Cast ID Required',
+        ]
+      );
+
+      if ($validator->fails()) {
+        return redirect('settings/add-sub-caste')->withErrors($validator)->withInput();
+      } else {
+
+
+        $data = array(
+          'id' => $cast_id,
+          'sub_cast_id' => $subcast_id,
+          'sub_cast_name' => $subcast_name,
+          'sub_cast_status' => $request->cast_status
+
+        );
+
+        Sub_cast::where('id', $request->cast_id)
+          ->update($data);
+        Session::flash('message', 'Sub Cast Successfully Updated.');
+        return redirect('settings/vw-subcast');
+      }
+  }
 
     public function viewAddNewCaste(Request $request)
     {
@@ -776,36 +903,55 @@ class SettingController extends Controller
         $Roledata = DB::table('registration')->where('status', '=', 'active')
             ->where('email', '=', $email)
             ->first();
+         $cast_name = strtoupper($request->cast_name);
+         if (is_numeric($cast_name) == 1) {
+              Session::flash('error', 'Caste Should not be numeric.');
+              return redirect()->back();
+            }
+      
         $data = array(
-            'idcaste_master' => $request->idcaste_master,
-            'caste_name' => $request->caste_name,
-            'status' => $request->status,
+            // 'idcaste_master' => $request->idcaste_master,
+            'cast_name' => $request->cast_name,
+            'cast_status' => "active",
         );
-        DB::table('caste_master')->insert($data);
+       // DB::table('casts')->insert($data);
+       $castemdb = Cast::where('cast_name', '=', trim($request->cast_name))->where('cast_status', '=', 'active')->first();
+
+       if (empty($castemdb)) {
+         $dataInsert = Cast::insert($data);
+         Session::flash('message', 'Cast Successfully saved.');
+       } else {
+         Session::flash('message', 'Cast Already Exits.');
+       }
         return redirect('settings/vw-caste');
     }
 public function castUpdate($id){
- $data['cast']=DB::table('caste_master')
- ->where('idcaste_master',$id)
- ->get();
- return view("settings/gt-cast",$data);
+
+    if ($id != '') {
+     $data['cast'] = Cast::where('id', $id)->get();
+         return view("settings/gt-cast",$data);
+    }else{
+        return redirect('settings/vw-caste');
+    }
+//  $data['cast']=DB::table('caste_master')
+//  ->where('idcaste_master',$id)
+//  ->get();
+ 
 }
 
-public function updateCast()
+public function updateCast(Request $request)
 {
-    try{
-     $data=[
-        "caste_name"=>$_POST['caste_name'],
-        "status"=>$_POST['status'],
-     ];
-     DB::table('caste_master')
-     ->where("idcaste_master",$_POST['idcaste_master'])
-     ->update($data);
-     Session::flash('message', 'Cast Information Successfully Updated.');
-                return redirect('settings/vw-caste');
-    }catch (Exception $e){
-        throw new \App\Exceptions\FrontException($e->getMessage());
-    }
+ 
+        $data = array(
+            'cast_name' => $request->cast_name,
+            'cast_status' => $request->cast_status
+          );
+  
+          Cast::where('id', $request->id)
+            ->update($data);
+          Session::flash('message', 'Cast Information Successfully Updated.');
+          return redirect('settings/vw-caste');
+    
 }
     public function getReligion()
     {

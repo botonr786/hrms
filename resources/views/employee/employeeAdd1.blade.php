@@ -197,49 +197,49 @@ button:hover {
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                          <label>Employee Code</labe>
+                                                          <label>Employee Code</label>
                                                             <input placeholder="Employee Code..." class="form-control"   name="employeeCode"></p>
                                                         </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>Salutation</labe>
+                                                        <label>Salutation</label>
                                                             <input placeholder="Salutation..."  class="form-control" name="salutation"></p>
                                                         </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>First Name (*)</labe>
+                                                        <label>First Name (*)</label>
                                                             <input placeholder="First Name..."  class="form-control" name="firstname"></p>
                                                         </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>Middle Name</labe>
+                                                        <label>Middle Name</label>
                                                             <input placeholder="Middle Name..."  class="form-control" name="middlename"></p>
                                                         </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>Last Name</labe>
+                                                        <label>Last Name</label>
                                                             <input placeholder="Last Name..."  class="form-control" name="lastname"></p>
                                                         </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>Father Name</labe>
+                                                        <label>Father Name</label>
                                                             <input placeholder="Father Name..."  class="form-control" name="fathername"></p>
                                                         </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>Spouse Name</labe>
+                                                        <label>Spouse Name</label>
                                                             <input placeholder="Spouse Name..."  class="form-control" name="spousename"></p>
                                                         </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>Caste</labe>
+                                                        <label>Caste</label>
                                                         <select class="form-control" name="caste">
                                                         <option>Select</option>
                                                         <option value="GENERAL" >GENERAL</option>
@@ -252,7 +252,7 @@ button:hover {
                                                       </div>
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>Sub Caste</labe>
+                                                        <label>Sub Caste</label>
                                                         <select class="form-control" name="subcaste" style="width:205px">
                                                         <option>Select</option>
                                                         <option value="HINDU" >HINDU</option>
@@ -262,7 +262,7 @@ button:hover {
                                                       </div>  
                                                       <div class="col-md-3">
                                                         <div class="form-group">
-                                                        <label>Religion</labe>
+                                                        <label>Religion</label>
                                                         <select class="form-control" name="religion" style="width:205px">
                                                         <option>Select</option>
                                                         <option value="Hinduism" >Hinduism</option>
