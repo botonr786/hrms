@@ -343,9 +343,9 @@
                                                             <label>Department <span>(*)</span></label>
                                                             <select class="form-control" name="emp_department" required onchange="checkdepart(this.value)">
                                                                <option value="">Select</option>
-                                                               {{-- @foreach($department as $dept)
+                                                               @foreach($department as $dept)
                                                                <option value="{{$dept->department_name}}" <?php if (request()->get('q') != '') {if ($employee_rs[0]->emp_department == $dept->department_name) {echo 'selected';}}?>>{{$dept->department_name}}</option>
-                                                               @endforeach --}}
+                                                               @endforeach
                                                             </select>
                                                          </div>
                                                          <div class="col-md-3">
@@ -393,9 +393,9 @@
                                                             <label>Employee Type <span>(*)</span></label>
                                                             <select class="form-control" name="emp_status" required>
                                                                <option value="">Select</option>
-                                                               {{-- @foreach($employee_type as $emp)
+                                                               @foreach($employee_type as $emp)
                                                                <option value="{{$emp->employee_type_name}}" <?php if (request()->get('q') != '') {if ($employee_rs[0]->emp_status == $emp->employee_type_name) {echo 'selected';}}?>>{{$emp->employee_type_name}}</option>
-                                                               @endforeach --}}
+                                                               @endforeach
                                                             </select>
                                                          </div>
                                                          <!-- <div class="col-md-3">
@@ -410,22 +410,138 @@
                                                             <label>Reporting Authority</label>
                                                             <select class="form-control" name="emp_reporting_auth" >
                                                                <option value="">Select</option>
-                                                               {{-- @foreach($employeelists as $employeelist)
+                                                               @foreach($employeelists as $employeelist)
                                                                <option value="{{$employeelist->emp_code}}" <?php if (request()->get('q') != '') {if ($employee_rs[0]->emp_reporting_auth == $employeelist->emp_code) {echo 'selected';}}?>>{{$employeelist->emp_fname}} {{$employeelist->emp_mname}} {{$employeelist->emp_lname}} ({{$employeelist->emp_code}})</option>
-                                                               @endforeach --}}
+                                                               @endforeach
                                                             </select>
                                                          </div>
                                                          <div class="col-md-3">
                                                             <label>Leave Sanctioning Authority</label>
                                                             <select class="form-control" name="emp_lv_sanc_auth" >
                                                                <option value="">Select</option>
-                                                               {{-- @foreach($employeelists as $employee)
+                                                               @foreach($employeelists as $employee)
                                                                <option value="{{$employee->emp_code}}" <?php if (request()->get('q') != '') {if ($employee_rs[0]->emp_lv_sanc_auth == $employee->emp_code) {echo 'selected';}}?>>{{$employee->emp_fname}} {{$employee->emp_mname}} {{$employee->emp_lname}} ({{$employee->emp_code}})</option>
-                                                               @endforeach --}}
+                                                               @endforeach
                                                             </select>
                                                          </div>
                                                       </div>
                                                       <button class="btn btn-primary open1" type="button">Next <i class="ti-arrow-right"></i></button>
+                                                   </fieldset>
+                                                </div>
+
+                                                <div id="sf2" class="frm" style="display: none;">
+                                                   <fieldset>
+                                                      <!---------------educational-details------------>
+                                                      <legend>Educational Details</legend>
+                                                      <table border="1" class="table table-bordered table-responsove" style="border-collapse:collapse;overflow-x:scroll;">
+                                                         <thead>
+                                                            <tr>
+                                                               <th>Sl.No.</th>
+                                                               <th>Qualification</th>
+                                                               <th>Discipline</th>
+                                                               <th>Institute Name</th>
+                                                               <th>Board/University</th>
+                                                               <th>Year of Passing</th>
+                                                               <th>Percentage</th>
+                                                               <th>Grade/Division</th>
+                                                               <!--						<th>Action</th>-->
+                                                            </tr>
+                                                         </thead>
+                                                         <tbody id="marksheet">
+                                                            <?php $tr_id = 0;?>
+                                                            <tr class="itemslot" id="<?php echo $tr_id; ?>">
+                                                               <td>1</td>
+                                                               <td>
+                                                                  <select class="form-control" name="qualification[]">
+                                                                     <option value='' selected>Select</option>
+                                                                     {{-- @foreach($education as $educ)
+                                                                     <option value='{{ $educ->id }}'>{{ $educ->education }}</option>
+                                                                     @endforeach --}}
+                                                                  </select>
+                                                               </td>
+                                                               <td><input type="text" name="discipline[]" value="" class="form-control"></td>
+                                                               <td><input type="text" name="institute_name[]" value="" class="form-control"></td>
+                                                               <td><input type="text" name="university[]" value="" class="form-control"></td>
+                                                               <td><input type="text" name="year_of_passing[]" value="" class="form-control"></td>
+                                                               <td><input type="text" name="percentage[]" value="" class="form-control"></td>
+                                                               <td><input type="text" name="grade[]" value="" class="form-control"></td>
+                                                               <td><button class="btn-success" type="button" id="add<?php echo ($tr_id + 1); ?>" onClick="addnewrow(<?php echo ($tr_id + 1); ?>)" data-id="<?php echo ($tr_id + 1); ?>"> <i class="ti-plus"></i> </button></td>
+                                                            </tr>
+                                                            <!--<tr>
+                                                               <td>1</td>
+                                                                                  <td><input type="text" name="emp_viii_qualification" readonly="" value="8th" class="form-control"></td>
+                                                                                <td><input type="text" name="emp_viii_dicipline" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_viii_dicipline;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_viii_inst_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_viii_inst_name;}?>"  class="form-control"></td>
+                                                               <td><input type="text" name="emp_viii_board_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_viii_board_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_viii_pass_year" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_viii_pass_year;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_viii_percentage" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_viii_percentage;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_viii_rank" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_viii_rank;}?>" class="form-control"></td>
+                                                               
+                                                               </tr>
+                                                                            <tr>
+                                                               <td>2</td>
+                                                                                  <td><input type="text" name="emp_x_qualification" readonly="" value="10th" class="form-control"></td>
+                                                                                <td><input type="text" name="emp_x_dicipline" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_x_dicipline;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_x_inst_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_x_institute_name;}?>"  class="form-control"></td>
+                                                               <td><input type="text" name="emp_x_board_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_x_board_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_x_pass_year" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_x_pass_year;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_x_percentage" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_x_percentage;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_x_rank" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_x_rank;}?>" class="form-control"></td> -->
+                                                            <!--<td style="width:150px;"><button type="button" id="add" class="btn btn-default pls"><i class="fa fa-plus"></i></button></td>-->
+                                                            <!-- </tr>
+                                                               <tr>
+                                                               <td>3</td>
+                                                                   <td><input type="text" name="emp_xii_qualification" readonly="" value="12th" class="form-control"></td>
+                                                               <td><input type="text" name="emp_xii_dicipline" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_xii_dicipline;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_xii_inst_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_xii_institute_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_xii_board_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_xii_board_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_xii_pass_year" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_xii_pass_year;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_xii_percentage" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_xii_percentage;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_xii_rank" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_xii_rank;}?>" class="form-control"></td> -->
+                                                            <!--<td style="width:150px;"><button type="button" id="add" class="btn btn-default pls"><i class="fa fa-plus"></i></button></td>-->
+                                                            <!-- </tr>
+                                                               <tr>
+                                                               <td>4</td>
+                                                                   <td><input type="text" name="emp_graduate_qualification" readonly="" value="Graduate" class="form-control"></td>
+                                                               <td><input type="text" name="emp_graduate_dicipline" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_graduate_dicipline;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_graduate_inst_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_graduate_institute_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_graduate_board_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_graduate_board_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_graduate_pass_year" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_graduate_pass_year;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_graduate_percentage" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_graduate_percentage;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_graduate_rank" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_graduate_rank;}?>" class="form-control"></td>
+                                                               
+                                                               </tr>
+                                                               <tr>
+                                                               <td>5</td>
+                                                                   <td><input type="text" name="emp_pgradu_qualification" readonly="" value="Post Graduate" class="form-control"></td>
+                                                               <td><input type="text" name="emp_pgradu_dicipline" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_pgraduate_dicipline;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_pgradu_inst_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_pgraduate_institute_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_pgradu_board_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_pgraduate_board_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_pgradu_pass_year" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_pgraduate_pass_year;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_pgradu_percentage" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_pgraduate_percentage;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_pgradu_rank" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_pgraduate_rank;}?>" class="form-control"></td>
+                                                               
+                                                               </tr>
+                                                               
+                                                               <tr>
+                                                               <td>6</td>
+                                                                     <td><input type="text" name="emp_other_qualification" readonly="" value="other" class="form-control"></td>
+                                                                   <td><input type="text" name="emp_other_dicipline" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_other_dicipline;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_other_inst_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_other_inst_name;}?>"  class="form-control"></td>
+                                                               <td><input type="text" name="emp_other_board_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_other_board_name;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_other_pass_year" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_other_pass_year;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_other_percentage" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_other_percentage;}?>" class="form-control"></td>
+                                                               <td><input type="text" name="emp_other_rank" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_other_rank;}?>" class="form-control"></td>
+                                                               
+                                                               </tr> -->
+                                                         </tbody>
+                                                      </table>
+                                                      <!---------------------------------------->
+                                                      <div class="clearfix" style="height: 10px;clear: both;"></div>
+                                                      <div class="form-group">
+                                                         <button class="btn btn-warning back2" type="button"><i class="ti-arrow-left"></i> Back</button>
+                                                         <button class="btn btn-primary open2" type="button">Next <i class="ti-arrow-right"></i></span></button>
+                                                      </div>
                                                    </fieldset>
                                                 </div>
                      

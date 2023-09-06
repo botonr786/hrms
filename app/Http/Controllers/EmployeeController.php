@@ -22,6 +22,9 @@ use App\Models\PayStructure;
 use App\Models\Deduction;
 use App\Models\Masters\Cast;
 use App\Models\Masters\Sub_cast;
+use App\Models\Masters\Department;
+use App\Models\Masters\Designation;
+use App\Models\Employee;
 
 
 
@@ -149,12 +152,34 @@ public function getEmployeeAddFun(){
     $data['cast'] = Cast::where('cast_status', '=', 'active')->get();
     $data['sub_cast'] = Sub_cast::where('sub_cast_status', '=', 'active')->get();
     $data['religion']=DB::table('religion_master')->get();
-    // $data['designation']=DB::table('designation')->get();
-    // $data['department']=DB::table('department')->get();
-    // $data['designation']=DB::table('designation')->get();
-    //dd($data['department']);
-    return view("employee/employee-master",$data);
+    $data['designation']=DB::table('designation')->get();
+    $data['department']=DB::table('department')->get();
+    $data['employee_type']=DB::table('employee_type')->get();
+    $data['employeelists'] = Employee::where('emp_status', 'REGULAR')->orWhere('emp_status', 'PROBATIONARY EMPLOYEE')->get();
+    //dd($data['employeelists']);
+    //return view("employee/employee-master",$data);
+    return view("employee/employeeAdd",$data);
 }
+//ajax department phase
+public function EmpDepartment($emp_department)
+    {
+        $department = Department::where('department_name', '=', $emp_department)
+            ->where('department_status', '=', 'active')
+
+            ->first();
+        $designation = Designation::where('department_code', '=', $department->id)
+            ->where('designation_status', '=', 'active')
+
+            ->get();
+        $result = '';
+
+        $result_status1 = " <option value='' selected disabled >Select</option> ";
+        foreach ($designation as $val) {
+            $result_status1 .= '<option value="' . $val->designation_name . '"> ' . $val->designation_name . '</option>';
+        }
+
+        echo $result_status1;
+    }
 //employee update 
 public function employeeupdatepage($id){
     $leave_allocation_rs = DB::table('employee')

@@ -1922,6 +1922,7 @@ Route::get('settings/vw-department', 'App\Http\Controllers\SettingController@get
 Route::get('settings/add-new-department', 'App\Http\Controllers\SettingController@viewAddNewDepartment');
 Route::post('settings/add-new-department', 'App\Http\Controllers\SettingController@saveDepartmentData');
 
+
 Route::get('settings/vw-designation', 'App\Http\Controllers\SettingController@getDesignations');
 Route::post('settings/designation', 'App\Http\Controllers\SettingController@saveDesignation');
 Route::get('settings/designation', 'App\Http\Controllers\SettingController@viewAddDesignation');
@@ -2489,6 +2490,9 @@ Route::get('employee/contract-word/{agreement_id}', 'App\Http\Controllers\Employ
 //employee
 Route::get('employeeslist', 'App\Http\Controllers\EmployeeController@employeeblade');
 Route::get('settings/employee-update-get/{id}', 'App\Http\Controllers\EmployeeController@employeeupdatepage');
+
+// employee ajax department phase
+Route::get('employee/department-name/{emp_department}', 'App\Http\Controllers\EmployeeController@EmpDepartment');
 
 Route::get('employee-add/employee-report/{comp_id}/{emp_id}', 'App\Http\Controllers\EmployeeController@viewAddEmployeereportnew');
 Route::get('employee-add/employee-report-excel/{comp_id}/{emp_id}', 'App\Http\Controllers\EmployeeController@viewAddEmployeereportnewexcel');
