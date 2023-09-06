@@ -435,6 +435,7 @@ Route::post('superadmin/add-visa-file-adn', 'App\Http\Controllers\AdminControlle
 
 Route::get('superadmin/add-visa-file-dependent/{id}', 'App\Http\Controllers\AdminController@viewAddVisaFileDependent');
 Route::post('superadmin/add-visa-file-dependent/{id}', 'App\Http\Controllers\AdminController@saveAddVisaFileDependent');
+Route::get('settings/get-dep-row-mic/{id}', 'App\Http\Controllers\EmployeeController@departmentgetFun');
 
 //---------------------
 //recruitmentisa file superadmin

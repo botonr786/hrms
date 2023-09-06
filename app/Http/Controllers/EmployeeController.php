@@ -160,6 +160,9 @@ public function getEmployeeAddFun(){
     //return view("employee/employee-master",$data);
     return view("employee/employeeAdd",$data);
 }
+// public function departmentgetFun($id){
+// dd($id);
+// }
 //ajax department phase
 public function EmpDepartment($emp_department)
     {
@@ -173,11 +176,11 @@ public function EmpDepartment($emp_department)
             ->get();
         $result = '';
 
-        $result_status1 = " <option value='' selected disabled >Select</option> ";
+        $result_status1 = " <option value='' >Select</option> ";
         foreach ($designation as $val) {
             $result_status1 .= '<option value="' . $val->designation_name . '"> ' . $val->designation_name . '</option>';
         }
-
+        
         echo $result_status1;
     }
 //employee update 

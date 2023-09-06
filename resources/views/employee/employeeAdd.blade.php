@@ -166,14 +166,12 @@
                                     <div class="container-fluid">
                                        <form id="regForm" action="{{url('employee/savemploy')}}" method="POST" enctype="multipart/form-data">
                                           @csrf
-                                         
-                                            <div class="tab1" >
-                                    
-                                                <p>Personal and Service Details</p>
-                                                <hr/>
-                                                <input type="hidden" value="<?php if (!empty($employee_code)) {echo $employee_code;}if (request()->get('q') != '') {echo $employee_rs[0]->emp_code;}?>" placeholder="Employee Code..." class="form-control"   name="emp_code"></p>
+                                          <div class="tab">
+                                                   <p>Personal and Service Details</p>
+                                                   <hr/>
+                                                   <input type="hidden" value="<?php if (!empty($employee_code)) {echo $employee_code;}if (request()->get('q') != '') {echo $employee_rs[0]->emp_code;}?>" placeholder="Employee Code..." class="form-control"   name="emp_code"></p>
                                                 <div class="row">
-                                                    <div class="col-md-3">
+                                                <div class="col-md-3">
                                                       <div class="form-group">
                                                           <label>Employee Code</label>
                                                           <input type="text"  placeholder="Employee Code..." class="form-control"   name="emp_old_code"></p>
@@ -221,10 +219,10 @@
                                                           <select class="form-control" name="emp_caste">
                                                             <option>Select</option>
                                                             <option value="GENERAL" >GENERAL</option>
-                                                            <option value="SCHEDULE TRIBE" >SCHEDULE TRIBE</option>
-                                                            <option value="OTHER BACKWARD CLASS" >OTHER BACKWARD CLASS</option>
-                                                            <option value="SCHEDULE CASTE" >SCHEDULE CASTE</option>
-                                                            <option value="ECONOMICALLY BACKWARD CLASS" >ECONOMICALLY BACKWARD CLASS</option>
+                                                            @foreach($cast as $item)
+                                                            <option value='{{ $item->cast_name }}'>{{ $item->cast_name }}</option>
+                                                            @endforeach
+                                             
                                                           </select>
                                                       </div>
                                                     </div>
@@ -233,8 +231,9 @@
                                                           <label>Sub Caste</label>
                                                           <select class="form-control" name="emp_sub_caste" style="width:205px">
                                                             <option>Select</option>
-                                                            <option value="HINDU" >HINDU</option>
-                                                            <option value="MUSLIM" >MUSLIM</option>
+                                                            @foreach($sub_cast as $item)
+                                                            <option value='{{ $item->sub_cast_name }}'>{{ $item->sub_cast_name }}</option>
+                                                            @endforeach
                                                           </select>
                                                       </div>
                                                     </div>
@@ -243,15 +242,10 @@
                                                           <label>Religion</label>
                                                           <select class="form-control" name="emp_religion" style="width:205px">
                                                             <option>Select</option>
-                                                            <option value="Hinduism" >Hinduism</option>
-                                                            <option value="HINDU" >HINDU</option>
-                                                            <option value="Mus" >Mus</option>
-                                                            <option value="SIKH" >SIKH</option>
-                                                            <option value="CHRISTIAN" >CHRISTIAN</option>
-                                                            <option value="MUSLIM" >MUSLIM</option>
-                                                            <option value="JAIN" >JAIN</option>
-                                                            <option value="BUDDHIST" >BUDDHIST</option>
-                                                            <option value="XYZ" >XYZ</option>
+                                                            @foreach($religion as $item)
+                                                            <option value='{{ $item->religion_name }}'>{{ $item->religion_name }}</option>
+                                                            @endforeach
+                                                           
                                                           </select>
                                                       </div>
                                                     </div>
@@ -277,7 +271,7 @@
                                                     <div class="col-md-3">
                                                       <div class="form-group">
                                                           <label>Department (*)</label>
-                                                          <select class="form-control" name="department">
+                                                          <select class="form-control" name="department" id="deptid" onclick="deptFunc()">
                                                             <option></option>
                                                             @foreach($department as $dept)
                                                             <option value='{{ $dept->department_name }}'>{{ $dept->department_name }}</option>
@@ -289,6 +283,7 @@
                                                     <div class="col-md-3">
                                                       <div class="form-group">
                                                           <label>Designation (*)</label>
+                                                          <!-- <div id="des"></div> -->
                                                           <select name="designation" class="form-control">
                                                             <option></option>
                                                             @foreach($designation as $desig)
@@ -422,12 +417,12 @@
                                                       </div>
                                                       <div id="divImageMediaPreview"></div> -->
                                                 </div>
-                                            
-                                            </div>
-                                          
+                                                <!-- </div> -->
+                                          </div>
 
-                                          <div class="tab2">
-                                             <div class="row">
+
+                                          <div class="tab">
+                                          <div class="row">
                                                 <legend>Personal Records</legend>
                                                 <table border="1" class="table table-bordered table-responsove" style="border-collapse:collapse;overflow-x:scroll;">
                                                    <thead>
@@ -559,256 +554,262 @@
                                                 </table>
                                              </div>
                                           </div>
-
-                                          <div class="tab3">
-                                             <div class="row">
-                                                <legend>Medical Information</legend>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Blood Group</label>
-                                                      <select class="form-control" name="emp_blood_grp" >
-                                                         <option value="">Select</option>
-                                                         <option value="A +"  >A +</option>
-                                                         <option value="A -"  >A -</option>
-                                                         <option value="B +"  >B +</option>
-                                                         <option value="B -"  >B -</option>
-                                                         <option value="AB +"  >AB +</option>
-                                                         <option value="AB -"  >AB -</option>
-                                                         <option value="O +"  >O +</option>
-                                                         <option value="O -"  >O -</option>
-                                                         <option value="Unknown">Unknown</option>
-                                                      </select>
+                                         
+                                         
+                                       
+               <div class="tab">
+                                                 <div class="row">
+                                                 <legend>Medical Information</legend>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label>Blood Group</label>
+                                                            <select class="form-control" name="emp_blood_grp" >
+                                                               <option value="">Select</option>
+                                                               <option value="A +"  >A +</option>
+                                                               <option value="A -"  >A -</option>
+                                                               <option value="B +"  >B +</option>
+                                                               <option value="B -"  >B -</option>
+                                                               <option value="AB +"  >AB +</option>
+                                                               <option value="AB -"  >AB -</option>
+                                                               <option value="O +"  >O +</option>
+                                                               <option value="O -"  >O -</option>
+                                                               <option value="Unknown">Unknown</option>
+                                                            </select>
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label>Eye Sight (Left)</label>
+                                                            <input type="text" name="emp_eye_sight_left" class="form-control">
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label>Eye Sight (Right)</label>
+                                                            <input type="text" name="emp_eye_sight_right" value="" class="form-control" id="">
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label class="">Family Plan Status</label>
+                                                            <select class="form-control" name="emp_family_plan_status">
+                                                               <option value="">Select</option>
+                                                               <option value="yes"  >yes</option>
+                                                               <option value="no"  >No</option>
+                                                            </select>
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label>Family Plan Date</span></label>
+                                                            <input type="date" name="emp_family_plan_date" value="" class="form-control" id="">
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label>Height (in cm)</label>
+                                                            <input type="text" name="emp_height" value="" class="form-control" id="">
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label class="">Weight (in Kgs)</label><br>
+                                                            <input type="text" name="emp_weight" value="" class="form-control">
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label>Identification Mark (1)</label><br>
+                                                            <input type="text" name="emp_identification_mark_one" value="" class="form-control">
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label>Identification Mark (2)</label><br>
+                                                            <input type="text" name="emp_identification_mark_two" value="" class="form-control">
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                         <div class="form-group">
+                                                            <label>Physically Challenged</label>
+                                                            <select class="form-control" name="emp_physical_status">
+                                                               <option value="no" >No</option>
+                                                               <option value="yes" >Yes</option>
+                                                            </select>
+                                                         </div>
+                                                      </div>
+                                                      <div class="row">
+                                                      <legend>Permanent Address</legend>
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>Street No. and Name</label>
+                                                         <input type="text" name="emp_pr_street_no" value="" id="parmenent_street_name" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Eye Sight (Left)</label>
-                                                      <input type="text" name="emp_eye_sight_left" class="form-control">
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>Village</label>
+                                                         <input  name="emp_per_village" id="village" value="" type="text" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Eye Sight (Right)</label>
-                                                      <input type="text" name="emp_eye_sight_right" value="" class="form-control" id="">
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>City</label>
+                                                         <input type="text" name="emp_pr_city" value="" id="parmenent_city" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label class="">Family Plan Status</label>
-                                                      <select class="form-control" name="emp_family_plan_status">
-                                                         <option value="">Select</option>
-                                                         <option value="yes"  >yes</option>
-                                                         <option value="no"  >No</option>
-                                                      </select>
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>Post Office</label>
+                                                         <input id="emp_per_post_office" name="emp_per_post_office" value="" type="text" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Family Plan Date</span></label>
-                                                      <input type="date" name="emp_family_plan_date" value="" class="form-control" id="">
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>Police Station</label>
+                                                         <input type="text" id="emp_per_policestation" name="emp_per_policestation" value="" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Height (in cm)</label>
-                                                      <input type="text" name="emp_height" value="" class="form-control" id="">
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>Pin Code <span>(*)</span> </label>
+                                                         <input id="parmenent_pincode" name="emp_pr_pincode" value="" type="text" class="form-control" required >
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label class="">Weight (in Kgs)</label><br>
-                                                      <input type="text" name="emp_weight" value="" class="form-control">
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>District</label>
+                                                         <input type="text" id="emp_per_dist" name="emp_per_dist" value="" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Identification Mark (1)</label><br>
-                                                      <input type="text" name="emp_identification_mark_one" value="" class="form-control">
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>State <span>(*)</span></label>
+                                                         <select name="emp_pr_state" id="parmenent_state" class="form-control" required>
+                                                            <option value="" label="Select">Select</option>
+                                                            <option value="JAMMU AND KASHMIR" >JAMMU AND KASHMIR</option>
+                                                            <option value="HIMACHAL PRADESH" >HIMACHAL PRADESH</option>
+                                                            <option value="PUNJAB" >PUNJAB</option>
+                                                            <option value="CHANDIGARH" >CHANDIGARH</option>
+                                                            <option value="UTTARAKHAND" >UTTARAKHAND</option>
+                                                            <option value="HARYANA" >HARYANA</option>
+                                                            <option value="DELHI" >DELHI</option>
+                                                            <option value="RAJASTHAN" >RAJASTHAN</option>
+                                                            <option value="UTTAR PRADESH" >UTTAR PRADESH</option>
+                                                            <option value="BIHAR" >BIHAR</option>
+                                                            <option value="SIKKIM" >SIKKIM</option>
+                                                            <option value="ARUNACHAL PRADESH" >ARUNACHAL PRADESH</option>
+                                                            <option value="NAGALAND" >NAGALAND</option>
+                                                            <option value="MANIPUR" >MANIPUR</option>
+                                                            <option value="MIZORAM" >MIZORAM</option>
+                                                            <option value="TRIPURA" >TRIPURA</option>
+                                                            <option value="MEGHALAYA" >MEGHALAYA</option>
+                                                            <option value="ASSAM" >ASSAM</option>
+                                                            <option value="WEST BENGAL" >WEST BENGAL</option>
+                                                            <option value="JHARKHAND" >JHARKHAND</option>
+                                                            <option value="ODISHA" >ODISHA</option>
+                                                            <option value="CHHATTISGARH" >CHHATTISGARH</option>
+                                                            <option value="MADHYA PRADESH" >MADHYA PRADESH</option>
+                                                            <option value="GUJARAT" >GUJARAT</option>
+                                                            <option value="DAMAN AND DIU" >DAMAN AND DIU</option>
+                                                            <option value="DADRA AND NAGAR HAVELI" >DADRA AND NAGAR HAVELI</option>
+                                                            <option value="MAHARASHTRA" >MAHARASHTRA</option>
+                                                            <option value="ANDHRA PRADESH" >ANDHRA PRADESH</option>
+                                                            <option value="KARNATAKA" >KARNATAKA</option>
+                                                            <option value="GOA" >GOA</option>
+                                                            <option value="LAKSHADWEEP" >LAKSHADWEEP</option>
+                                                            <option value="KERALA" >KERALA</option>
+                                                            <option value="TAMIL NADU" >TAMIL NADU</option>
+                                                            <option value="PUDUCHERRY" >PUDUCHERRY</option>
+                                                            <option value="ANDAMAN AND NICOBAR ISLANDS" >ANDAMAN AND NICOBAR ISLANDS</option>
+                                                            <option value="TELANGANA" >TELANGANA</option>
+                                                         </select>
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Identification Mark (2)</label><br>
-                                                      <input type="text" name="emp_identification_mark_two" value="" class="form-control">
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>Country</label>
+                                                         <input id="parmenent_country" name="emp_pr_country" value="" type="text" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Physically Challenged</label>
-                                                      <select class="form-control" name="emp_physical_status">
-                                                         <option value="no" >No</option>
-                                                         <option value="yes" >Yes</option>
-                                                      </select>
+                                                   <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>Mobile No.</label>
+                                                         <input type="text" id="parmenent_mobile" name="emp_pr_mobile" value="" class="form-control" >
+                                                      </div>
                                                    </div>
-                                                </div>
-                                             </div>
-                                             <div class="row">
-                                                <legend>Permanent Address</legend>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Street No. and Name</label>
-                                                      <input type="text" name="emp_pr_street_no" value="" id="parmenent_street_name" class="form-control">
+                                                      
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Village</label>
-                                                      <input  name="emp_per_village" id="village" value="" type="text" class="form-control">
+                                                 </div>
+                                                 <div class="row">
+                                                      <legend>
+                                                         Present Address</legend>
+                                                          <input type="checkbox" onclick="presentFunc()">
+                                                    <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>Street No. and Name</label>
+                                                         <input type="text" name="emp_ps_street_no" id="present_street_name" value=""  class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>City</label>
-                                                      <input type="text" name="emp_pr_city" value="" id="parmenent_city" class="form-control">
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>Village</label>
+                                                         <input type="text" id="emp_ps_village" name="emp_ps_village" value="" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Post Office</label>
-                                                      <input id="emp_per_post_office" name="emp_per_post_office" value="" type="text" class="form-control">
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>City</label>
+                                                         <input type="text" name="emp_ps_city" id="present_city" value="" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Police Station</label>
-                                                      <input type="text" id="emp_per_policestation" name="emp_per_policestation" value="" class="form-control">
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>Post Office</label>
+                                                         <input type="text" id="emp_ps_post_office" name="emp_ps_post_office" value="" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Pin Code <span>(*)</span> </label>
-                                                      <input id="parmenent_pincode" name="emp_pr_pincode" value="" type="text" class="form-control" required >
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>Police Station</label>
+                                                         <input type="text" id="emp_ps_policestation" name="emp_ps_policestation" value="" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>District</label>
-                                                      <input type="text" id="emp_per_dist" name="emp_per_dist" value="" class="form-control">
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>Pin Code <span>(*)</span></label>
+                                                         <input type="text" name="emp_ps_pincode" id="present_pincode" value="" class="form-control" required>
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>State <span>(*)</span></label>
-                                                      <select name="emp_pr_state" id="parmenent_state" class="form-control" required>
-                                                         <option value="" label="Select">Select</option>
-                                                         <option value="JAMMU AND KASHMIR" >JAMMU AND KASHMIR</option>
-                                                         <option value="HIMACHAL PRADESH" >HIMACHAL PRADESH</option>
-                                                         <option value="PUNJAB" >PUNJAB</option>
-                                                         <option value="CHANDIGARH" >CHANDIGARH</option>
-                                                         <option value="UTTARAKHAND" >UTTARAKHAND</option>
-                                                         <option value="HARYANA" >HARYANA</option>
-                                                         <option value="DELHI" >DELHI</option>
-                                                         <option value="RAJASTHAN" >RAJASTHAN</option>
-                                                         <option value="UTTAR PRADESH" >UTTAR PRADESH</option>
-                                                         <option value="BIHAR" >BIHAR</option>
-                                                         <option value="SIKKIM" >SIKKIM</option>
-                                                         <option value="ARUNACHAL PRADESH" >ARUNACHAL PRADESH</option>
-                                                         <option value="NAGALAND" >NAGALAND</option>
-                                                         <option value="MANIPUR" >MANIPUR</option>
-                                                         <option value="MIZORAM" >MIZORAM</option>
-                                                         <option value="TRIPURA" >TRIPURA</option>
-                                                         <option value="MEGHALAYA" >MEGHALAYA</option>
-                                                         <option value="ASSAM" >ASSAM</option>
-                                                         <option value="WEST BENGAL" >WEST BENGAL</option>
-                                                         <option value="JHARKHAND" >JHARKHAND</option>
-                                                         <option value="ODISHA" >ODISHA</option>
-                                                         <option value="CHHATTISGARH" >CHHATTISGARH</option>
-                                                         <option value="MADHYA PRADESH" >MADHYA PRADESH</option>
-                                                         <option value="GUJARAT" >GUJARAT</option>
-                                                         <option value="DAMAN AND DIU" >DAMAN AND DIU</option>
-                                                         <option value="DADRA AND NAGAR HAVELI" >DADRA AND NAGAR HAVELI</option>
-                                                         <option value="MAHARASHTRA" >MAHARASHTRA</option>
-                                                         <option value="ANDHRA PRADESH" >ANDHRA PRADESH</option>
-                                                         <option value="KARNATAKA" >KARNATAKA</option>
-                                                         <option value="GOA" >GOA</option>
-                                                         <option value="LAKSHADWEEP" >LAKSHADWEEP</option>
-                                                         <option value="KERALA" >KERALA</option>
-                                                         <option value="TAMIL NADU" >TAMIL NADU</option>
-                                                         <option value="PUDUCHERRY" >PUDUCHERRY</option>
-                                                         <option value="ANDAMAN AND NICOBAR ISLANDS" >ANDAMAN AND NICOBAR ISLANDS</option>
-                                                         <option value="TELANGANA" >TELANGANA</option>
-                                                      </select>
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>District</label>
+                                                         <input type="text" id="emp_ps_dist" name="emp_ps_dist" value="" class="form-control">
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Country</label>
-                                                      <input id="parmenent_country" name="emp_pr_country" value="" type="text" class="form-control">
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>State <span>(*)</span></label>
+                                                         <input type="text" id="stat" class="form-control"> 
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                   <div class="form-group">
-                                                      <label>Mobile No.</label>
-                                                      <input type="text" id="parmenent_mobile" name="emp_pr_mobile" value="" class="form-control" >
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>Country</label>
+                                                         <input type="text" name="emp_ps_country" id="emp_ps_country" value="" class="form-control" >
+                                                      </div>
                                                    </div>
-                                                </div>
-                                             </div>
-                                             <div class="row">
-                                                <legend>Present Address <span><label class="checkbox-inline"><input id="filladdress" type="checkbox" value="" onclick="presentFunc()">( if Present Address is same as permanent Address )</label></span></legend>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>Street No. and Name</label>
-                                                      <input type="text" name="emp_ps_street_no" id="present_street_name" value=""  class="form-control">
+                                                   <div class="col-md-4">
+                                                      <div class="form-group">
+                                                         <label>Mobile No.</label>
+                                                         <input type="text" name="emp_ps_mobile" value="" id="emp_ps_mobilea" class="form-control" >
+                                                      </div>
                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>Village</label>
-                                                      <input id="emp_ps_village" name="emp_ps_village" value="" type="text" class="form-control">
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>City</label>
-                                                      <input type="text" name="emp_ps_city" id="present_city" value="" class="form-control">
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>Post Office</label>
-                                                      <input id="emp_ps_post_office" name="emp_ps_post_office" value="" type="text" class="form-control">
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>Police Station</label>
-                                                      <input type="text" id="emp_ps_policestation" name="emp_ps_policestation" value="" class="form-control">
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>Pin Code <span>(*)</span></label>
-                                                      <input type="text" name="emp_ps_pincode" id="present_pincode" value="" class="form-control" required>
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>District</label>
-                                                      <input type="text" id="emp_ps_dist" name="emp_ps_dist" value="" class="form-control">
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>State <span>(*)</span></label>
-                                                      <input type="text" id="stat" class="form-control"> 
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>Country</label>
-                                                      <input type="text" name="emp_ps_country" id="emp_ps_country" value="" class="form-control" readonly>
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                   <div class="form-group">
-                                                      <label>Mobile No.</label>
-                                                      <input type="text" name="emp_ps_mobile" value="" id="emp_ps_mobilea" class="form-control" >
-                                                   </div>
-                                                </div>
-                                             </div>
-                                             <h3 class="multisteps-form__title" style="color: #1269db;border-bottom: 1px solid #ddd;padding-bottom: 11px;">Emergency / Next of Kin Contact Details </h3>
-                                             <div class="row">
-                                                <div class="col-md-3">
+                                             
+                                                 </div>
+                                                 <h3 class="multisteps-form__title" style="color: #1269db;border-bottom: 1px solid #ddd;padding-bottom: 11px;">Emergency / Next of Kin Contact Details </h3>
+                                                 <div class="row">
+                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabelien" class="placeholder">Name</label>
                                                       <input id="inputFloatingLabelien" type="text" class="form-control input-border-bottom" name="em_name" value="RABIA BIBI">
@@ -817,7 +818,8 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabelier" class="placeholder">Relationship</label>
-                                                      <select class="form-control input-border-bottom" id="inputFloatingLabelier" name="em_relation" onchange="crinabi(this.value);">
+                                                      <!-- onchange="crinabi(this.value);" -->
+                                                      <select class="form-control input-border-bottom" id="inputFloatingLabelier" name="em_relation" onclick="crinabi(this.value);" >
                                                          <option value="">&nbsp;</option>
                                                          <option value="Father"  >Father</option>
                                                          <option value="Mother"  >Mother </option>
@@ -832,13 +834,13 @@
                                                       </select>
                                                    </div>
                                                 </div>
-                                                <div id="givedetails"></div>
+                                                <!-- <div id="givedetails"></div>
                                                 <div class="col-md-3 " id="criman_new"    style="display:none;"  >
                                                    <div class="form-group">
                                                       <label for="relation_others" class="placeholder">Give Details </label>
                                                       <input id="relation_others"  type="text" class="form-control input-border-bottom" name="relation_others"   value="">
                                                    </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabeliemail" class="placeholder">Email</label>
@@ -857,11 +859,12 @@
                                                       <input id="inputFloatingLabelienad" type="text" class="form-control input-border-bottom" name="em_address" value="2 Ashby Close BIRMINGHAM B8 2RB">
                                                    </div>
                                                 </div>
-                                             </div>
+                                                 </div>
+
                                           </div>
 
-                                          <div class="tab4">
-                                             <h4 style="color: #1269db;">Passport Details</h4>
+                                          <div class="tab">
+                                          <h4 style="color: #1269db;">Passport Details</h4>
                                              <div class="row">
                                                 <div class="col-md-3">
                                                    <div class="form-group">
@@ -1075,12 +1078,15 @@
                                                       <input id="inputFloatingLabelrm" type="text" class="form-control input-border-bottom" name="remarks" value="">
                                                    </div>
                                                 </div>
-                                             </div>
-                                             <div class="tab5">
-                                                <div class="row">
-                                                   <legend>Pay Details</legend>
-                                                   <div class="row form-group">
-                                                      <div class="col-md-3">
+					                            </div>
+                                         </div>
+                           
+
+                                          <div class="tab">
+                                          <legend>Pay Details</legend>
+                                             <div class="row">
+                                             <div class="col-md-3">
+                                                         <div class="form-group">
                                                          <label>Class Name <span>(*)</span></label>
                                                          <select data-placeholder="Choose a Groupe..." name="emp_group" class="form-control" required>
                                                             <option value="" label="Select">Select</option>
@@ -1094,18 +1100,24 @@
                                                             <option value="9">8- PBIN STAFF</option>
                                                             <option value="10">9 NEW GRADED SUB STAFF</option>
                                                          </select>
+                                                          </div>
                                                       </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Basic Pay <span>(*)</span></label>
                                                          <input type="number" step="any" id="emp_basic_pay" name="emp_basic_pay" value="" class="form-control"  oninput="basicpay()" required>
                                                          <!-- <select class="form-control" name="emp_basic_pay" id="emp_basic_pay" required>
                                                             </select> -->
+                                                         </div>
                                                       </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>APF Deduction Rate (%) <span>(*)</span></label>
                                                          <input type="number" step="any" id="emp_apf_percent" name="emp_apf_percent" value="" class="form-control" required>
                                                       </div>
-                                                      <div class="col-md-3">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>PF Type <span>(*)</span></label>
                                                          <select data-placeholder="Choose a PF..." name="emp_pf_type" class="form-control" required>
                                                             <option value="" label="Select">Select</option>
@@ -1115,9 +1127,12 @@
                                                             <option value="na"  >NA </option>
                                                          </select>
                                                       </div>
+                                                       </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Passport No.</label>
                                                          <input type="text" name="emp_passport_no" value="" class="form-control">
+                                                      </div>
                                                       </div>
                                                       <!-- <div class="col-md-3">
                                                          <label>Pension Payment Order (PPO).</label>
@@ -1126,18 +1141,25 @@
                                                       <!-- </div>
                                                          <div class="row form-group"> -->
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>PF No. </label>
                                                          <input type="text" name="emp_pf_no" value="" class="form-control">
                                                       </div>
+                                                       </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>UAN No. </label>
                                                          <input type="text" name="emp_uan_no" value="" class="form-control">
                                                       </div>
+                                                      </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>PAN No.</label>
                                                          <input type="text" name="emp_pan_no" value="" class="form-control">
                                                       </div>
+                                                      </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Bank Name <span>(*)</span></label>
                                                          <select class="form-control" name="emp_bank_name" id="emp_bank_name" required onchange="populateBranch()">
                                                             <option value="" label="Select">Select</option>
@@ -1184,22 +1206,29 @@
                                                             <option value="41" >NO Bank</option>
                                                          </select>
                                                       </div>
+                                                      </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Branch <span>(*)</span></label>
                                                          <select class="form-control" name="bank_branch_id" id="bank_branch_id" required onclick="getIfcs()">
                                                             <option value="" label="Select">Select Branch</option>
                                                             <option value="dd">Select Branch</option>
                                                          </select>
                                                       </div>
-                                                      <div class="col-md-3">
-                                                         <label>IFSC Code <span>(*)</span></label>
-                                                         <input type="text" name="emp_ifsc_code" value="" id="emp_ifsc_code" class="form-control" readonly required>
                                                       </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
+                                                         <label>IFSC Code <span>(*)</span></label>
+                                                         <input type="text" name="emp_ifsc_code" value="" id="emp_ifsc_code" class="form-control"  required>
+                                                      </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Account No. <span>(*)</span></label>
                                                          <input type="text" name="emp_account_no" value="" class="form-control" required>
                                                       </div>
-                                                      <input type="hidden" name="emp_gradess" value="">
+                                                      </div>
+                                                      <!-- <input type="hidden" name="emp_gradess" value=""> -->
                                                       <!-- <div class="col-md-3">
                                                          <label style="color:#C0C0C0">Pay Level </label>
                                                                      <select class="form-control" name="emp_grade">
@@ -1212,10 +1241,13 @@
                                                                  </select>
                                                          </div> -->
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Aadhaar No. </label>
                                                          <input type="text" name="emp_aadhar_no" value="" class="form-control">
                                                       </div>
+                                                      </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Eligible For Pension </label>
                                                          <!-- <select class="form-control" name="emp_pension" id="emp_pension" required >
                                                             <option value="">Select</option>
@@ -1224,7 +1256,9 @@
                                                             </select> -->
                                                          <input type="text" class="form-control" name="emp_pension" id="emp_pension" readonly>
                                                       </div>
+                                                      </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Basic above 15K @ 12% PF </label>
                                                          <select class="form-control" name="emp_pf_inactuals" id="emp_pf_inactuals" required >
                                                             <option value="">Select</option>
@@ -1232,7 +1266,9 @@
                                                             <option value="N" >No</option>
                                                          </select>
                                                       </div>
+                                                      </div>
                                                       <div class="col-md-3">
+                                                      <div class="form-group">
                                                          <label>Eligible For Bonus </label>
                                                          <select class="form-control" name="emp_bonus" id="emp_bonus" required >
                                                             <option value="">Select</option>
@@ -1240,10 +1276,12 @@
                                                             <option value="N" >No</option>
                                                          </select>
                                                       </div>
-                                                   </div>
-                                                </div>
-                                                <div class="tab6">
-                                                   <div class="row">
+                                                      </div>
+                                             </div>
+                                          </div>
+
+                                          <div class="tab">
+                                          <div class="row">
                                                       <legend>Pay Structure</legend>
                                                       <h3 class="ad">Earning</h3>
                                                       <!-- <div class="addi"> -->
@@ -1340,7 +1378,14 @@
                                                       </table>
                                                    </div>
                                                 </div>
-                                             </div>
+                                          </div>
+
+                                          
+
+                                          
+                                             
+                                           
+                                               
                                              <div class="form-group">
                                                 <button class="btn btn-warning back4" type="button"><i class="ti-arrow-left"></i> Back</button>
                                                 <button class="btn btn-primary open4" type="button">Next <i class="ti-arrow-right"></i></button>
@@ -1617,6 +1662,21 @@
          	});
          }
          
+         function deptFunc($id){
+           var deiId= $('#deptid option:selected').text();
+           console.log(deiId)
+           $.ajax({
+              url:"{{url('employee/department-name')}}"+'/'+deiId,
+         		type: "GET",
+         
+         		success: function(response) {
+         
+         			console.log(response);
+                  // $("#des").append(response)
+                 
+         		}
+         	});
+         }
       </script>
       <script>
          function dateofjoinfunc(){
