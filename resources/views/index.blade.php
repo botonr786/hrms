@@ -124,23 +124,7 @@
 @endif
 								</div>
 							</div>
-							<!-- <div class="row form-group">
-							  <div class="col-md-12">
-							    <div class="capcha">
-      				      <div class="g-recaptcha" id="rcaptcha" data-sitekey="{{ env('NOCAPTCHA_SITEKEY') }}"  data-theme="light"></div>
-				          </div>
-				        <div id="recaptcha-error" style="color:red;">
-				    	</div>
-							</div>
-
-							</div> -->
-						<!--	<div class="form-check">
-							<div class="col-md-12">
-							  <label class="form-check-label">
-								<input type="checkbox" class="form-check-input" value="1"  name="remember">Remember Me
-							  </label>
-							  </div>
-							</div>-->
+							
 							<div class="row form-group">
 
 							<div class="col-md-12">
@@ -151,9 +135,7 @@
 						</form>
 						<div class="row google">
 						<div class="col-md-12">
-						<!--<hr>-->
-						<!--<span class="or">OR</span>-->
-						<!--	<p><a href="#">Login with Google <span><i class="lab la-google-plus"></i></span></a></p>-->
+						
 							</div>
 						</div>
 
@@ -165,7 +147,7 @@
 		</div>
 	</div>
 
-    <!-- Optional JavaScript -->
+ 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   	<script src="{{ asset('employeeassets/js/core/jquery.3.2.1.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

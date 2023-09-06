@@ -147,26 +147,30 @@ public function getEmployeeAddFun(){
 }
 //employee update 
 public function employeeupdatepage($id){
-    $leave_allocation_rs = DB::table('employee')
-
-    ->leftjoin('employee_personal_record', 'employee.id', '=', 'employee_personal_record.empid')
-    ->leftjoin('exprence_record','employee_personal_record.empid','=','exprence_record.empId')
-    ->leftjoin('professionalrecords','exprence_record.empid','=','professionalrecords.empid')
-    ->join('miscdocuments','professionalrecords.empid','=','miscdocuments.empid')
-    ->join('paystructure','miscdocuments.empid','=','paystructure.empid')
-    ->join('Deduction','paystructure.empid','=','Deduction.empid')
+    $shares = DB::table('employee')
+    ->join('employee_personal_record', 'employee_personal_record.empid', '=', 'employee.id')
+    ->join('professionalrecords', 'professionalrecords.empid', '=', 'employee.id')
+    ->join('miscdocuments', 'miscdocuments.empid', '=', 'employee.id')
+    ->join('paystructure', 'paystructure.empid', '=', 'employee.id')
+    ->join('Deduction','Deduction.empid','=','employee.id')
+    ->select(
+    'employee.id','employee.emp_code','employee.salutation','employee.emp_fname','employee.emp_mname','employee.emp_lname','employee.emp_father_name','employee.spousename','employee.emp_caste','employee.emp_sub_caste','employee.emp_religion','employee.maritalstatus','employee.mariddate','employee.department','employee.designation','employee.dateofbirth','employee.dateofretirement','employee.dateofretirementbvc','employee.dateofJoining','employee.confirmationdate','employee.nextincrementdate','employee.eligibleforpromotion','employee.employeetype','employee.renewdate','employee.profileimage','employee.reportingauthority','employee.leaveauthority','employee.grade','employee.registration_no','employee.registration_date','employee.registration_counci','employee.date_of_up_gradation','employee.emp_blood_grp','employee.emp_eye_sight_left','employee.emp_eye_sight_right','employee.emp_family_plan_status','employee.emp_family_plan_date','employee.emp_height','employee.emp_weight','employee.emp_identification_mark_one','employee.emp_identification_mark_two','employee.emp_physical_status','employee.emp_pr_street_no','employee.emp_per_village','employee.emp_pr_city','employee.emp_per_post_office','employee.emp_per_policestation','employee.emp_pr_pincode','employee.emp_per_dist','employee.emp_pr_state','employee.emp_pr_country','employee.emp_pr_mobile','employee.em_name','employee.em_relation','employee.relation_others','employee.em_email','employee.em_phone','employee.em_address','employee.pass_doc_no','employee.pass_nat','employee.place_birth','employee.issue_by','employee.pas_iss_date','employee.pass_exp_date','employee.pass_review_date','employee.pass_docu','employee.cur_pass','employee.cur_passss','employee.remarks','employee.emp_group','employee.emp_basic_pay','employee.emp_apf_percent','employee.emp_pf_type','employee.emp_passport_no','employee.emp_pf_no','employee.emp_uan_no','employee.emp_pan_no','employee.emp_bank_name','employee.bank_branch_id','employee.emp_ifsc_code','employee.emp_account_no','employee.emp_gradess','employee.emp_aadhar_no',
+    'employee_personal_record.document_name',
+    'professionalrecords.Organization',
+    'miscdocuments.emp_traning',
+    'paystructure.name_earn',
+    'Deduction.name_deduct')
     ->where('employee.id', '=', $id)
-    // ->select('employee.*','professionalrecords.*','employee_personal_record.*','professionalrecords.*')
     ->get();
 
-    dd($leave_allocation_rs);
+    dd($shares);
 }
 
 //employee add
 public function saveEmployeeaa(Request $request)
     {
        $insertData=[];
-    //    dd($request->salutation);
+       dd($request->all());
     $insertData=array(
         "emp_code"=>$request->emp_code,
         "salutation"=>$request->salutation,
@@ -257,6 +261,7 @@ public function saveEmployeeaa(Request $request)
         "emp_pf_inactuals"=>$request->emp_pf_inactuals,
         "emp_bonus"=>$request->emp_bonus,
     );
+
    
       $service_details_id=DB::table('employee')->insertGetId($insertData);
        

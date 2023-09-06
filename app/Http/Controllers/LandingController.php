@@ -84,7 +84,7 @@ class LandingController extends Controller
         } else {
 
             $Employee = DB::table('users')->where('email', '=', $request->email)->first();
-
+            
             if (empty($Employee)) {
                 $employee_pid = DB::table('registration')
 
