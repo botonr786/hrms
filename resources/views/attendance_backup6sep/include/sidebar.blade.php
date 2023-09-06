@@ -52,11 +52,17 @@
 			 
 			 ?>
 		  <ul class="nav nav-primary">
-			 <li class="nav-item @if (Request::Segment(2)=='dashboard') active @endif">
-				<a href="{{url('attendance/dashboard')}}">
+			 <li class="nav-item active">
+				<a href="{{url('attendancedashboard')}}">
 				   <i class="fas fa-home"></i>
 				   <p>Dashboard</p>
+				   <span class="caret"></span>
 				</a>
+			 </li>
+			 <li class="nav-section">
+				<span class="sidebar-mini-icon">
+				<i class="fa fa-ellipsis-h"></i>
+				</span>
 			 </li>
 			 <!--<li class="nav-item">
 				<a href="company.php">
@@ -66,7 +72,7 @@
 				</a>
 				
 				</li>-->
-			 <li class="nav-item @if (Request::Segment(2)=='add-montly-attendance-data-all') active @endif">
+			 <li class="nav-item">
 				<a data-toggle="collapse" href="#sidebarLayouts">
 				   <i class="fas fa-user"></i>
 				   <p>Attendance Management </p>
@@ -74,58 +80,16 @@
 				</a>
 				<div class="collapse" id="sidebarLayouts">
 				   <ul class="nav nav-collapse">
-					<?php 
-					if( $usetype=='employee'){
-					if(in_array('79', $arrrole))
-					{
-					
-					?>	
-				 <li class="@if (Request::Segment(2)=='add-montly-attendance-data-all') active @endif">
-					<a href="{{url('attendance/add-montly-attendance-data-all')}}">
-					<span class="sub-item">Generate Attendance</span>
-					</a>
-				 </li>
-				 <?php
-					}else{
-					?>
-				 <?php
-					}
-						}else{
-						?>
-				 <li class="@if (Request::Segment(2)=='add-montly-attendance-data-all') active @endif">
-					<a href="{{url('attendance/add-montly-attendance-data-all')}}">
-					<span class="sub-item">Generate Attendance</span>
-					</a>
-				 </li>
-				 <?php	
-					}
-					?>
-					  <?php 
-					  if( $usetype=='employee'){
-					  if(in_array('79', $arrrole))
-					  {
-					  
-					  ?>	
-				   <li>
-					  <a href="{{url('attendance/upload-data')}}">
-					  <span class="sub-item">Process Attendance</span>
-					  </a>
-				   </li>
-				   <?php
-					  }else{
-					  ?>
-				   <?php
-					  }
-						  }else{
-						  ?>
-				   <li>
-					  <a href="{{url('attendance/upload-data')}}">
-					  <span class="sub-item">Process Attendance</span>
-					  </a>
-				   </li>
-				   <?php	
-					  }
-					  ?>
+					<li>
+						<a href="{{url('attendance/upload-data')}}">
+						<span class="sub-item">Generate Attendance</span>
+						</a>
+					 </li>
+					 <li>
+						<a href="{{url('attendance/upload-data')}}">
+						<span class="sub-item">Process Attendance</span>
+						</a>
+					 </li>
 				   </ul>
 				</div>
 			 </li>

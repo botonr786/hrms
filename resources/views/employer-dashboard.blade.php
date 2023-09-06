@@ -938,7 +938,7 @@ if(in_array('13', $arrrole))
 			<div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
 				<?php //if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){ ?>
 				<?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
-				<a href="{{url('attendancedashboard')}}">
+				<a href="{{url('attendance/dashboard')}}">
 					<?php }else{
 				     
 				     ?>
