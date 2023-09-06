@@ -73,22 +73,22 @@
 								</div>
 								<div class="card-body" style="">
 									<form action="" method="post" enctype="multipart/form-data">
-			 {{csrf_field()}}
+			 						{{csrf_field()}}
 									<div class="row">
 										<div class="col-md-4">
 
-										<div class="form-group">
+										{{-- <div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">idcaste_master</label>
 												<input id="inputFloatingLabel" type="number" class="form-control input-border-bottom"  name="idcaste_master" />
-										</div>
+										</div> --}}
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Caste Name</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="caste_name" />
+												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="cast_name" />
 										</div>
-										<div class="form-group">
+										{{-- <div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Status</label>
 												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="status" />
-										</div>
+										</div> --}}
 										
 
 
