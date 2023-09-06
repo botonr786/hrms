@@ -76,6 +76,40 @@ Route::get('superadmin/add-package', 'App\Http\Controllers\AdminController@viewA
 Route::post('superadmin/add-package', 'App\Http\Controllers\AdminController@savepackageType');
 Route::get('superadmin/add-package/{id}', 'App\Http\Controllers\AdminController@getpackageId');
 
+//******* Routes with  attendance start *********//
+Route::get('attendance/dashboard', 'App\Http\Controllers\Attendance\UploadAttendenceController@viewdashboard');
+Route::get('attendance/upload-data', 'App\Http\Controllers\Attendance\UploadAttendenceController@viewUploadAttendence');
+Route::post('attendance/upload-data', 'App\Http\Controllers\Attendance\UploadAttendenceController@importExcel');
+Route::get('attendance/daily-attendance', 'App\Http\Controllers\Attendance\DailyAttendanceController@viewDailyAttendance');
+Route::post('attendance/daily-attendance', 'App\Http\Controllers\Attendance\DailyAttendanceController@getDailyAttandance');
+Route::post('attendance/add-daily-attendance', 'App\Http\Controllers\Attendance\DailyAttendanceController@updateDailyAttendance');
+Route::get('attendance/process-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@viewProcessAttendance');
+Route::post('attendance/process-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@getProcessAttandance');
+Route::post('attendance/add-process-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@updateDailyProcessAttendance');
+Route::post('attendance/save-Process-Attandance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@saveProcessAttandance');
+Route::get('attendance/monthly-attendance', 'App\Http\Controllers\Attendance\MonthlyAttendanceController@viewMonthlyAttendance');
+Route::post('attendance/monthly-attendance', 'App\Http\Controllers\Attendance\MonthlyAttendanceController@getMonthlyAttandance');
+Route::get('attendance/delete-monthly-attandance/', 'App\Http\Controllers\Attendance\MonthlyAttendanceController@deleteMonthlyAttandance');
+
+//******* Routes with attendance end *********//
+
+//add process attendance
+Route::get('attendance/add-montly-attendance-data-all', 'App\Http\Controllers\Attendance\ProcessAttendanceController@addMonthlyAttendancePAAllemployee');
+Route::post('attendance/add-montly-attendance-data-all', 'App\Http\Controllers\Attendance\ProcessAttendanceController@listAttendanceAllemployee');
+Route::post('attendance/save-montly-attendance-data-all', 'App\Http\Controllers\Attendance\ProcessAttendanceController@SaveAttendanceAllemployee');
+Route::get('attendance/view-montly-attendance-data-all', 'App\Http\Controllers\Attendance\ProcessAttendanceController@viewMonthlyAttendanceAllemployee')->name('attendance.view-montly-attendance-data-all');
+Route::post('attendance/view-montly-attendance-data-all', 'App\Http\Controllers\Attendance\ProcessAttendanceController@listMonthlyAttendanceAllemployee');
+Route::post('attendance/update-montly-attendance-data-all', 'App\Http\Controllers\Attendance\ProcessAttendanceController@UpdateAttendanceAllemployee');
+
+Route::get('attendance/vw-montly-attendance/export', 'App\Http\Controllers\Attendance\ProcessAttendanceController@getMonthlyAttendanceExport')->name('attendance.vw-montly-attendance.export');
+Route::post('attendance/vw-montly-attendance/import', 'App\Http\Controllers\Attendance\ProcessAttendanceController@getMonthlyAttendanceImport')->name('attendance.vw-montly-attendance.import');
+
+Route::get('attendance/report-monthly-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@reportMonthlyAttendanceAllemployee');
+Route::post('attendance/report-monthly-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@getMonthlyAttendanceReport');
+Route::post('attendance/xls-export-attendance-report', 'App\Http\Controllers\Attendance\ProcessAttendanceController@attandence_xlsexport');
+
+
+
 //plans
 Route::get('superadmin/plans', 'App\Http\Controllers\AdminController@getPlans');
 Route::get('superadmin/add-plan', 'App\Http\Controllers\AdminController@viewAddPlan');
@@ -3838,34 +3872,26 @@ Route::post('billing/add-received-payment', 'App\Http\Controllers\BillingControl
 Route::post('billing/edit-billing', 'App\Http\Controllers\BillingController@saveAddbillingy');
 
 Route::post('attendance/save-edit-leave-allocation', 'App\Http\Controllers\LeaveController@editLeaveAllocation');
-
 Route::get('attendancedashboard', 'App\Http\Controllers\AttendanceController@viewdash');
-
 Route::get('attendance/daily-attendance', 'App\Http\Controllers\AttendanceController@viewattendancedaily');
 Route::post('attendance/daily-attendance', 'App\Http\Controllers\AttendanceController@getDailyAttandance');
 Route::get('attendance/edit-daily/{daily_id}', 'App\Http\Controllers\AttendanceController@getDailyAttandancedetails');
 Route::post('attendance/edit-daily', 'App\Http\Controllers\AttendanceController@saveDailyAttandancedetails');
-
 Route::get(' attendance/process-attendance', 'App\Http\Controllers\AttendanceController@viewattendanceprocess');
 Route::post(' attendance/process-attendance', 'App\Http\Controllers\AttendanceController@getprocessAttandance');
-
 Route::post('attendance/save-Process-Attandance', 'App\Http\Controllers\AttendanceController@saveProcessAttandance');
-
 Route::get('attendance/upload-data', 'App\Http\Controllers\AttendanceController@viewUploadAttendence');
 Route::post('attendance/upload-data', 'App\Http\Controllers\AttendanceController@importExcel');
 Route::post('attendance/attendance-month-report', 'App\Http\Controllers\AttendanceController@importdtaa');
 Route::get('attendance/generate-data', 'App\Http\Controllers\AttendanceController@viewGenerateAttendence');
 Route::post('attendance/generate-data', 'App\Http\Controllers\AttendanceController@importGenerate');
 Route::post('attendance/save-generate-attandance', 'App\Http\Controllers\AttendanceController@saveGenerate');
-
 Route::post('attendance/attendance-month-report-excel', 'App\Http\Controllers\AttendanceController@importdtaaexcel');
 Route::get('attendance/attendance-report', 'App\Http\Controllers\AttendanceController@viewattendancereport');
 Route::post('attendance/attendance-report', 'App\Http\Controllers\AttendanceController@getReportAttandance');
-
 //11-02-2022
 Route::get('attendance/monthly-attendance-report', 'App\Http\Controllers\AttendanceController@viewMonthlyAttendanceReport');
 Route::post('attendance/monthly-attendance-report', 'App\Http\Controllers\AttendanceController@getMonthlyReportAttandance');
-
 Route::get('attendance/edit-report/{report_id}', 'App\Http\Controllers\AttendanceController@getReportAttandancedetails');
 Route::post('attendance/edit-report', 'App\Http\Controllers\AttendanceController@saveReportAttandancedetails');
 Route::get('attendance/absent-report', 'App\Http\Controllers\AttendanceController@viewattendanabsent');

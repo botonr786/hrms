@@ -26,6 +26,7 @@ class AttendanceController extends Controller
 
                 ->where('email', '=', $email)
                 ->first();
+            //dd($data);
 
             return View('attendance/dashboard', $data);
         } else {
@@ -6017,10 +6018,11 @@ $duty_hours = $hours . ":" . $minutes;
 
                 ->where('email', '=', $email)
                 ->first();
+      
 
             $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
             $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
-
+            //dd($data);
             return view('attendance/genarate-list', $data);
         } else {
             return redirect('/');
