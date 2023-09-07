@@ -74,6 +74,7 @@
 								<div class="card-body" style="">
 									<form action="{{url('settings/rate-update-save')}}" method="post" enctype="multipart/form-data">
 			                     {{csrf_field()}}
+								 
 									<div class="row">
 										<div class="col-md-3">
 										 <input type="hidden" name="detailsId" value="<?php print_r($rate['0']->id)?>" >

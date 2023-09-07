@@ -89,7 +89,7 @@
 										
 											<label for="inputFloatingLabel" class="placeholder">Head Name(*)</label>
                                             <select class="form-control" id="rate_id" name="rate_id" required>
-                                        <option value="" selected disabled required>Select</option>
+                                       		 <option value="" selected disabled required>Select</option>
 										
 								            </select>
 										

@@ -73,30 +73,42 @@
 								</div>
 								<div class="card-body" style="">
 									<form action="{{url('settings/add-new-bank-details')}}" method="post" enctype="multipart/form-data">
-			 {{csrf_field()}}
+			 							{{csrf_field()}}
 									<div class="row">
 										<div class="col-md-4">
 										<div class="form-group">
-											<label for="inputFloatingLabel" class="placeholder">Bank Name</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankname" placeholder="Enter Your Company Name">
+											<label for="inputFloatingLabel" class="placeholder">Bank Name <span style="color:red;">(*)</span></label>
+											
+											<select name="bank_name" id="bank_name" class="form-control" required>
+												<option value="">Select Bank</option>
+                                        @foreach($MastersbankName as $value):
+                                        <option value="{{ $value->id }}" <?php if (!empty($bankdetails[0]['id'])) {
+                                                                                if ($bankdetails[0]['bank_name'] == $value->id) {
+                                                                                    echo "selected";
+                                                                                }
+                                                                            } ?>>
+                                            {{ $value->master_bank_name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
 											</div>
 											</div>
                                             <div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Bank Branch</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankbranch" placeholder="Enter Your Branch Name">
+												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="branch_name" placeholder="Enter Your Branch Name">
 											</div>
 											</div>
                                             <div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">IFSC Code</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="ifsccode" placeholder="Enter Your IFSC Code">
+												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="ifsc_code" placeholder="Enter Your IFSC Code">
 											</div>
 											</div>
                                             <div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">MICR Code</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="micrcode" placeholder="Enter Your MICR Code">
+												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="swift_code" placeholder="Enter Your MICR Code">
 											</div>
 											</div>
                                             <div class="col-md-4">
@@ -105,7 +117,7 @@
                                             <select class="form-control" name="status">
                                             <option>Status</option>
                                             <option value="active">Active</option>
-                                            <option value="inActive">inActive</option>
+                                            <option value="inactive">InActive</option>
                                             </select>
 												<!-- <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="status" > -->
 											</div>

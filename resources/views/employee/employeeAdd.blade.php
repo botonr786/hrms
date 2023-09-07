@@ -180,7 +180,15 @@
                                                     <div class="col-md-3">
                                                       <div class="form-group">
                                                           <label>Salutation</label>
-                                                          <input type="text" placeholder="Salutation..."  class="form-control" name="salutation"></p>
+                                                          <select name="salutation" class="form-control">
+                                                            <option value="">select</option>
+                                                            <option value="MR." >MR.</option>
+                                                            <option value="MRS." >MRS.</option>
+                                                            <option value="MS." >MS.</option>
+                                                            <option value="DR." >DR.</option>
+                                                            <option value="MISS" >MISS</option>
+                                                          </select>
+                                                          <!-- <input type="text" placeholder="Salutation..."  class="form-control" name="salutation"></p> -->
                                                       </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -283,13 +291,10 @@
                                                     <div class="col-md-3">
                                                       <div class="form-group">
                                                           <label>Designation (*)</label>
-                                                          <!-- <div id="des"></div> -->
-                                                          <select name="designation" class="form-control">
-                                                            <option></option>
-                                                            @foreach($designation as $desig)
-                                                            <option value='{{ $desig->designation_name }}'>{{ $desig->designation_name }}</option>
-                                                            @endforeach 
-                                                          </select>
+                                                          <select class="form-control" id="rate_id" name="designation" required>
+                                       	                  	 <option value="" selected disabled required>Select</option>
+										
+								                                 </select>
                                                       </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -1161,65 +1166,31 @@
                                                       <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Bank Name <span>(*)</span></label>
-                                                         <select class="form-control" name="emp_bank_name" id="emp_bank_name" required onchange="populateBranch()">
+                                                         <select class="form-control" name="emp_bank_name" id="emp_bank_name" required onclick="populateBranch()">
                                                             <option value="" label="Select">Select</option>
-                                                            <option value="1" >Bank of Baroda</option>
-                                                            <option value="2" >Bank of India</option>
-                                                            <option value="3" >Bank of Maharashtra</option>
-                                                            <option value="4" >Canara Bank</option>
-                                                            <option value="5" >Central Bank of India</option>
-                                                            <option value="6" >Corporation Bank</option>
-                                                            <option value="7" >Dena Bank</option>
-                                                            <option value="8" >Indian Bank</option>
-                                                            <option value="9" >Indian Overseas Bank</option>
-                                                            <option value="10" >IDBI Bank</option>
-                                                            <option value="11" >Oriental Bank of Commerce</option>
-                                                            <option value="12" >Punjab &amp; Sindh Bank</option>
-                                                            <option value="13" >Punjab National Bank</option>
-                                                            <option value="14" >State Bank of India</option>
-                                                            <option value="15" >Syndicate Bank</option>
-                                                            <option value="16" >UCO Bank</option>
-                                                            <option value="17" >Union Bank of India</option>
-                                                            <option value="18" >United Bank of India</option>
-                                                            <option value="19" >Vijaya Bank</option>
-                                                            <option value="20" >Axis Bank</option>
-                                                            <option value="21" >Bandhan Bank</option>
-                                                            <option value="22" >Catholic Syrian Bank</option>
-                                                            <option value="23" >City Union Bank</option>
-                                                            <option value="24" >DCB Bank</option>
-                                                            <option value="25" >Dhanlaxmi Bank</option>
-                                                            <option value="26" >Federal Bank</option>
-                                                            <option value="27" >HDFC Bank</option>
-                                                            <option value="28" >ICICI Bank</option>
-                                                            <option value="29" >IDFC Bank</option>
-                                                            <option value="30" >IndusInd Bank</option>
-                                                            <option value="31" >Jammu and Kashmir Bank</option>
-                                                            <option value="32" >Karnataka Bank</option>
-                                                            <option value="33" >Karur Vysya Bank</option>
-                                                            <option value="34" >Kotak Mahindra Bank</option>
-                                                            <option value="35" >Lakshmi Vilas Bank</option>
-                                                            <option value="36" >Nainital Bank</option>
-                                                            <option value="37" >RBL Bank</option>
-                                                            <option value="38" >South Indian Bank</option>
-                                                            <option value="39" >Tamilnad Mercantile Bank</option>
-                                                            <option value="40" >YES Bank</option>
-                                                            <option value="41" >NO Bank</option>
+                                                              @foreach($MastersbankName as $item)
+                                                              <option value="{{$item->id}}">{{$item->master_bank_name}}</option>
+                                                              @endforeach
                                                          </select>
                                                       </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Branch <span>(*)</span></label>
-                                                         <select class="form-control" name="bank_branch_id" id="bank_branch_id" required onclick="getIfcs()">
-                                                            <option value="" label="Select">Select Branch</option>
-                                                            <option value="dd">Select Branch</option>
-                                                         </select>
+                                                         <select class="form-control" id="bank_branch_ids" name="bank_branch_id" onclick="branchfunc()" required>
+                                       	                  	 <option value="" selected disabled required>Select</option>
+										
+								                                 </select>
                                                       </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>IFSC Code <span>(*)</span></label>
-                                                         <input type="text" name="emp_ifsc_code" value="" id="emp_ifsc_code" class="form-control"  required>
+                                                         <!-- <input type="text" name="emp_ifsc_code" value="" id="emp_ifsc_code" class="form-control"  required> -->
+                                                         <select class="form-control" id="emp_ifsc_code" name="emp_ifsc_code" required>
+                                       	                  	 <option value="" selected disabled required>Select</option>
+										
+								                                 </select>
                                                       </div>
                                                       </div>
                                                       <div class="col-md-3">
@@ -1298,20 +1269,74 @@
                                                             <tr class="itemslotpayearn" id="0">
                                                                <td>1</td>
                                                                <td>
-                                                                  <select class="form-control earninigcls" name="name_earn[]" id="name_earn0" onchange="checkearntype(this.value,0);">
+                                                                  <select class="form-control earninigcls" name="name_earn[]" id="name_earn0">
                                                                      <option value='' selected>Select</option>
-                                                                     <option value='da'>DA</option>
-                                                                     <option value='vda'>VDA</option>
-                                                                     <option value='hra'>HRA</option>
-                                                                     <option value='others_alw'>OTH ALW</option>
-                                                                     <option value='tiff_alw'>TIFF ALW</option>
-                                                                     <option value='conv'>CONV</option>
-                                                                     <option value='medical'>MEDICAL</option>
-                                                                     <option value='misc_alw'>MISC ALW</option>
-                                                                     <option value='over_time'>OVER TIME</option>
-                                                                     <option value='bouns'>BONUS</option>
-                                                                     <option value='leave_inc'>LEAVE ENC</option>
-                                                                     <option value='hta'>SAL ADJUSTMENT</option>
+                                                                   
+                                                                     <?php
+                                                                     $name = '';
+                                                                     ?>
+                                                                     @foreach($EARNING as $value)
+                                                                     <?php
+                                                                     if ($value->id == '1') {
+                                                                        $name = 'da';
+                                                                     } else if ($value->id == '2') {
+                                                                        $name = 'vda';
+                                                                     } else if ($value->id == '3') {
+                                                                        $name = 'hra';
+                                                                     } else if ($value->id == '4') {
+                                                                        $name = 'prof_tax';
+                                                                     } else if ($value->id == '5') {
+                                                                        $name = 'others_alw';
+                                                                     } else if ($value->id == '6') {
+                                                                        $name = 'tiff_alw';
+                                                                     } else if ($value->id == '7') {
+                                                                        $name = 'conv';
+                                                                     } else if ($value->id == '8') {
+                                                                        $name = 'medical';
+                                                                     } else if ($value->id == '9') {
+                                                                        $name = 'misc_alw';
+                                                                     } else if ($value->id == '10') {
+                                                                        $name = 'over_time';
+                                                                     } else if ($value->id == '11') {
+                                                                        $name = 'bouns';
+                                                                     } else if ($value->id == '12') {
+                                                                        $name = 'leave_inc';
+                                                                     } else if ($value->id == '13') {
+                                                                        $name = 'hta';
+                                                                     } else if ($value->id == '14') {
+                                                                        $name = 'tot_inc';
+                                                                     } else if ($value->id == '15') {
+                                                                        $name = 'pf';
+                                                                     } else if ($value->id == '16') {
+                                                                        $name = 'pf_int';
+                                                                     } else if ($value->id == '17') {
+                                                                        $name = 'apf';
+                                                                     } else if ($value->id == '18') {
+                                                                        $name = 'i_tax';
+                                                                     } else if ($value->id == '19') {
+                                                                        $name = 'insu_prem';
+                                                                     } else if ($value->id == '20') {
+                                                                        $name = 'pf_loan';
+                                                                     } else if ($value->id == '21') {
+                                                                        $name = 'esi';
+                                                                     } else if ($value->id == '22') {
+                                                                        $name = 'adv';
+                                                                     } else if ($value->id == '23') {
+                                                                        $name = 'hrd';
+                                                                     } else if ($value->id == '24') {
+                                                                        $name = 'co_op';
+                                                                     } else if ($value->id == '25') {
+                                                                        $name = 'furniture';
+                                                                     } else if ($value->id == '26') {
+                                                                        $name = 'misc_ded';
+                                                                     } else if ($value->id == '27') {
+                                                                        $name = 'tot_ded';
+                                                                     }
+                                                                     ?>
+                                                                      @if($value->headtype == 'EARNING')
+                                                                              <option value='{{$name}}'>{{ $value->headname}}</option>
+                                                                              @endif
+                                                                              @endforeach
                                                                   </select>
                                                                </td>
                                                                <td>
@@ -1347,21 +1372,72 @@
                                                                <td>
                                                                   <select class="form-control deductcls" name="name_deduct[]" id="name_deduct0" onchange="checkdeducttype(this.value,0);">
                                                                      <option value='' selected>Select</option>
-                                                                     <option value='prof_tax'>PROF TAX</option>
-                                                                     <option value='pf'>PF</option>
-                                                                     <option value='pf_int'>PF INT</option>
-                                                                     <option value='apf'>APF</option>
-                                                                     <option value='i_tax'>I TAX</option>
-                                                                     <option value='insu_prem'>INSU PERM</option>
-                                                                     <option value='pf_loan'>PF LOAN</option>
-                                                                     <option value='esi'>ESI</option>
-                                                                     <option value='adv'>ADV</option>
-                                                                     <option value='hrd'>HRD</option>
-                                                                     <option value='co_op'>CO-OP</option>
-                                                                     <option value='furniture'>FURNITURE</option>
-                                                                     <option value='misc_ded'>MISC DED</option>
-                                                                     <option value='misc_ded'>PF Employer Contibution</option>
-                                                                     <option value='misc_ded'>APF 12%</option>
+                                                                     <?php
+							$name = '';
+							?>
+							@foreach($DEDUCATION as $value)
+							<?php
+							if ($value->id == '1') {
+								$name = 'da';
+							} else if ($value->id == '2') {
+								$name = 'vda';
+							} else if ($value->id == '3') {
+								$name = 'hra';
+							} else if ($value->id == '4') {
+								$name = 'prof_tax';
+							} else if ($value->id == '5') {
+								$name = 'others_alw';
+							} else if ($value->id == '6') {
+								$name = 'tiff_alw';
+							} else if ($value->id == '7') {
+								$name = 'conv';
+							} else if ($value->id == '8') {
+								$name = 'medical';
+							} else if ($value->id == '9') {
+								$name = 'misc_alw';
+							} else if ($value->id == '10') {
+								$name = 'over_time';
+							} else if ($value->id == '11') {
+								$name = 'bouns';
+							} else if ($value->id == '12') {
+								$name = 'leave_inc';
+							} else if ($value->id == '13') {
+								$name = 'hta';
+							} else if ($value->id == '14') {
+								$name = 'tot_inc';
+							} else if ($value->id == '15') {
+								$name = 'pf';
+							} else if ($value->id == '16') {
+								$name = 'pf_int';
+							} else if ($value->id == '17') {
+								$name = 'apf';
+							} else if ($value->id == '18') {
+								$name = 'i_tax';
+							} else if ($value->id == '19') {
+								$name = 'insu_prem';
+							} else if ($value->id == '20') {
+								$name = 'pf_loan';
+							} else if ($value->id == '21') {
+								$name = 'esi';
+							} else if ($value->id == '22') {
+								$name = 'adv';
+							} else if ($value->id == '23') {
+								$name = 'hrd';
+							} else if ($value->id == '24') {
+								$name = 'co_op';
+							} else if ($value->id == '25') {
+								$name = 'furniture';
+							} else if ($value->id == '26') {
+								$name = 'misc_ded';
+							} else if ($value->id == '27') {
+								$name = 'tot_ded';
+							}
+							?>
+			@if($value->headtype == 'DEDUCATION')
+									<option value='{{$name}}'>{{ $value->headname }}</option>
+									@endif
+									@endforeach
+                                                                     
                                                                   </select>
                                                                </td>
                                                                <td>
@@ -1670,13 +1746,93 @@
          		type: "GET",
          
          		success: function(response) {
-         
-         			console.log(response);
+                  document.getElementById("rate_id").innerHTML = response;
+         			// console.log(response);
                   // $("#des").append(response)
                  
          		}
          	});
          }
+         function populateBranch(){
+            var bankname= $('#emp_bank_name option:selected').val();
+            console.log(bankname);
+            $.ajax({
+              url:"{{url('employee/emp-bank-name')}}"+'/'+bankname,
+         		type: "GET",
+         
+         		success: function(response) {
+                  document.getElementById("bank_branch_ids").innerHTML = response;
+         			
+                 
+         		}
+         	});
+         } 
+
+         function branchfunc(){
+            var branchname=$('#bank_branch_ids option:selected').val();
+           var jk= $.trim(branchname)
+            // console.log(branchname)
+            $.ajax({
+              url:"{{url('employee/emp-branch-name')}}"+'/'+jk,
+         		type: "GET",
+         
+         		success: function(response) {
+                  console.log(response)
+                  document.getElementById("emp_ifsc_code").innerHTML = response;
+         			
+                 
+         		}
+         	});
+         }
+         function checkearnvalue(val,row){
+		var emp_basic_pay=$('#emp_basic_pay').val();
+      var headname=$('#name_earn'+row).val();
+   
+	$.ajax({
+            url:"{{url('employee/get-earn')}}"+'/'+headname+'/'+val+'/'+emp_basic_pay,
+				// url:'http://bellevuepf.com/payroll/public/settings/get-earn/'+headname+'/'+val+'/'+emp_basic_pay,
+				type: "GET",
+
+				success: function(response) {
+                      if(val=='F'){
+					$("#value"+row).val(Math.round(response));
+					  $("#value"+row).prop("readonly", true);
+					  }else{
+						 $("#value"+row).val('0');
+						   $("#value"+row).prop("readonly", false);
+					  }
+
+				}
+			});
+
+
+	}
+   function checkdeductvalue(val,row)
+
+	{
+		var emp_basic_pay=$('#emp_basic_pay').val();
+	var headname=$('#name_deduct'+row).val();
+
+	$.ajax({
+             url:"{{url('employee/get-earn')}}"+'/'+headname+'/'+val+'/'+emp_basic_pay,
+				// url:'http://bellevuepf.com/payroll/public/settings/get-earn/'+headname+'/'+val+'/'+emp_basic_pay,
+				type: "GET",
+
+				success: function(response) {
+                      if(val=='F'){
+					$("#valuededuct"+row).val(Math.round(response));
+					  $("#valuededuct"+row).prop("readonly", true);
+					  }else{
+						 $("#valuededuct"+row).val('0');
+						   $("#valuededuct"+row).prop("readonly", false);
+					  }
+
+				}
+			});
+
+
+	}
+
       </script>
       <script>
          function dateofjoinfunc(){
