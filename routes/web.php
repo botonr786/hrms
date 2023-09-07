@@ -41,6 +41,8 @@ Route::get('forgot-password', 'App\Http\Controllers\LandingController@indexfor')
 Route::post('forgot-password', 'App\Http\Controllers\LandingController@Doforgot');
 Route::post('/', 'App\Http\Controllers\LandingController@DoLogin');
 Route::get('employerdashboard', 'App\Http\Controllers\LandingController@Dashboard');
+//payroll dashboard
+Route::get('payroll-home-dashboard', 'App\Http\Controllers\HomeController@Dashboard');
 
 Route::get('user-check-employee', 'App\Http\Controllers\EmployeeCornerOrganisationController@indexserorganisationemployee');
 Route::post('user-check-employee', 'App\Http\Controllers\EmployeeCornerOrganisationController@DoLoginorganisationemployee');
@@ -80,16 +82,10 @@ Route::get('superadmin/add-package/{id}', 'App\Http\Controllers\AdminController@
 Route::get('attendance/dashboard', 'App\Http\Controllers\Attendance\UploadAttendenceController@viewdashboard');
 Route::get('attendance/upload-data', 'App\Http\Controllers\Attendance\UploadAttendenceController@viewUploadAttendence');
 Route::post('attendance/upload-data', 'App\Http\Controllers\Attendance\UploadAttendenceController@importExcel');
-Route::get('attendance/daily-attendance', 'App\Http\Controllers\Attendance\DailyAttendanceController@viewDailyAttendance');
-Route::post('attendance/daily-attendance', 'App\Http\Controllers\Attendance\DailyAttendanceController@getDailyAttandance');
-Route::post('attendance/add-daily-attendance', 'App\Http\Controllers\Attendance\DailyAttendanceController@updateDailyAttendance');
 Route::get('attendance/process-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@viewProcessAttendance');
 Route::post('attendance/process-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@getProcessAttandance');
 Route::post('attendance/add-process-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@updateDailyProcessAttendance');
 Route::post('attendance/save-Process-Attandance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@saveProcessAttandance');
-Route::get('attendance/monthly-attendance', 'App\Http\Controllers\Attendance\MonthlyAttendanceController@viewMonthlyAttendance');
-Route::post('attendance/monthly-attendance', 'App\Http\Controllers\Attendance\MonthlyAttendanceController@getMonthlyAttandance');
-Route::get('attendance/delete-monthly-attandance/', 'App\Http\Controllers\Attendance\MonthlyAttendanceController@deleteMonthlyAttandance');
 
 //******* Routes with attendance end *********//
 
