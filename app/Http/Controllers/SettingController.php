@@ -13,6 +13,7 @@ use App\Models\RateDetail;
 use App\Models\Masters\Cast;
 use App\Models\Masters\Sub_cast;
 use App\Models\Masters\Bank;
+use App\Models\Rate_master;
 
 class SettingController extends Controller
 {
@@ -117,7 +118,8 @@ class SettingController extends Controller
     }
 
     public function ratemasterget(){
-       $data['rate']=DB::table("rate-master")->get();
+        $data['rate']=Rate_master::get();
+    //    $data['rate']=DB::table("rate-master")->get();
         return view("settings/rate-master-list",$data);
     }
     public function ratemasteradd(){
@@ -125,34 +127,36 @@ class SettingController extends Controller
         return view("settings/rate-master-add");
     }
 
-    public function addfunctionratemaster(){
-        $dataArray=[
-            "headname"=>$_POST['headname'],
-            "headtype"=>$_POST['headtype'],
-            "status"=>$_POST['status'],
-        ];
-        DB::table('rate-master')->insert($dataArray);
+    public function addfunctionratemaster(Request $request){
+        $dataArray=array(
+            'head_name'=>$request->head_name,
+            'head_type'=>$request->head_type,
+            'status'=>$request->status,
+        );
+        Rate_master::insert($dataArray);
+        // DB::table('rate-master')->insert($dataArray);
         return redirect("settings/rate-master-list");
     }
     public function ratemastergetandupdate($id){
-    $data['rate']=DB::table("rate-master")->where("id",$id)->get();
+        $data['rate']= Rate_master::where("id",$id)->get();
+    // $data['rate']=DB::table("rate-master")->where("id",$id)->get();
     return view("settings/rate-master-Edit",$data);
     }
 
-    public function ratemastergetandupdatebllb(){
-        $dataArray=[
-            "headname"=>$_POST['headname'],
-            "headtype"=>$_POST['headtype'],
-            "status"=>$_POST['status'],
-        ];
-        DB::table("rate-master")->where("id",$_POST['id'])->update($dataArray);
+    public function ratemastergetandupdatebllb(Request $request){
+        $dataArray=array(
+            'head_name'=>$request->head_name,
+            'head_type'=>$request->head_type,
+            'status'=>$request->status,
+        );
+        Rate_master::where('id',$request->id)->update($dataArray);
         return redirect("settings/rate-master-list");
     }
     public function ratemasterdetailsfunc(){
         // $data['rate']=DB::table('rate_details_master')->get();
         // $data['rate']=RateDetail::get();
-        $data['rate'] = RateDetail::leftJoin('rate-master', 'rate_details.rate_id', '=', 'rate-master.id')
-        ->select('rate_details.*',  'rate-master.headname' ,  'rate-master.headtype' )
+        $data['rate'] = RateDetail::leftJoin('rate_masters', 'rate_details.rate_id', '=', 'rate_masters.id')
+        ->select('rate_details.*',  'rate_masters.head_name' ,  'rate_masters.head_type' )
 		->orderBy('rate_details.id','DESC')
         ->get();
         //dd($data);
@@ -162,14 +166,16 @@ class SettingController extends Controller
         return view("settings/rate-master-details-add");
     }
     public function testhhh($id){
-        $Rate_master_rs=DB::table('rate-master')->where("headtype",$id)->get();
+        $head_type=strtolower($id);
+        $Rate_master_rs=Rate_master::where('head_type',$head_type)->get();
+        // dd($Rate_master_rs);
        
         $result='';
 
       $result_status1=" <option value='' selected disabled >Select</option> ";
       foreach($Rate_master_rs as $Rate_masteval)
       {
-          $result_status1.='<option value="'.$Rate_masteval->id.'"> '.$Rate_masteval->headname.'</option>';
+          $result_status1.='<option value="'.$Rate_masteval->id.'"> '.$Rate_masteval->head_name.'</option>';
       }
 
       echo $result_status1;

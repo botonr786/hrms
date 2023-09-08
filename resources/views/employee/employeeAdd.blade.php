@@ -193,8 +193,9 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                       <div class="form-group">
-                                                          <label>First Name (*)</label>
-                                                          <input type="text" placeholder="First Name..."  class="form-control" name="emp_fname"></p>
+                                                          <label>First Name <span style="color:red">(*)</span></label>
+                                                          <input type="text" placeholder="First Name..."  class="form-control" name="emp_fname" id="emp_fname" required></p>
+                                                          <div id="fname"></div>
                                                       </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -211,7 +212,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                       <div class="form-group">
-                                                          <label>Father Name</label>
+                                                          <label>Father Name<span style="color:red">(*)</span></label>
                                                           <input type="text" placeholder="Father Name..."  class="form-control" name="emp_father_name"></p>
                                                       </div>
                                                     </div>
@@ -278,7 +279,7 @@
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                       <div class="form-group">
-                                                          <label>Department (*)</label>
+                                                          <label>Department<span style="color:red">(*)</span></label>
                                                           <select class="form-control" name="department" id="deptid" onclick="deptFunc()">
                                                             <option></option>
                                                             @foreach($department as $dept)
@@ -290,7 +291,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                       <div class="form-group">
-                                                          <label>Designation (*)</label>
+                                                          <label>Designation <span style="color:red">(*)</span></label>
                                                           <select class="form-control" id="rate_id" name="designation" required>
                                        	                  	 <option value="" selected disabled required>Select</option>
 										
@@ -299,7 +300,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                       <div class="form-group">
-                                                          <label>Date Of Birth (*)</label>
+                                                          <label>Date Of Birth <span style="color:red">(*)</span></label>
                                                           <input type="date" name="dateofbirth" class="form-control" id="dateofbirth" onchange="datefunction()"><br/>
                                                       </div>
                                                     </div>
@@ -1333,8 +1334,8 @@
                                                                         $name = 'tot_ded';
                                                                      }
                                                                      ?>
-                                                                      @if($value->headtype == 'EARNING')
-                                                                              <option value='{{$name}}'>{{ $value->headname}}</option>
+                                                                      @if($value->head_type == 'earning')
+                                                                              <option value='{{$name}}'>{{ $value->head_name}}</option>
                                                                               @endif
                                                                               @endforeach
                                                                   </select>
@@ -1373,70 +1374,70 @@
                                                                   <select class="form-control deductcls" name="name_deduct[]" id="name_deduct0" onchange="checkdeducttype(this.value,0);">
                                                                      <option value='' selected>Select</option>
                                                                      <?php
-							$name = '';
-							?>
-							@foreach($DEDUCATION as $value)
-							<?php
-							if ($value->id == '1') {
-								$name = 'da';
-							} else if ($value->id == '2') {
-								$name = 'vda';
-							} else if ($value->id == '3') {
-								$name = 'hra';
-							} else if ($value->id == '4') {
-								$name = 'prof_tax';
-							} else if ($value->id == '5') {
-								$name = 'others_alw';
-							} else if ($value->id == '6') {
-								$name = 'tiff_alw';
-							} else if ($value->id == '7') {
-								$name = 'conv';
-							} else if ($value->id == '8') {
-								$name = 'medical';
-							} else if ($value->id == '9') {
-								$name = 'misc_alw';
-							} else if ($value->id == '10') {
-								$name = 'over_time';
-							} else if ($value->id == '11') {
-								$name = 'bouns';
-							} else if ($value->id == '12') {
-								$name = 'leave_inc';
-							} else if ($value->id == '13') {
-								$name = 'hta';
-							} else if ($value->id == '14') {
-								$name = 'tot_inc';
-							} else if ($value->id == '15') {
-								$name = 'pf';
-							} else if ($value->id == '16') {
-								$name = 'pf_int';
-							} else if ($value->id == '17') {
-								$name = 'apf';
-							} else if ($value->id == '18') {
-								$name = 'i_tax';
-							} else if ($value->id == '19') {
-								$name = 'insu_prem';
-							} else if ($value->id == '20') {
-								$name = 'pf_loan';
-							} else if ($value->id == '21') {
-								$name = 'esi';
-							} else if ($value->id == '22') {
-								$name = 'adv';
-							} else if ($value->id == '23') {
-								$name = 'hrd';
-							} else if ($value->id == '24') {
-								$name = 'co_op';
-							} else if ($value->id == '25') {
-								$name = 'furniture';
-							} else if ($value->id == '26') {
-								$name = 'misc_ded';
-							} else if ($value->id == '27') {
-								$name = 'tot_ded';
-							}
-							?>
-			@if($value->headtype == 'DEDUCATION')
-									<option value='{{$name}}'>{{ $value->headname }}</option>
-									@endif
-									@endforeach
+                                                                  $name = '';
+                                                                  ?>
+                                                                  @foreach($DEDUCATION as $value)
+                                                                  <?php
+                                                                  if ($value->id == '1') {
+                                                                     $name = 'da';
+                                                                  } else if ($value->id == '2') {
+                                                                     $name = 'vda';
+                                                                  } else if ($value->id == '3') {
+                                                                     $name = 'hra';
+                                                                  } else if ($value->id == '4') {
+                                                                     $name = 'prof_tax';
+                                                                  } else if ($value->id == '5') {
+                                                                     $name = 'others_alw';
+                                                                  } else if ($value->id == '6') {
+                                                                     $name = 'tiff_alw';
+                                                                  } else if ($value->id == '7') {
+                                                                     $name = 'conv';
+                                                                  } else if ($value->id == '8') {
+                                                                     $name = 'medical';
+                                                                  } else if ($value->id == '9') {
+                                                                     $name = 'misc_alw';
+                                                                  } else if ($value->id == '10') {
+                                                                     $name = 'over_time';
+                                                                  } else if ($value->id == '11') {
+                                                                     $name = 'bouns';
+                                                                  } else if ($value->id == '12') {
+                                                                     $name = 'leave_inc';
+                                                                  } else if ($value->id == '13') {
+                                                                     $name = 'hta';
+                                                                  } else if ($value->id == '14') {
+                                                                     $name = 'tot_inc';
+                                                                  } else if ($value->id == '15') {
+                                                                     $name = 'pf';
+                                                                  } else if ($value->id == '16') {
+                                                                     $name = 'pf_int';
+                                                                  } else if ($value->id == '17') {
+                                                                     $name = 'apf';
+                                                                  } else if ($value->id == '18') {
+                                                                     $name = 'i_tax';
+                                                                  } else if ($value->id == '19') {
+                                                                     $name = 'insu_prem';
+                                                                  } else if ($value->id == '20') {
+                                                                     $name = 'pf_loan';
+                                                                  } else if ($value->id == '21') {
+                                                                     $name = 'esi';
+                                                                  } else if ($value->id == '22') {
+                                                                     $name = 'adv';
+                                                                  } else if ($value->id == '23') {
+                                                                     $name = 'hrd';
+                                                                  } else if ($value->id == '24') {
+                                                                     $name = 'co_op';
+                                                                  } else if ($value->id == '25') {
+                                                                     $name = 'furniture';
+                                                                  } else if ($value->id == '26') {
+                                                                     $name = 'misc_ded';
+                                                                  } else if ($value->id == '27') {
+                                                                     $name = 'tot_ded';
+                                                                  }
+                                                                  ?>
+                                                      @if($value->head_type == 'deduction')
+                                                                        <option value='{{$name}}'>{{ $value->head_name }}</option>
+                                                                        @endif
+                                                                        @endforeach
                                                                      
                                                                   </select>
                                                                </td>
@@ -1487,7 +1488,7 @@
                      <span class="step"></span>
                      <span class="step"></span>
                      <span class="step"></span>
-                     <!-- <span class="step"></span> -->
+                     <span class="step"></span>
                      </div>
                      <input type="submit" value="submit">
                      </form>
@@ -1549,11 +1550,11 @@
          
          $.ajax({
                url:"{{url('settings/get-add-row-deduct')}}"+'/'+rowid,
-         		// url:'http://bellevuepf.com/payroll/public/settings/get-add-row-deduct/'+rowid,
+         		
          		type: "GET",
          
          		success: function(response) {
-         
+         console.log("response",response)
          			$("#marksheetdeduct").append(response);
          
          		}
@@ -2004,14 +2005,27 @@
          }
          
          function nextPrev(n) {
+            // console.log('next id',n)
          // This function will figure out which tab to display
          var x = document.getElementsByClassName("tab");
          // Exit the function if any field in the current tab is invalid:
-         if (n == 1 && !validateForm()) return false;
+         // if (n == 1 && !validateForm()) return false;
+         // if (n == 1 && !validateForm()) return false;
          // Hide the current tab:
          x[currentTab].style.display = "none";
          // Increase or decrease the current tab by 1:
          currentTab = currentTab + n;
+         //input validation 
+         if(currentTab==1){
+            console.log("hello");
+            var emp_fname=$("#emp_fname").val().length;
+            console.log(emp_fname)
+            if(emp_fname.length==1){
+               console.log("hello");
+             $("#fname").html(`<h1>First Name Is not required</h1>`)
+            }
+         }
+         // console.log('currentTab',currentTab)
          // if you have reached the end of the form...
          if (currentTab >= x.length) {
            // ... the form gets submitted:

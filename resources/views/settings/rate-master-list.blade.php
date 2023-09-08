@@ -96,8 +96,8 @@
             @foreach($rate as $ratedtl)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $ratedtl->headname }}</td>
-                                        <td>{{ $ratedtl->headtype }}</td>
+                                        <td>{{ $ratedtl->head_name }}</td>
+                                        <td>{{ $ratedtl->head_type }}</td>
                                         <td>{{ $ratedtl->status }}</td>
                                        
                                         

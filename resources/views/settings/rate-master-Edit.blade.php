@@ -79,16 +79,16 @@
 										<div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Head Name</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" value="<?php print_r($rate['0']->headname) ?>"  name="headname"/>
+												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" value="<?php print_r($rate['0']->head_name) ?>"  name="head_name"/>
 										</div>
                                          </div>
                                         <div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Head Type</label>
-												<select class="form-control" name="headtype">
+												<select class="form-control" name="head_type">
                                                     <option>Select</option>
-                                                    <option value="EARNING" <?php if($rate['0']->headtype==="EARNING") {?> selected="selected" <?php } ?>>EARNING</option>
-                                                    <option value="DEDUCATION" <?php if($rate['0']->headtype==="DEDUCATION") {?> selected="selected" <?php } ?>>DEDUCATION</option>
+                                                    <option value="Earning" <?php if($rate['0']->headtype==="Earning") {?> selected="selected" <?php } ?>>Earning</option>
+                                                    <option value="Deducation" <?php if($rate['0']->headtype==="Deducation") {?> selected="selected" <?php } ?>>Deducation</option>
                                                 </select>
 										</div>
                                         </div>

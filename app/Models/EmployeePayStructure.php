@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RateDetail extends Model
+class EmployeePayStructure extends Model
 {
     use HasFactory;
-    protected $table="rate_details";
+    protected $table="employee_pay_structures";
 }

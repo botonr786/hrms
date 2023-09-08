@@ -80,8 +80,8 @@
 											<label for="inputFloatingLabel" class="placeholder">Head Type(*)</label>
 												<select class="form-control" name="pay_type" id="headType" onchange="headtypeFunc()">
                                                     <option>Select</option>
-                                                    <option value="EARNING">EARNING</option>
-                                                    <option value="DEDUCATION">DEDUCATION</option>
+                                                    <option value="Earning">EARNING</option>
+                                                    <option value="Deduction">DEDUCATION</option>
                                                 </select>
 										
                                          </div>
@@ -199,7 +199,7 @@
 	  }
     }
         function headtypeFunc(){
-            var headtype=$("#headType option:selected").text();
+            var headtype=$("#headType option:selected").val();
            
                 $.ajax({
                 url:"{{url('settings/headmaster')}}"+"/"+headtype,

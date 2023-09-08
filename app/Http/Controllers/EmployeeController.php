@@ -27,6 +27,8 @@ use App\Models\Masters\Designation;
 use App\Models\Employee;
 use App\Models\Masters\Bank;
 use App\Models\RateDetail;
+use App\Models\Rate_master;
+use App\Models\EmployeePayStructure;
 
 
 
@@ -159,8 +161,8 @@ public function getEmployeeAddFun(){
     $data['employee_type']=DB::table('employee_type')->get();
     $data['employeelists'] = Employee::where('emp_status', 'REGULAR')->orWhere('emp_status', 'PROBATIONARY EMPLOYEE')->get();
     $data['MastersbankName'] = Bank::getMastersBank();
-    $data['EARNING']=DB::table('rate-master')->where('headtype','EARNING')->get();
-    $data['DEDUCATION']=DB::table('rate-master')->where('headtype','DEDUCATION')->get();
+    $data['EARNING']=DB::table('rate_masters')->where('head_type','earning')->get();
+    $data['DEDUCATION']=DB::table('rate_masters')->where('head_type','deduction')->get();
     
     return view("employee/employeeAdd",$data);
 }
@@ -232,8 +234,8 @@ public function employeeupdatepage($id){
 //employee add
 public function saveEmployeeaa(Request $request)
     {
-       $insertData=[];
-       dd($request->all());
+    $insertData=[];
+    //    dd($request->all());
     $insertData=array(
         "emp_code"=>$request->emp_code,
         "salutation"=>$request->salutation,
@@ -324,6 +326,57 @@ public function saveEmployeeaa(Request $request)
         "emp_pf_inactuals"=>$request->emp_pf_inactuals,
         "emp_bonus"=>$request->emp_bonus,
     );
+
+    //pay structure
+
+    $pay = array();
+    $pay['employee_code'] = $request->emp_code;
+    $pay['basic_pay'] = $request->emp_basic_pay;
+    $pay['apf_percent'] = $request->emp_apf_percent;
+    $pay['created_at'] = date('Y-m-d h:i:s');
+    $pay['updated_at'] = date('Y-m-d h:i:s');
+    
+    if ($request->name_earn && count($request->name_earn) != 0) {
+        $arr_un = count(array_unique($request->name_earn));
+        if (count($request->name_earn) != $arr_un) {
+            Session::flash('error', 'Pay Structure Earning Head Must be unique');
+
+            return redirect('employees');
+        } 
+        // dd($request->value_emp);
+        for ($i = 0; $i < count($request->name_earn); $i++) {
+            if ($request->name_earn[$i] != '') {
+             
+                $pay[$request->name_earn[$i]] = $request->value_emp[$i];
+                $pay[$request->name_earn[$i] . '_type'] = $request->head_type[$i];
+
+            }
+
+        }
+    }
+
+    if ($request->name_deduct && count($request->name_deduct) != 0) {
+        $arr_un = count(array_unique($request->name_deduct));
+        if (count($request->name_deduct) != $arr_un) {
+            Session::flash('error', 'Pay Structure Deduction Head Must be unique');
+
+            return redirect('employees');
+        }
+        for ($i = 0; $i < count($request->name_deduct); $i++) {
+
+            if ($request->name_deduct[$i] != '') {
+                // dd($request->name_deduct[$i]);
+                $pay[$request->name_deduct[$i]] = $request->valuededuct[$i];
+                $pay[$request->name_deduct[$i] . '_type'] = $request->head_typededuct[$i];
+            }
+
+        }
+    }
+    //  dd($pay);
+    EmployeePayStructure::insert($pay);
+   
+    
+    //end pay structure
 
    
       $service_details_id=DB::table('employee')->insertGetId($insertData);
@@ -435,8 +488,8 @@ public function saveEmployeeaa(Request $request)
 public function ajaxAddRowdeduct($row)
 {
 
-    $data= DB::table('rate-master')->get();
-
+    $data=Rate_master::get();
+   
     $rownew = $row + 1;
 
     $result = ' <tr class="itemslotpaydeduct" id="' . $row . '" >
@@ -506,9 +559,9 @@ public function ajaxAddRowdeduct($row)
         } else if ($value->id == '29') {
             $name = 'pf_employerc';
         }
-        if ($value->headtype == 'DEDUCATION') {
+        if ($value->head_type == 'deduction') {
 
-            $result .= '<option value="' . $name . '">' . $value->headname . '</option>';
+            $result .= '<option value="' . $name . '">' . $value->head_name . '</option>';
         }
     }
 
@@ -534,7 +587,8 @@ public function ajaxAddRowdeduct($row)
 public function ajaxAddRowearn($row)
 {
 
-    $data = DB::table('rate-master')->get();
+    $data =Rate_master::get();
+    //  DB::table('rate-master')->get();
 //    dd($data);
 
     $rownew = $row + 1;
@@ -605,9 +659,9 @@ public function ajaxAddRowearn($row)
                                 } else if ($value->id == '27') {
                                     $name = 'tot_ded';
                                 }
-                                if ($value->headtype == 'EARNING') {
+                                if ($value->head_type == 'earning') {
 
-                                    $result .= '<option value="' . $name . '">' . $value->headname . '</option>';
+                                    $result .= '<option value="' . $name . '">' . $value->head_name . '</option>';
                                 }
                             }
                            
@@ -621,7 +675,7 @@ public function ajaxAddRowearn($row)
                                 <option value="F">Fixed</option>
                                 <option value="V">Variable</option>
                                 </select></td>
-    <td><input type="text" name="value[]"  id="value' . $row . '" class="form-control"></td>
+    <td><input type="text" name="value_emp[]"  id="value' . $row . '" class="form-control"></td>
 
 
 
@@ -6553,17 +6607,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
         }
 
         if ($id == '4') {
-            $rate_details=DB::table('rate_details')
-            ->join('rate-master', 'rate-master.id', '=', 'rate_details.rate_id')
-            ->select('rate_details.*', 'rate-master.headname', 'rate-master.headtype')
-            ->where('rate_details.rate_id', '=', $id)
-                ->orderBy('rate_details.id', 'desc')
-                ->get();
-            // $rate_details = RateDetail::leftJoin('rate-master', 'rate-master.id', '=', 'RateDetail.rate_id')
-            //     ->select('RateDetail.*', 'rate-master.headname', 'rate-master.headtype')
-            //     ->where('RateDetail.rate_id', '=', $id)
-            //     ->orderBy('RateDetail.id', 'desc')
+            // use App\Models\RateDetail;
+            // use App\Models\Rate_master;
+
+            // $rate_details=DB::table('rate_details')
+            // ->join('rate-master', 'rate-master.id', '=', 'rate_details.rate_id')
+            // ->select('rate_details.*', 'rate-master.headname', 'rate-master.headtype')
+            // ->where('rate_details.rate_id', '=', $id)
+            //     ->orderBy('rate_details.id', 'desc')
             //     ->get();
+
+                $rate_details= RateDetail::join('rate_masters', 'rate_details.rate_id', '=', 'rate_masters.id')
+                ->where('rate_details.rate_id', '=', $id)
+                ->select('rate_details.*', 'rate_masters.head_name', 'rate_masters.head_type')
+                ->get();
+            
             $result = "0";
           
             foreach ($rate_details as $val) {
@@ -6592,12 +6650,17 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
                 // ->first();
 
-                $rate_details=DB::table('rate_details')
-                ->join('rate-master', 'rate-master.id', '=', 'rate_details.rate_id')
-                ->select('rate_details.*', 'rate-master.headname', 'rate-master.headtype')
-                ->where('rate_details.rate_id', '=', $id)
-                ->first();
+                // $rate_details=DB::table('rate_details')
+                // ->join('rate-master', 'rate-master.id', '=', 'rate_details.rate_id')
+                // ->select('rate_details.*', 'rate-master.headname', 'rate-master.headtype')
+                // ->where('rate_details.rate_id', '=', $id)
+                // ->first();
             //  dd('blll',$rate_details);
+
+            $rate_details= RateDetail::join('rate_masters', 'rate_details.rate_id', '=', 'rate_masters.id')
+            ->where('rate_details.rate_id', '=', $id)
+            ->select('rate_details.*', 'rate_masters.head_name', 'rate_masters.head_type')
+            ->first();
             if ($id == '15') {
                 if ($emp_basic_pay > 15000) {
                     $result = 1800;

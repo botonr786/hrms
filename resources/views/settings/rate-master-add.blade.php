@@ -78,16 +78,16 @@
 										<div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Head Name</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="headname"/>
+												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="head_name"/>
 										</div>
                                          </div>
                                         <div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Head Type</label>
-												<select class="form-control" name="headtype">
+												<select class="form-control" name="head_type">
                                                     <option>Select</option>
-                                                    <option value="EARNING">EARNING</option>
-                                                    <option value="DEDUCATION">DEDUCATION</option>
+                                                    <option value="EARNING">Earning</option>
+                                                    <option value="DEDUCATION">Deducation</option>
                                                 </select>
 										</div>
                                         </div>
