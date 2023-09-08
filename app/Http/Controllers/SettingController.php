@@ -12,6 +12,7 @@ use view;
 use App\Models\RateDetail;
 use App\Models\Masters\Cast;
 use App\Models\Masters\Sub_cast;
+use App\Models\Masters\Bank;
 
 class SettingController extends Controller
 {
@@ -207,17 +208,23 @@ class SettingController extends Controller
             'cal_type' => $request['cal_type'],
             'status' => $request['status']
     );
-    // dd($data);
+    // dd($request['detailsId']);
     RateDetail::where('id',$request['detailsId'])->update($data);
     Session::flash('message', 'Rate Details Successfully Added.');
     return redirect('settings/rate-master-details');
    }
     public function detailsoftherate($id){
-        $data['rate']=RateDetail::leftJoin('rate-master', function($join)
-        {
-          $join->on('rate_details.rate_id', '=', 'rate-master.id')
-        ->select('rate_details.*',  'rate-master.headname' , 'rate-master.headtype' );})->where('rate-master.id',$id)->get();
-        // dd($data);
+        $data['rate']=DB::table('rate_details')
+        ->join('rate-master','rate-master.id','rate_details.rate_id')
+        ->select('rate_details.id','rate_details.rate_id','rate_details.inpercentage',
+        'rate_details.inrupees','rate_details.min_basic','rate_details.max_basic',
+        'rate_details.from_date','rate_details.to_date','rate_details.pay_type',
+        'rate_details.cal_type',
+        'rate_details.status','rate_details.created_at','rate_details.updated_at','rate-master.headname','rate-master.headtype')
+        ->where('rate_details.id',$id)
+        ->get();
+      
+        
         return view('settings/rate-master-details-update-page',$data);
     }
     
@@ -590,41 +597,48 @@ class SettingController extends Controller
 
     //employee bank
     public function getempBank(){
-        $data['grades']=DB::table('emp-Bank-Master')->get();
-        return view("settings/emp_bank_details",$data);
+        $bank_rs = Bank::getMasterAndBank();
+        return view("settings/emp_bank_details",compact('bank_rs'));
     }
     public function addempBankAdd(){
-
-        return view("settings/add-new-bank-emp");
+        $data['MastersbankName'] = Bank::getMastersBank();
+        return view("settings/add-new-bank-emp",$data);
     }
-    public function addempbankDetails(){
-        $dataArray=[
-            "bankname"=>$_POST['bankname'],
-            "bankbranch"=>$_POST['bankbranch'],
-            "ifsccode"=>$_POST['ifsccode'],
-            "micrcode"=>$_POST['micrcode'],
-            "status"=>$_POST['status'],
-        ];
-
-        DB::table('emp-Bank-Master')->insert($dataArray);
+    public function addempbankDetails(Request $request){
+        if (is_numeric($request->branch_name) == 1) {
+            Session::flash('error', 'Branch Name Should not be numeric.');
+            return redirect('settings/vw-emp-bank');
+        }
+        $data = request()->all();
+				$bank = new Bank();
+				$bank->create($data);
         Session::flash('message', 'Employee Bank Information Successfully Add.');
         return redirect('settings/vw-emp-bank');
     }
     public function empbankedit($id){
-        $data['bank']=DB::table('emp-Bank-Master')
-        ->where("id",$id)
-        ->get();
+        $bankid = $id;
+        $data['bankdetails'] = Bank::where('id', $bankid)->get()->toArray();
+        $data['MastersbankName'] = Bank::getMastersBank();
         return view("settings/updateempbank",$data);
     }
-    public function empBankDetailsupdate(){
-        $dataArray=[
-            "bankname"=>$_POST['bankname'],
-            "bankbranch"=>$_POST['bankbranch'],
-            "ifsccode"=>$_POST['ifsccode'],
-            "micrcode"=>$_POST['micrcode'],
-            "status"=>$_POST['status'],
-        ];
-        DB::table('emp-Bank-Master')->where("id",$_POST['id'])->update($dataArray);
+    public function empBankDetailsupdate(Request $request){
+        
+			if (is_numeric($request->branch_name) == 1) {
+				Session::flash('error', 'Branch Name Should not be numeric.');
+				return redirect('settings/vw-emp-bank');
+			}
+
+			$data = array(
+				'bank_name' => $request->bank_name,
+				'branch_name' => $request->branch_name,
+				'ifsc_code' => $request->ifsc_code,
+				'swift_code' => $request->swift_code,
+				'bank_status' => $request->bank_status,
+				'created_at' => date('Y-m-d h:i:s'),
+				'updated_at' => date('Y-m-d h:i:s'),
+				// 'bank_status' => $request->des_status,
+			);
+			Bank::where('id', $request->bankid)->update($data);
         Session::flash('message', 'Employee Bank Information Successfully Update.');
         return redirect('settings/vw-emp-bank');
     }

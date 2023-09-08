@@ -478,6 +478,10 @@ Route::post('superadmin/add-visa-file-adn', 'App\Http\Controllers\AdminControlle
 Route::get('superadmin/add-visa-file-dependent/{id}', 'App\Http\Controllers\AdminController@viewAddVisaFileDependent');
 Route::post('superadmin/add-visa-file-dependent/{id}', 'App\Http\Controllers\AdminController@saveAddVisaFileDependent');
 Route::get('settings/get-dep-row-mic/{id}', 'App\Http\Controllers\EmployeeController@departmentgetFun');
+Route::get('employee/emp-bank-name/{id}', 'App\Http\Controllers\EmployeeController@employeebankajkxFun');
+Route::get('employee/emp-branch-name/{id}', 'App\Http\Controllers\EmployeeController@employeebranchajkxFun');
+
+
 
 //---------------------
 //recruitmentisa file superadmin
@@ -2516,6 +2520,9 @@ Route::get('settings/get-add-row-earn/{row}', 'App\Http\Controllers\EmployeeCont
 Route::get('settings/get-add-row-deduct/{row}', 'App\Http\Controllers\EmployeeController@ajaxAddRowdeduct');
 // Route::post('posts', [EmployeeController::class, 'testque'])->name('posts.store');
 Route::post('employee/savemploy','App\Http\Controllers\EmployeeController@saveEmployeeaa');
+Route::get('employee/get-earn/{headname}/{val}/{emp_basic_pay}','App\Http\Controllers\EmployeeController@ajaxAddvalue');
+
+
 
 Route::get('migrant-addemployee', 'App\Http\Controllers\EmployeeController@viewAddEmployeemigrant');
 Route::post('addemployee', 'App\Http\Controllers\EmployeeController@saveEmployee');

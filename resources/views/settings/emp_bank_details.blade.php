@@ -91,20 +91,20 @@
 											<tbody>
 												   <?php $i = 1;
 												    ?>
-									@foreach($grades as $grade)
+										@foreach($bank_rs as $bank)
                                         <tr>
-                                            <td><?php echo $i++; ?></td>
-                                            <td>{{ $grade->bankname }}</td>
-                                            <td>{{ $grade->bankbranch }}</td>
-                                            <td>{{ $grade->ifsccode }}</td>
-                                            <td>{{ $grade->micrcode}}</td>
-                                            <td>{{ $grade->status}}</td>
-                                            <td><a href="{{url('settings/emp-bank-edit/'.$grade->id)}}" data-toggle="tooltip"data-placement="bottom" title="Edit"><img  style="width: 14px;" src="{{ asset('assets/img/edit.png')}}"></a>
-
-						
-											</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $bank->master_bank_name }}</td>
+											<td>{{ $bank->branch_name }}</td>
+                                            <td>{{ $bank->ifsc_code }}</td>
+											<td>{{ $bank->swift_code }}</td>
+											<td>{{ $bank->bank_status }}</td>
+											<td>
+												<a href="{{url('settings/emp-bank-edit/'.$bank->id)}}"><i class="ti-pencil-alt">Edit</i></a>
+												<!--<a href="{{url('masters/delete-bank/'.$bank->id)}}" onclick="return confirm('Are you sure you want to delete this department?');"><i class="ti-trash"></i></a>-->
+					      					</td>
                                         </tr>
-                                    @endforeach  
+                                        @endforeach 
             
 												
 											</tbody>

@@ -25,6 +25,8 @@ use App\Models\Masters\Sub_cast;
 use App\Models\Masters\Department;
 use App\Models\Masters\Designation;
 use App\Models\Employee;
+use App\Models\Masters\Bank;
+use App\Models\RateDetail;
 
 
 
@@ -156,14 +158,37 @@ public function getEmployeeAddFun(){
     $data['department']=DB::table('department')->get();
     $data['employee_type']=DB::table('employee_type')->get();
     $data['employeelists'] = Employee::where('emp_status', 'REGULAR')->orWhere('emp_status', 'PROBATIONARY EMPLOYEE')->get();
-    //dd($data['employeelists']);
-    //return view("employee/employee-master",$data);
+    $data['MastersbankName'] = Bank::getMastersBank();
+    $data['EARNING']=DB::table('rate-master')->where('headtype','EARNING')->get();
+    $data['DEDUCATION']=DB::table('rate-master')->where('headtype','DEDUCATION')->get();
+    
     return view("employee/employeeAdd",$data);
 }
-// public function departmentgetFun($id){
-// dd($id);
-// }
+
 //ajax department phase
+public function employeebankajkxFun($emp_name){
+  $bank_name= Bank::getBranchMaster($emp_name);
+//    DB::table('emp-bank-master')->where('bankname',$emp_name)->get();
+
+  $result_status1 = " <option value='' >Select</option> ";
+  foreach ($bank_name as $val) {
+      $result_status1 .= '<option value="' . $val->branch_name . '"> ' . $val->branch_name . '</option>';
+  }
+  
+  echo $result_status1;
+}
+public function employeebranchajkxFun($branch){
+    
+    $bank_name= Bank::getIfcsMaster($branch);
+    // DB::table('emp-bank-master')->where('bankbranch',$branch)->get();
+ 
+    $result_status1 = " <option value='' >Select</option> ";
+    foreach ($bank_name as $val) {
+        $result_status1 .= '<option value="' . $val->ifsc_code . '"> ' . $val->ifsc_code . '</option>';
+    }
+    
+    echo $result_status1;
+}
 public function EmpDepartment($emp_department)
     {
         $department = Department::where('department_name', '=', $emp_department)
@@ -410,7 +435,7 @@ public function saveEmployeeaa(Request $request)
 public function ajaxAddRowdeduct($row)
 {
 
-    $data['rate_master'] = DB::table('rate_master')->get();
+    $data= DB::table('rate-master')->get();
 
     $rownew = $row + 1;
 
@@ -420,9 +445,10 @@ public function ajaxAddRowdeduct($row)
 
                    <select class="form-control deductcls" name="name_deduct[]" id="name_deduct' . $row . '" onchange="checkdeducttype(this.value,' . $row . ');">
 
-                                <option value="" selected>Select</option>';
+                                <option value="" selected>Select</option>
+                                ';
 
-    foreach ($data['rate_master'] as $value) {
+    foreach ($data as $value) {
         if ($value->id == '1') {
             $name = 'da';
         } else if ($value->id == '2') {
@@ -480,9 +506,9 @@ public function ajaxAddRowdeduct($row)
         } else if ($value->id == '29') {
             $name = 'pf_employerc';
         }
-        if ($value->head_type == 'deduction') {
+        if ($value->headtype == 'DEDUCATION') {
 
-            $result .= '<option value="' . $name . '">' . $value->head_name . '</option>';
+            $result .= '<option value="' . $name . '">' . $value->headname . '</option>';
         }
     }
 
@@ -508,8 +534,8 @@ public function ajaxAddRowdeduct($row)
 public function ajaxAddRowearn($row)
 {
 
-    $data['rate_master'] = DB::table('rate_master')->get();
-    // Rate_master::get();
+    $data = DB::table('rate-master')->get();
+//    dd($data);
 
     $rownew = $row + 1;
 
@@ -520,70 +546,73 @@ public function ajaxAddRowearn($row)
                    <select class="form-control earninigcls" name="name_earn[]" id="name_earn' . $row . '" onchange="checkearntype(this.value,' . $row . ');">
 
                                 <option value="" selected>Select</option>';
+                               
+                                                                
+                        foreach ($data as $value) {
+                          
+                                if ($value->id == '1') {
+                                    $name = 'da';
+                                } else if ($value->id == '2') {
+                                    $name = 'vda';
+                                } else if ($value->id == '3') {
+                                    $name = 'hra';
+                                } else if ($value->id == '4') {
+                                    $name = 'prof_tax';
+                                } else if ($value->id == '5') {
+                                    $name = 'others_alw';
+                                } else if ($value->id == '6') {
+                                    $name = 'tiff_alw';
+                                } else if ($value->id == '7') {
+                                    $name = 'conv';
+                                } else if ($value->id == '8') {
+                                    $name = 'medical';
+                                } else if ($value->id == '9') {
+                                    $name = 'misc_alw';
+                                } else if ($value->id == '10') {
+                                    $name = 'over_time';
+                                } else if ($value->id == '11') {
+                                    $name = 'bouns';
+                                } else if ($value->id == '12') {
+                                    $name = 'leave_inc';
+                                } else if ($value->id == '13') {
+                                    $name = 'hta';
+                                } else if ($value->id == '14') {
+                                    $name = 'tot_inc';
+                                } else if ($value->id == '15') {
+                                    $name = 'pf';
+                                } else if ($value->id == '16') {
+                                    $name = 'pf_int';
+                                } else if ($value->id == '17') {
+                                    $name = 'apf';
+                                } else if ($value->id == '18') {
+                                    $name = 'i_tax';
+                                } else if ($value->id == '19') {
+                                    $name = 'insu_prem';
+                                } else if ($value->id == '20') {
+                                    $name = 'pf_loan';
+                                } else if ($value->id == '21') {
+                                    $name = 'esi';
+                                } else if ($value->id == '22') {
+                                    $name = 'adv';
+                                } else if ($value->id == '23') {
+                                    $name = 'hrd';
+                                } else if ($value->id == '24') {
+                                    $name = 'co_op';
+                                } else if ($value->id == '25') {
+                                    $name = 'furniture';
+                                } else if ($value->id == '26') {
+                                    $name = 'misc_ded';
+                                } else if ($value->id == '27') {
+                                    $name = 'tot_ded';
+                                }
+                                if ($value->headtype == 'EARNING') {
 
-    foreach ($data['rate_master'] as $value) {
-        if ($value->id == '1') {
-            $name = 'da';
-        } else if ($value->id == '2') {
-            $name = 'vda';
-        } else if ($value->id == '3') {
-            $name = 'hra';
-        } else if ($value->id == '4') {
-            $name = 'prof_tax';
-        } else if ($value->id == '5') {
-            $name = 'others_alw';
-        } else if ($value->id == '6') {
-            $name = 'tiff_alw';
-        } else if ($value->id == '7') {
-            $name = 'conv';
-        } else if ($value->id == '8') {
-            $name = 'medical';
-        } else if ($value->id == '9') {
-            $name = 'misc_alw';
-        } else if ($value->id == '10') {
-            $name = 'over_time';
-        } else if ($value->id == '11') {
-            $name = 'bouns';
-        } else if ($value->id == '12') {
-            $name = 'leave_inc';
-        } else if ($value->id == '13') {
-            $name = 'hta';
-        } else if ($value->id == '14') {
-            $name = 'tot_inc';
-        } else if ($value->id == '15') {
-            $name = 'pf';
-        } else if ($value->id == '16') {
-            $name = 'pf_int';
-        } else if ($value->id == '17') {
-            $name = 'apf';
-        } else if ($value->id == '18') {
-            $name = 'i_tax';
-        } else if ($value->id == '19') {
-            $name = 'insu_prem';
-        } else if ($value->id == '20') {
-            $name = 'pf_loan';
-        } else if ($value->id == '21') {
-            $name = 'esi';
-        } else if ($value->id == '22') {
-            $name = 'adv';
-        } else if ($value->id == '23') {
-            $name = 'hrd';
-        } else if ($value->id == '24') {
-            $name = 'co_op';
-        } else if ($value->id == '25') {
-            $name = 'furniture';
-        } else if ($value->id == '26') {
-            $name = 'misc_ded';
-        } else if ($value->id == '27') {
-            $name = 'tot_ded';
-        }
-        if ($value->head_type == 'earning') {
+                                    $result .= '<option value="' . $name . '">' . $value->headname . '</option>';
+                                }
+                            }
+                           
 
-            $result .= '<option value="' . $name . '">' . $value->head_name . '</option>';
-        }
-    }
-
-    $result .= '</select>
+                            $result .= '</select>
 
 </td>
     <td><select class="form-control" name="head_type[]" id="head_type' . $row . '" onchange="checkearnvalue(this.value,' . $row . ');">
@@ -6456,6 +6485,131 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             return redirect('/');
         }
 
+    }
+    public function ajaxAddvalue($headname, $val, $emp_basic_pay)
+    {
+       
+
+        if ($headname == 'da') {
+            $id = '1';
+        } else if ($headname == 'vda') {
+            $id = '2';
+        } else if ($headname == 'hra') {
+            $id = '3';
+
+        } else if ($headname == 'prof_tax') {
+            $id = '4';
+
+        } else if ($headname == 'others_alw') {
+            $id = '5';
+        } else if ($headname == 'tiff_alw') {
+            $id = '6';
+        } else if ($headname == 'conv') {
+            $id = '7';
+        } else if ($headname == 'medical') {
+            $id = '8';
+        } else if ($headname == 'misc_alw') {
+            $id = '9';
+        } else if ($headname == 'over_time') {
+            $id = '10';
+        } else if ($headname == 'bouns') {
+            $id = '11';
+        } else if ($headname == 'leave_inc') {
+            $id = '12';
+
+        } else if ($headname == 'hta') {
+            $id = '13';
+
+        } else if ($headname == 'tot_inc') {
+            $id = '14';
+
+        } else if ($headname == 'pf') {
+            $id = '15';
+
+        } else if ($headname == 'pf_int') {
+            $id = '16';
+        } else if ($headname == 'apf') {
+            $id = '17';
+        } else if ($headname == 'i_tax') {
+            $id = '18';
+        } else if ($headname == 'insu_prem') {
+            $id = '19';
+        } else if ($headname == 'pf_loan') {
+            $id = '20';
+        } else if ($headname == 'esi') {
+            $id = '21';
+        } else if ($headname == 'adv') {
+            $id = '22';
+        } else if ($headname == 'hrd') {
+            $id = '23';
+        } else if ($headname == 'co_op') {
+            $id = '24';
+        } else if ($headname == 'furniture') {
+            $id = '25';
+        } else if ($headname == 'misc_ded') {
+            $id = '26';
+        } else if ($headname == 'tot_ded') {
+            $id = '27';
+        }
+
+        if ($id == '4') {
+            $rate_details=DB::table('rate_details')
+            ->join('rate-master', 'rate-master.id', '=', 'rate_details.rate_id')
+            ->select('rate_details.*', 'rate-master.headname', 'rate-master.headtype')
+            ->where('rate_details.rate_id', '=', $id)
+                ->orderBy('rate_details.id', 'desc')
+                ->get();
+            // $rate_details = RateDetail::leftJoin('rate-master', 'rate-master.id', '=', 'RateDetail.rate_id')
+            //     ->select('RateDetail.*', 'rate-master.headname', 'rate-master.headtype')
+            //     ->where('RateDetail.rate_id', '=', $id)
+            //     ->orderBy('RateDetail.id', 'desc')
+            //     ->get();
+            $result = "0";
+          
+            foreach ($rate_details as $val) {
+                if ($val->inpercentage != '0') {
+                    $result = ($emp_basic_pay * $val->inpercentage / 100);
+                } else {
+
+                    if (($emp_basic_pay <= $val->max_basic) && ($emp_basic_pay >= $val->min_basic)) {
+                        $result = $val->inrupees;
+
+                    }
+                    if (($emp_basic_pay >= $val->max_basic) && ($emp_basic_pay <= $val->min_basic)) {
+                        $result = $val->inrupees;
+                    }
+
+                }
+
+            }
+
+        } else {
+            // $rate_details = RateDetail::leftJoin('rate-master', 'rate-master.id', '=', 'RateDetail.rate_id')
+            //     ->select('RateDetail.*', 'rate-master.headname', 'rate-master.headtype')
+            // ->where('rate_details.from_date', '>=', date('Y-01-01'))
+            // ->where('rate_details.to_date', '<=', date('Y-12-31'))
+                // ->where('RateDetail.rate_id', '=', $id)
+
+                // ->first();
+
+                $rate_details=DB::table('rate_details')
+                ->join('rate-master', 'rate-master.id', '=', 'rate_details.rate_id')
+                ->select('rate_details.*', 'rate-master.headname', 'rate-master.headtype')
+                ->where('rate_details.rate_id', '=', $id)
+                ->first();
+            //  dd('blll',$rate_details);
+            if ($id == '15') {
+                if ($emp_basic_pay > 15000) {
+                    $result = 1800;
+                } else {
+                    $result = ($emp_basic_pay * $rate_details->inpercentage / 100);
+                }
+
+            } else {
+                $result = ($emp_basic_pay * $rate_details->inpercentage / 100);
+            }
+        }
+        echo $result;
     }
 
     public function viewAddEmployeereportnewexcel($comp_id, $emp_id)
