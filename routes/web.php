@@ -104,7 +104,19 @@ Route::get('attendance/report-monthly-attendance', 'App\Http\Controllers\Attenda
 Route::post('attendance/report-monthly-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@getMonthlyAttendanceReport');
 Route::post('attendance/xls-export-attendance-report', 'App\Http\Controllers\Attendance\ProcessAttendanceController@attandence_xlsexport');
 
+//loan routes start 
+Route::get('loans/view-loans', 'App\Http\Controllers\Loan\LoanController@viewLoan');
+Route::get('loans/add-loan', 'App\Http\Controllers\Loan\LoanController@addLoan');
+Route::post('loans/save-loan', 'App\Http\Controllers\Loan\LoanController@saveLoan');
+Route::get('loans/edit-loan/{id}', 'App\Http\Controllers\Loan\LoanController@editLoan');
+Route::post('loans/update-loan', 'App\Http\Controllers\Loan\LoanController@updateLoan');
+Route::post('loans/xls-export-loan-list', 'App\Http\Controllers\Loan\LoanController@loan_list_xlsexport');
+Route::get('loans/adjust-loan/{id}', 'App\Http\Controllers\Loan\LoanController@adjustLoan');
+Route::post('loans/update-loan-adjustment', 'App\Http\Controllers\Loan\LoanController@updateLoanAdjustment');
+Route::get('loans/view-adjust-loan/{id}', 'App\Http\Controllers\Loan\LoanController@viewAdjustLoan');
 
+
+//loan routes end
 
 //plans
 Route::get('superadmin/plans', 'App\Http\Controllers\AdminController@getPlans');
