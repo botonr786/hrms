@@ -990,7 +990,7 @@ if(in_array('13', $arrrole))
 
 
 			<div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-				<a href="#">
+				<a href="{{url('payroll-home-dashboard')}}">
 					<div class="dash-inr">
 
 						<div class="dash-icon">
