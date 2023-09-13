@@ -12,7 +12,7 @@ use App\Models\Loan\LoanRecovery;
 use App\Models\Payroll\Payroll_detail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ExcelFileExportLoanList;
-use App\Exports\ExcelFileExportAttendanceEntry;
+use App\Exports\ExcelFileExportAdjustAmount;
 class LoanController extends Controller
 {
     public function viewLoan(Request $request)
@@ -20,6 +20,7 @@ class LoanController extends Controller
        // dd("abbas");
         $email = Session::get('emp_email');
         if (!empty($email)) {
+            $data['ClassName'] = 'view-loans';
             $email = Session::get('adminusernmae');
              $data['employee_rs'] = Loan::join('employee', 'employee.emp_code', '=', 'loans.emp_code')
                 ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname','employee.Designation','loans.*',DB::raw('(SELECT  Sum(loan_recoveries.amount) FROM loan_recoveries WHERE loan_recoveries.loan_id =  loans.id) as balance'))
@@ -263,6 +264,55 @@ class LoanController extends Controller
             return View('loan/adjust-view', $data);
 
         } else {
+            return redirect('/');
+        }
+    }
+    public function loanAdjustmentReport(Request $request)
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+               $data['ClassName'] = 'adjustment-report';
+
+                $employee_rs = Loan::join('employee', 'employee.emp_code', '=', 'loans.emp_code')
+                ->select('employee.salutation','employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.Designation', 'employee.old_emp_code','employee.emp_pf_no', 'loans.*')
+                //->where(DB::raw('DATE_FORMAT(loans.start_month, "%m/%Y")'), '<=', $request->month)
+                //->where('loan_type', '=', $request->loan_type)
+                ->where('deduction', '=', 'Y')
+                ->where('loans.loan_amount', '>', 0)
+                ->where('loans.adjust_amount', '>', 0)
+                ->orderByRaw('cast(employee.emp_code as unsigned)', 'asc')
+                ->get();
+
+
+            $data['result'] = $employee_rs;
+
+            return view('loan.adjustment-report', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+    public function adjustment_report_xlsexport(Request $request)
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+            $month_yr = '';
+            if (isset($request->month_yr)) {
+                $month_yr = $request->month_yr;
+            }
+            $loan_type = '';
+            if (isset($request->loan_type)) {
+                $loan_type = $request->loan_type;
+            }
+            $month_yr_str='';
+            if($month_yr!=''){
+                $month_yr_str=explode('/',$month_yr);
+                $month_yr_str=implode('-',$month_yr_str);
+            }
+
+            return Excel::download(new ExcelFileExportAdjustAmount($month_yr,$loan_type), 'Adjustment-report.xlsx');
+        }
+        else {
             return redirect('/');
         }
     }

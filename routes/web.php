@@ -114,9 +114,16 @@ Route::post('loans/xls-export-loan-list', 'App\Http\Controllers\Loan\LoanControl
 Route::get('loans/adjust-loan/{id}', 'App\Http\Controllers\Loan\LoanController@adjustLoan');
 Route::post('loans/update-loan-adjustment', 'App\Http\Controllers\Loan\LoanController@updateLoanAdjustment');
 Route::get('loans/view-adjust-loan/{id}', 'App\Http\Controllers\Loan\LoanController@viewAdjustLoan');
+Route::get('loans/adjustment-report', 'App\Http\Controllers\Loan\LoanController@loanAdjustmentReport');
+Route::post('loans/xls-export-adjustment-report', 'App\Http\Controllers\Loan\LoanController@adjustment_report_xlsexport');
 
 
 //loan routes end
+
+//payroll start
+Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationController@payrollDashboard');
+
+//payroll end
 
 //plans
 Route::get('superadmin/plans', 'App\Http\Controllers\AdminController@getPlans');
