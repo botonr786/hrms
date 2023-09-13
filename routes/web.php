@@ -123,6 +123,17 @@ Route::post('loans/xls-export-adjustment-report', 'App\Http\Controllers\Loan\Loa
 //payroll start
 Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationController@payrollDashboard');
 
+    //coop
+    Route::get('payroll/vw-montly-coop', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyCoopDeduction');
+    Route::post('payroll/vw-montly-coop', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewMonthlyCoopDeduction');
+    Route::get('payroll/add-montly-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@addMonthlyCoopDeductionAllemployee');
+    Route::post('payroll/vw-add-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listCoopAllemployee');
+    Route::post('payroll/save-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveCoopAll');
+    Route::post('payroll/update-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateCoopAll');
+
+    Route::get('payroll/vw-montly-coop/export', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyCoopDeductionExport')->name('payroll.vw-montly-coop.export');
+    Route::post('payroll/vw-montly-coop/import', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyCoopDeductionImport')->name('payroll.vw-montly-coop.import');
+
 //payroll end
 
 //plans

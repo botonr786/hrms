@@ -28,16 +28,16 @@
 <body>
 <div class="wrapper">
 
-@include('attendance.include.header')
+@include('payroll.include.header')
 <!-- Sidebar -->
- @include('attendance.include.sidebar')
+ @include('payroll.include.sidebar')
 <!-- End Sidebar -->
 
 @yield('content')
 
 
 
-@include('attendance.include.footer')
+@include('payroll.include.footer')
 </div>
 </div>
 <!--   Core JS Files   -->
@@ -59,6 +59,7 @@
 <script >
    $(document).ready(function() {
    	$('#basic-datatables').DataTable({
+		// $('.dataTables_length').addClass('bs-select');
    	});
    
    	$('#multi-filter-select').DataTable( {
