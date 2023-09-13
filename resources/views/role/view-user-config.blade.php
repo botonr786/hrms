@@ -73,6 +73,7 @@
 							<h4 class="card-title"><i class="far fa-user"></i> Add User Configuration</h4>
                                 @endif 
 								</div>
+								
 								<div class="card-body">
 									<form action="{{ url('role/vw-user-config') }}" method="post" enctype="multipart/form-data" >
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">	
@@ -83,10 +84,13 @@
 											    	<label for="selectFloatingLabel" class="placeholder">Employee Code</label>
 												<select  class="form-control " id="selectFloatingLabel"   <?php if(empty($user->id)){ ?>required=""  <?php } ?> name="emp_code" onchange="getEmployeeName()" <?php if(!empty($user->id)){echo 'style="display:none"';}?>>
 					<option value="">Select Employee Code</option>
-								<?php foreach($employees as $employee){ ?>
-								<option value="<?php echo $employee->emp_code; ?>" <?php if(!empty($user->id)){ if($user->employee_id== $employee->emp_code){echo 'selected'; }} ?> ><?php echo $employee->emp_fname." ".$employee->emp_mname." ".$employee->emp_lname." (".$employee->emp_code.") "; ?></option>
+					         
+								<?php foreach($employees as $employee){?>
+									
+								<option value="<?php echo $employee['emp_code']; ?>" <?php if(!empty($user->id)){ if($user->employee_id== $employee['emp_code']){echo 'selected'; }} ?> ><?php echo $employee['emp_fname']." ".$employee['emp_mname']." ".$employee['emp_lname']." (".$employee['emp_code'].") "; ?></option>
 								<?php } ?>
 					</select>
+					
 					<input type="text" name="employee_id" value="<?php if(!empty($user->id)){echo $user->employee_id;} ?>" <?php if(empty($user->id)){echo 'style="display:none"';}?> class="form-control input-border-bottom" id="selectFloatingLabel" readonly="1" />
                         
 											
@@ -98,7 +102,7 @@
 											</div>
 											<?php if(!empty($user->id)){
 												    $job_details=DB::table('employee')->where('emp_code', '=', $user->employee_id )->where('emid', '=', $Roledata->reg )->orderBy('id', 'DESC')->first();
-  
+                                                 
   
   }	?>
 											<div class="col-md-3">
@@ -113,7 +117,7 @@
 											<div class="col-md-3">
 												<div class="form-group ">
 												    	<label for="inputFloatingLabel1" class="placeholder">Email</label>
-												<input id="inputFloatingLabel1" type="email" <?php if(!empty($user->id)){echo 'readonly';}?>  class="form-control " required="" name="user_email" value="<?php if(!empty($user->id)){echo $user->email;}?>"  >
+												<input id="inputFloatingLabel1" type="email" class="form-control " required="" name="user_email" value="<?php if(!empty($user->id)){echo $user->email;}?>"  >
 											
 											</div>
 											</div>
@@ -251,7 +255,8 @@ $.ajax({
 				   var obj = jQuery.parseJSON(response);
 				  console.log(obj);
 				  
-					  var bank_sort=obj[0].emp_ps_email; 
+					  var bank_sort=obj[0].em_email; 
+					  
 
 					  $("#inputFloatingLabel1").val(bank_sort);
 				   $("#inputFloatingLabel1").attr("readonly", true);

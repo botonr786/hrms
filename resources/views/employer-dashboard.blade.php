@@ -54,12 +54,13 @@
 								@if(Session::get('admin_userp_user_type')=='user')
 
 								@else
+								
 								<a class="res-round"><img src="@if(Session::get('user_type')=='employer')
                             	
 							{{ asset($Roledata->logo) }}
                             	@else
                                 
-							{{ asset($Roledata->emp_image) }}
+							{{ asset($Roledata->profileimage) }}
                                 @endif " alt="" style="width: 90px;border-radius: 50%; height:90px"></a>
 								@endif
 
@@ -95,8 +96,8 @@
 
 									<h3>{{$Roledata->emp_fname }} {{$Roledata->emp_mname }} {{$Roledata->emp_lname }}
 									</h3>
-									<p>{{$Roledata->emp_ps_email }}</p>
-									<p>{{$Roledata->emp_ps_phone }}</p>
+									<p>{{$Roledata->em_email }}</p>
+									<p>{{$Roledata->em_phone }}</p>
 									@endif
 								</a></li>
 

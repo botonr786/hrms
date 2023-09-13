@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Input;
 use PDF;
 use Session;
 use view;
+use App\Models\UserModel;
+use App\Models\Employee;
 
 class EmployeeCornerController extends Controller
 {
@@ -17,8 +19,8 @@ class EmployeeCornerController extends Controller
         $email = Session::get('emp_email');
         if (!empty($email)) {
             $user_id = Session::get('users_id');
-            $users = DB::table('users')->where('id', '=', $user_id)->first();
-            $data['employee'] = DB::table('employee')->where('emp_code', '=', $users->employee_id)->where('emid', '=', $users->emid)->first();
+            $users = UserModel::where('id', '=', $user_id)->first();
+            $data['employee'] = Employee::where('emp_code', '=', $users->employee_id)->where('emid', '=', $users->emid)->first();
             $first_day_this_year = date('Y-01-01');
             //$first_day_this_year = date('2020-01-01');
             $last_day_this_year = date('Y-12-31');

@@ -4714,18 +4714,20 @@ Route::post('role/user-role', 'App\Http\Controllers\UseraceesController@UserAcce
 Route::get('role/view-users-role', 'App\Http\Controllers\UseraceesController@viewUserAccessRights');
 
 Route::get('role/view-users-role/{role_authorization_id}', 'App\Http\Controllers\UseraceesController@deleteUserAccess');
+Route::get('role/get-sub-modules/{id_module}', 'App\Http\Controllers\UseraceesController@getsubmodule');
 
-Route::get('role/get-sub-modules/{id_module}', function ($id_module) {
+// Route::get('role/get-sub-modules/{id_module}', function ($id_module) {
 
-    $sub_module_rs = DB::table('module_config')->where('module_id', '=', $id_module)->get();
-    //dd($grade_rs);
-    $result = '';
+//     $sub_module_rs = DB::table('module_config')->where('module_id', '=', $id_module)->get();
+//     //dd($grade_rs);
+//     $result = '';
 
-    foreach ($sub_module_rs as $sub_module) {
-        $result .= '<option value="' . $sub_module->id . '">' . $sub_module->menu_name . '</option>';
-    }
-    echo $result;
-});
+//     foreach ($sub_module_rs as $sub_module) {
+//         $result .= '<option value="' . $sub_module->id . '">' . $sub_module->menu_name . '</option>';
+//     }
+//     echo $result;
+// });
+
 Route::get('role/get-menu/{id_submenu}', function ($id_submenu) {
 
     $module_config_rs = DB::Table('module_config')->where('sub_module_id', '=', $id_submenu)->get();

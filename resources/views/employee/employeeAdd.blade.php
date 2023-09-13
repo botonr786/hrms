@@ -147,6 +147,28 @@
                   </li>
                </ul>
             </div>
+            <style>
+               .profile_img{
+                  background-color: #ccc;
+                  width: 100px;
+                  height: 100px;
+                  border-radius: 50%;
+                  -moz-border-radius: 50%;
+                  -webkit-border-radius: 50%;
+                  /* margin: 0 auto; */
+                  float: right;
+                  margin-right: 20px;
+                  margin-top: 10px;
+                  padding:0px;
+                  overflow:hidden;
+                  border:2px solid #ccc;
+               }
+               .profile_img img{
+                  border-radius: 50%;
+                  -moz-border-radius: 50%;
+                  -webkit-border-radius: 50%;
+               }
+            </style>
             <div class="content">
                <div class="page-inner">
                   <div class="row">
@@ -159,7 +181,9 @@
                               <div id="imagePreview" style="background-image: url(https://2.bp.blogspot.com/-l9nGy2e3PnA/XLzG5A6u_cI/AAAAAAAAAgI/31bl8XZOrTwN0kTN8c18YOG3OhNiTUrsQCLcBGAs/s1600/rocket.png);">
                               </div>
                            </div>
-                           <div id="divImageMediaPreview"></div>
+                          <div class="text-right">
+                          <div id="divImageMediaPreview" class="profile_img"></div>
+                          </div>
                            <div class="card-body">
                               <main class="content" role="content">
                                  <section id="section1">
@@ -195,7 +219,7 @@
                                                       <div class="form-group">
                                                           <label>First Name <span style="color:red">(*)</span></label>
                                                           <input type="text" placeholder="First Name..."  class="form-control" name="emp_fname" id="emp_fname" required></p>
-                                                          <div id="fname"></div>
+                                                          <span id="fname"></span>
                                                       </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -213,7 +237,7 @@
                                                     <div class="col-md-3">
                                                       <div class="form-group">
                                                           <label>Father Name<span style="color:red">(*)</span></label>
-                                                          <input type="text" placeholder="Father Name..."  class="form-control" name="emp_father_name"></p>
+                                                          <input type="text" placeholder="Father Name..."  class="form-control" id="emp_father_name" name="emp_father_name"></p>
                                                       </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -318,7 +342,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                       <div class="form-group">
-                                                          <label>Date of Joining (*)</label>
+                                                          <label>Date of Joining <span style="color:red">(*)</span></label>
                                                           <input type="date" name="dateofJoining" class="form-control" id="dateofjoin" onchange="dateofjoinfunc()">
                                                       </div>
                                                     </div>
@@ -349,7 +373,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                       <div class="form-group">
-                                                          <label>Employee Type (*)</label>
+                                                          <label>Employee Type <span style="color:red">(*)</span></label>
                                                           <select name="employeetype" class="form-control" id="type" onchange="employeeFunc()">
                                                             <option>Employee Type</option>
                                                             <option value="TEMPORARY" >TEMPORARY</option>
@@ -452,7 +476,9 @@
                                                             </select>
                                                          </td>
                                                          <td><input type="file" name="document_upload[]" class="form-control"></td>
-                                                         <td><button class="btn-success" type="button" id="add1" onClick="addnewrow(1)" data-id="1"> <i class="ti-plus"></i> </button></td>
+                                                         <td>
+
+                                                         <button class="btn-success" type="button" id="add1" onClick="addnewrow(1)" data-id="1"> <i class="fas fa-plus"></i> </button></td>
                                                       </tr>
                                                    </tbody>
                                                 </table>
@@ -678,7 +704,7 @@
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>Pin Code <span>(*)</span> </label>
+                                                         <label>Pin Code <span style="color:red">(*)</span> </label>
                                                          <input id="parmenent_pincode" name="emp_pr_pincode" value="" type="text" class="form-control" required >
                                                       </div>
                                                    </div>
@@ -690,7 +716,7 @@
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>State <span>(*)</span></label>
+                                                         <label>State <span style="color:red">(*)</span></label>
                                                          <select name="emp_pr_state" id="parmenent_state" class="form-control" required>
                                                             <option value="" label="Select">Select</option>
                                                             <option value="JAMMU AND KASHMIR" >JAMMU AND KASHMIR</option>
@@ -1093,8 +1119,8 @@
                                              <div class="row">
                                              <div class="col-md-3">
                                                          <div class="form-group">
-                                                         <label>Class Name <span>(*)</span></label>
-                                                         <select data-placeholder="Choose a Groupe..." name="emp_group" class="form-control" required>
+                                                         <label>Class Name <span style="color:red">(*)</span></label>
+                                                         <select data-placeholder="Choose a Groupe..." name="emp_group" class="form-control" id="emp_group" required>
                                                             <option value="" label="Select">Select</option>
                                                             <option value="1">1  PERMANENT OUT GRADED</option>
                                                             <option value="2">2-PERMANENT GRADED STAFF</option>
@@ -1110,7 +1136,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>Basic Pay <span>(*)</span></label>
+                                                         <label>Basic Pay <span style="color:red">(*)</span></label>
                                                          <input type="number" step="any" id="emp_basic_pay" name="emp_basic_pay" value="" class="form-control"  oninput="basicpay()" required>
                                                          <!-- <select class="form-control" name="emp_basic_pay" id="emp_basic_pay" required>
                                                             </select> -->
@@ -1118,14 +1144,14 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>APF Deduction Rate (%) <span>(*)</span></label>
+                                                         <label>APF Deduction Rate (%) <span style="color:red">(*)</span></label>
                                                          <input type="number" step="any" id="emp_apf_percent" name="emp_apf_percent" value="" class="form-control" required>
                                                       </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>PF Type <span>(*)</span></label>
-                                                         <select data-placeholder="Choose a PF..." name="emp_pf_type" class="form-control" required>
+                                                         <label>PF Type <span style="color:red">(*)</span></label>
+                                                         <select data-placeholder="Choose a PF..." name="emp_pf_type" id="emp_pf_type" class="form-control" required>
                                                             <option value="" label="Select">Select</option>
                                                             <option value="nps"  >NPS</option>
                                                             <option value="gpf"  >PF</option>
@@ -1166,7 +1192,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>Bank Name <span>(*)</span></label>
+                                                         <label>Bank Name <span style="color:red">(*)</span></label>
                                                          <select class="form-control" name="emp_bank_name" id="emp_bank_name" required onclick="populateBranch()">
                                                             <option value="" label="Select">Select</option>
                                                               @foreach($MastersbankName as $item)
@@ -1177,7 +1203,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>Branch <span>(*)</span></label>
+                                                         <label>Branch <span style="color:red">(*)</span></label>
                                                          <select class="form-control" id="bank_branch_ids" name="bank_branch_id" onclick="branchfunc()" required>
                                        	                  	 <option value="" selected disabled required>Select</option>
 										
@@ -1186,7 +1212,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>IFSC Code <span>(*)</span></label>
+                                                         <label>IFSC Code <span style="color:red">(*)</span></label>
                                                          <!-- <input type="text" name="emp_ifsc_code" value="" id="emp_ifsc_code" class="form-control"  required> -->
                                                          <select class="form-control" id="emp_ifsc_code" name="emp_ifsc_code" required>
                                        	                  	 <option value="" selected disabled required>Select</option>
@@ -1196,8 +1222,8 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                       <div class="form-group">
-                                                         <label>Account No. <span>(*)</span></label>
-                                                         <input type="text" name="emp_account_no" value="" class="form-control" required>
+                                                         <label>Account No. <span style="color:red">(*)</span></label>
+                                                         <input type="text" name="emp_account_no" id="emp_account_no" value="" class="form-control" required>
                                                       </div>
                                                       </div>
                                                       <!-- <input type="hidden" name="emp_gradess" value=""> -->
@@ -1463,11 +1489,11 @@
                                              
                                            
                                                
-                                             <div class="form-group">
+                                             <!-- <div class="form-group">
                                                 <button class="btn btn-warning back4" type="button"><i class="ti-arrow-left"></i> Back</button>
                                                 <button class="btn btn-primary open4" type="button">Next <i class="ti-arrow-right"></i></button>
                                                 <img src="spinner.gif" alt="" id="loader" style="display: none">
-                                             </div>
+                                             </div> -->
                                              <!------------------------------------>
                                           </div>
                                           
@@ -1490,7 +1516,7 @@
                      <span class="step"></span>
                      <span class="step"></span>
                      </div>
-                     <input type="submit" value="submit">
+                     <!-- <input type="submit" value="submit"> -->
                      </form>
                   </div>
                </div>
@@ -1891,7 +1917,7 @@
          		var reader = new FileReader();
          		reader.onload = function (e) {
          			var img = $("<img />");
-         			img.attr("style", "width: 150px; height:100px; padding: 10px");
+         			img.attr("style", "width: 100px; height:100px;");
          			img.attr("src", e.target.result);
          			dvPreview.append(img);
          		}
@@ -2004,66 +2030,108 @@
          fixStepIndicator(n)
          }
          
+        
          function nextPrev(n) {
-            // console.log('next id',n)
-         // This function will figure out which tab to display
+        
          var x = document.getElementsByClassName("tab");
-         // Exit the function if any field in the current tab is invalid:
-         if (n == 1 && !validateForm()) return false;
-         // if (n == 1 && !validateForm()) return false;
-         // Hide the current tab:
-         x[currentTab].style.display = "none";
-         // Increase or decrease the current tab by 1:
-         currentTab = currentTab + n;
-         console.log('currentTab',currentTab)
-         //input validation 
-         if(currentTab==1){
-            console.log("current tab");
-         }
-         // if(currentTab==1){
-         //    console.log("hello");
-         //    var emp_fname=$("#emp_fname").val().length;
-         //    console.log(emp_fname)
-         //    if(emp_fname.length==1){
-         //       console.log("hello");
-         //     $("#fname").html(`<h1>First Name Is not required</h1>`)
-         //    }
+
+        
+
+         // if (n == 1 && !validateForm()){
+         //    return false;
          // }
-         // console.log('currentTab',currentTab)
-         // if you have reached the end of the form...
+         
+         x[currentTab].style.display = "none";
+         currentTab = currentTab + n;
+        
          if (currentTab >= x.length) {
-           // ... the form gets submitted:
            document.getElementById("regForm").submit();
            return false;
          }
-         // Otherwise, display the correct tab:
          showTab(currentTab);
          }
-         
-         function validateForm() {
-         // This function deals with validation of the form fields
-         var x, y, i, valid = true;
-         x = document.getElementsByClassName("tab");
-         // y = x[currentTab].getElementsByTagName("input");
-         y = x[currentTab].getElementsById("emp_fname");
-         console.log(y)
 
-         // A loop that checks every input field in the current tab:
-         for (i = 0; i < y.length; i++) {
-           // If a field is empty...
-           if (y[i].value == "") {
-             // add an "invalid" class to the field:
-             y[i].className += " invalid";
-             // and set the current valid status to false
-             valid = false;
-           }
-         }
-         // If the valid status is true, mark the step as finished and valid:
-         if (valid) {
-           document.getElementsByClassName("step")[currentTab].className += " finish";
-         }
-         return valid; // return the valid status
-         }
+        
+         
+    function validateForm() {
+  var inputIdsToValidate = ["emp_fname", "emp_father_name","deptid","rate_id","dateofbirth","dateofjoin","type"];
+//   ,"type","parmenent_pincode","parmenent_state","emp_group","emp_basic_pay","emp_apf_percent","emp_pf_type","emp_bank_name","bank_branch_ids","emp_ifsc_code","emp_account_no"
+  var valid = true;
+
+  // Loop through the list of input IDs to validate:
+  for (var i = 0; i < inputIdsToValidate.length; i++) {
+    var inputId = inputIdsToValidate[i];
+    var inputField = document.getElementById(inputId);
+
+    // Check if the input field exists and if it's empty:
+    if (inputField && inputField.value.trim() === "") {
+      // Add an "invalid" class to the field:
+      inputField.classList.add("invalid");
+      // Set the current valid status to false:
+      valid = false;
+    }
+  }
+
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].classList.add("finish");
+  }
+
+  return valid; // return the valid status
+}
+
+function validateForm2() {
+  // This function deals with validation of the form fields
+  var inputIdsToValidate = ["parmenent_pincode","parmenent_state"];
+//   ,"type","parmenent_pincode","parmenent_state","emp_group","emp_basic_pay","emp_apf_percent","emp_pf_type","emp_bank_name","bank_branch_ids","emp_ifsc_code","emp_account_no"
+  var valid = true;
+
+  // Loop through the list of input IDs to validate:
+  for (var i = 0; i < inputIdsToValidate.length; i++) {
+    var inputId = inputIdsToValidate[i];
+    var inputField = document.getElementById(inputId);
+
+    // Check if the input field exists and if it's empty:
+    if (inputField && inputField.value.trim() === "") {
+      // Add an "invalid" class to the field:
+      inputField.classList.add("invalid");
+      // Set the current valid status to false:
+      valid = false;
+    }
+  }
+
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].classList.add("finish");
+  }
+
+  return valid; // return the valid status
+}
+
+
+
+         // function validateForm() {
+         // // This function deals with validation of the form fields
+         // var x, y, i, valid = true;
+         // x = document.getElementsByClassName("tab");
+         // // y = x[currentTab].querySelectorAll("input[id='emp_fname'][id='emp_father_name']");
+         // y = x[currentTab].getElementsByTagName("input");
+         // // A loop that checks every input field in the current tab:
+         // for (i = 0; i < y.length; i++) {
+         //   // If a field is empty...
+         //   if (y[i].value == "") {
+         //     // add an "invalid" class to the field:
+         //     y[i].className += " invalid";
+         //     // and set the current valid status to false
+         //     valid = false;
+         //   }
+         // }
+         // // If the valid status is true, mark the step as finished and valid:
+         // if (valid) {
+         //   document.getElementsByClassName("step")[currentTab].className += " finish";
+         // }
+         // return valid; // return the valid status
+         // }
          
          function fixStepIndicator(n) {
          // This function removes the "active" class of all steps...

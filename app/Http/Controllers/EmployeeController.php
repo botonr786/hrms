@@ -234,9 +234,13 @@ public function employeeupdatepage($id){
 //employee add
 public function saveEmployeeaa(Request $request)
     {
+    //    dd(Session::get('emp_email'));
+       $userObj=DB::table('users')->where('email',Session::get('emp_email'))->first();
+       
     $insertData=[];
     //    dd($request->all());
     $insertData=array(
+        "emid"=>$userObj->employee_id,
         "emp_code"=>$request->emp_code,
         "salutation"=>$request->salutation,
         "emp_fname"=>$request->emp_fname,

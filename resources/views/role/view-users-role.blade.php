@@ -83,11 +83,11 @@
 												   @foreach($roles as $role)
                                     <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $role->member_id }}</td>
+                                    <!-- <td>{{ $role->member_id }}</td>
                                     <td>{{ $role->module_name }}</td>
                                    
                                     <td>{{ $role->menu_name }}</td>
-                                    <td>{{ $role->rights }}</td>
+                                    <td>{{ $role->rights }}</td> -->
                                     <td><!--<a href='{{url("role/user-role/$role->id")}}'><i class="ti-pencil-alt"></i></a>-->
                                     <a data-toggle="tooltip" data-placement="bottom" title="Delete" href='{{url("role/view-users-role/$role->id")}}' onclick="return confirm('Are you sure you want to delete this Access?');">
                                     <img  style="width: 15px;" src="{{ asset('assets/img/delete.png')}}"></a></td>
