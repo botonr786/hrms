@@ -8,7 +8,7 @@
 			 <div class="info">
 				<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 				   <span>
-					  Payroll
+					 Loan
 					  <!--<span class="user-level">Attendance</span>-->
 					  <!--<span class="caret"></span>-->
 				   </span>
@@ -53,7 +53,7 @@
 			 ?>
 		  <ul class="nav nav-primary">
 			 <li class="nav-item @if (Request::Segment(2)=='dashboard') active @endif">
-				<a href="{{url('payroll/dashboard')}}">
+				<a href="{{url('loans/view-loans')}}">
 				   <i class="fas fa-home"></i>
 				   <p>Dashboard</p>
 				</a>
@@ -66,10 +66,10 @@
 				</a>
 				
 				</li>-->
-			 <li class="nav-item @if (Request::Segment(2)=='vw-montly-coop') active @endif">
+			 <li class="nav-item @if (Request::Segment(2)=='view-loans') active @endif">
 				<a data-toggle="collapse" href="#sidebarLayouts">
 				   <i class="fas fa-user"></i>
-				   <p>Payroll Master </p>
+				   <p>Loan </p>
 				   <span class="caret"></span>
 				</a>
 				<div class="collapse" id="sidebarLayouts">
@@ -80,9 +80,9 @@
 					{
 					
 					?>	
-				 <li class="@if (Request::Segment(2)=='vw-montly-coop') active @endif">
-					<a href="{{url('payroll/vw-montly-coop')}}">
-					<span class="sub-item">Generat Monthly Co.Operative</span>
+				 <li class="@if (Request::Segment(2)=='view-loans') active @endif">
+					<a href="{{url('loans/view-loans')}}">
+					<span class="sub-item">View Loans</span>
 					</a>
 				 </li>
 				 <?php
@@ -92,92 +92,15 @@
 					}
 						}else{
 						?>
-				 <li class="@if (Request::Segment(2)=='vw-montly-coop') active @endif">
-					<a href="{{url('payroll/vw-montly-coop')}}">
-					<span class="sub-item">Genearte Monthly Co.Operative</span>
+				 <li class="@if (Request::Segment(2)=='view-loans') active @endif">
+					<a href="{{url('loans/view-loans')}}">
+					<span class="sub-item">View Loans</span>
 					</a>
 				 </li>
 				 <?php	
 					}
-					?>
-					  <?php 
-					  if( $usetype=='employee'){
-					  if(in_array('79', $arrrole))
-					  {
-					  
-					  ?>	
-				   <li class="@if (Request::Segment(2)=='vw-montly-itax') active @endif">
-					  <a href="{{url('payroll/vw-montly-itax')}}">
-					  <span class="sub-item">Generate Monthly Income Tax </span>
-					  </a>
-				   </li>
-				   <?php
-					  }else{
-					  ?>
-				   <?php
-					  }
-						  }else{
-						  ?>
-				   <li class="@if (Request::Segment(2)=='vw-montly-itax') active @endif">
-					  <a href="{{url('payroll/vw-montly-itax')}}">
-					  <span class="sub-item">Generate Monthly Income Tax</span>
-					  </a>
-				   </li>
-				   <?php	
-					  }
-					  ?>
-					  <?php 
-					  if( $usetype=='employee'){
-					  if(in_array('79', $arrrole))
-					  {
-					  
-					  ?>	
-				   <li class="@if (Request::Segment(2)=='vw-montly-allowances') active @endif">
-					  <a href="{{url('payroll/vw-montly-allowances')}}">
-					  <span class="sub-item">Generate Monthly Allowances</span>
-					  </a>
-				   </li>
-				   <?php
-					  }else{
-					  ?>
-				   <?php
-					  }
-						  }else{
-						  ?>
-				   <li class="@if (Request::Segment(2)=='vw-montly-allowances') active @endif">
-					  <a href="{{url('payroll/vw-montly-allowances')}}">
-					  <span class="sub-item">Generate Monthly Allowances</span>
-					  </a>
-				   </li>
-				   <?php	
-					  }
-					  ?>
-					  <?php 
-					  if( $usetype=='employee'){
-					  if(in_array('79', $arrrole))
-					  {
-					  
-					  ?>	
-				   <li class="@if (Request::Segment(2)=='vw-montly-overtime') active @endif">
-					  <a href="{{url('payroll/vw-montly-overtime')}}">
-					  <span class="sub-item">Genearte Monthly Overtimes</span>
-					  </a>
-				   </li>
-				   <?php
-					  }else{
-					  ?>
-				   <?php
-					  }
-						  }else{
-						  ?>
-				   <li class="@if (Request::Segment(2)=='vw-montly-overtime') active @endif">
-					  <a href="{{url('payroll/vw-montly-overtime')}}">
-					  <span class="sub-item">Genearte Monthly Overtimes</span>
-					  </a>
-				   </li>
-				   <?php	
-					  }
-					  ?>
+					?>	
+				  
 				   </ul>
 				</div>
 			 </li>
@@ -195,9 +118,35 @@
 						 {
 						 
 						 ?>	
+					  <li class="@if (Request::Segment(2)=='adjustment-report') active @endif">
+						 <a href="{{url('loans/adjustment-report')}}">
+						 <span class="sub-item">Adjustment Report</span>
+						 </a>
+					  </li>
+					  <?php
+						 }else{
+						 ?>
+					  <?php
+						 }
+							 }else{
+							 ?>
+					  <li class="@if (Request::Segment(2)=='adjustment-report') active @endif">
+						 <a href="{{url('loans/adjustment-report')}}">
+						 <span class="sub-item">Adjustment Report</span>
+						 </a>
+					  </li>
+					  <?php	
+						 }
+						 ?>
+						 <?php 
+						 if( $usetype=='employee'){
+						 if(in_array('79', $arrrole))
+						 {
+						 
+						 ?>	
 					  <li class="@if (Request::Segment(2)=='report-monthly-attendance') active @endif">
-						 <a href="{{url('#')}}">
-						 <span class="sub-item">Employee Pay Card</span>
+						 <a href="{{url('attendance/report-monthly-attendance')}}">
+						 <span class="sub-item">Check List</span>
 						 </a>
 					  </li>
 					  <?php
@@ -208,8 +157,34 @@
 							 }else{
 							 ?>
 					  <li class="@if (Request::Segment(2)=='report-monthly-attendance') active @endif">
-						 <a href="{{url('#')}}">
-						 <span class="sub-item">Employee Pay Card</span>
+						 <a href="{{url('attendance/report-monthly-attendance')}}">
+						 <span class="sub-item">Check List</span>
+						 </a>
+					  </li>
+					  <?php	
+						 }
+						 ?>
+						 <?php 
+						 if( $usetype=='employee'){
+						 if(in_array('79', $arrrole))
+						 {
+						 
+						 ?>	
+					  <li class="@if (Request::Segment(2)=='report-monthly-attendance') active @endif">
+						 <a href="{{url('attendance/report-monthly-attendance')}}">
+						 <span class="sub-item">Loan Report</span>
+						 </a>
+					  </li>
+					  <?php
+						 }else{
+						 ?>
+					  <?php
+						 }
+							 }else{
+							 ?>
+					  <li class="@if (Request::Segment(2)=='report-monthly-attendance') active @endif">
+						 <a href="{{url('attendance/report-monthly-attendance')}}">
+						 <span class="sub-item">Loan Report</span>
 						 </a>
 					  </li>
 					  <?php	

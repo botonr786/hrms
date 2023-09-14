@@ -20,6 +20,8 @@
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('assets/css/atlantis.min.css')}}">
+	<link rel="stylesheet" href="{{ asset('assets/css/select2.min.css')}}">
+	<link rel="stylesheet" href="{{ asset('assets/css/custom.css')}}">
 
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link rel="stylesheet" href="{{ asset('assets/css/demo.css')}}">
@@ -28,16 +30,16 @@
 <body>
 <div class="wrapper">
 
-@include('payroll.include.header')
+@include('loan.include.header')
 <!-- Sidebar -->
- @include('payroll.include.sidebar')
+ @include('loan.include.sidebar')
 <!-- End Sidebar -->
 
 @yield('content')
 
 
 
-@include('payroll.include.footer')
+@include('loan.include.footer')
 </div>
 </div>
 <!--   Core JS Files   -->
@@ -59,7 +61,6 @@
 <script >
    $(document).ready(function() {
    	$('#basic-datatables').DataTable({
-		// $('.dataTables_length').addClass('bs-select');
    	});
    
    	$('#multi-filter-select').DataTable( {

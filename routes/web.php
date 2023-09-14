@@ -104,7 +104,60 @@ Route::get('attendance/report-monthly-attendance', 'App\Http\Controllers\Attenda
 Route::post('attendance/report-monthly-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@getMonthlyAttendanceReport');
 Route::post('attendance/xls-export-attendance-report', 'App\Http\Controllers\Attendance\ProcessAttendanceController@attandence_xlsexport');
 
+//loan routes start 
+Route::get('loans/view-loans', 'App\Http\Controllers\Loan\LoanController@viewLoan');
+Route::get('loans/add-loan', 'App\Http\Controllers\Loan\LoanController@addLoan');
+Route::post('loans/save-loan', 'App\Http\Controllers\Loan\LoanController@saveLoan');
+Route::get('loans/edit-loan/{id}', 'App\Http\Controllers\Loan\LoanController@editLoan');
+Route::post('loans/update-loan', 'App\Http\Controllers\Loan\LoanController@updateLoan');
+Route::post('loans/xls-export-loan-list', 'App\Http\Controllers\Loan\LoanController@loan_list_xlsexport');
+Route::get('loans/adjust-loan/{id}', 'App\Http\Controllers\Loan\LoanController@adjustLoan');
+Route::post('loans/update-loan-adjustment', 'App\Http\Controllers\Loan\LoanController@updateLoanAdjustment');
+Route::get('loans/view-adjust-loan/{id}', 'App\Http\Controllers\Loan\LoanController@viewAdjustLoan');
+Route::get('loans/adjustment-report', 'App\Http\Controllers\Loan\LoanController@loanAdjustmentReport');
+Route::post('loans/xls-export-adjustment-report', 'App\Http\Controllers\Loan\LoanController@adjustment_report_xlsexport');
 
+
+//loan routes end
+
+//payroll start
+Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationController@payrollDashboard');
+
+    //coop
+    Route::get('payroll/vw-montly-coop', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyCoopDeduction');
+    Route::post('payroll/vw-montly-coop', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewMonthlyCoopDeduction');
+    Route::get('payroll/add-montly-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@addMonthlyCoopDeductionAllemployee');
+    Route::post('payroll/vw-add-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listCoopAllemployee');
+    Route::post('payroll/save-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveCoopAll');
+    Route::post('payroll/update-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateCoopAll');
+    Route::get('payroll/vw-montly-coop/export', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyCoopDeductionExport')->name('payroll.vw-montly-coop.export');
+    Route::post('payroll/vw-montly-coop/import', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyCoopDeductionImport')->name('payroll.vw-montly-coop.import');
+
+    //incometax
+    Route::get('payroll/vw-montly-itax', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyItaxDeduction');
+    Route::post('payroll/vw-montly-itax', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewMonthlyItaxDeduction');
+    Route::get('payroll/add-montly-itax-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@addMonthlyItaxDeductionAllemployee');
+    Route::post('payroll/vw-add-itax-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listItaxAllemployee');
+    Route::post('payroll/save-itax-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveItaxAll');
+    Route::post('payroll/update-itax-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateItaxAll');
+
+    //generate allowances
+    Route::get('payroll/vw-montly-allowances', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyEarningAllowances');
+    Route::post('payroll/vw-montly-allowances', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewMonthlyEarningAllowances');
+    Route::get('payroll/add-montly-allowances', 'App\Http\Controllers\Payroll\PayrollGenerationController@addMonthlyAllowancesAllemployee');
+    Route::post('payroll/vw-add-allowances-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listAllowancesAllemployee');
+    Route::post('payroll/save-allowances-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveAllowancesAll');
+    Route::post('payroll/update-allowances-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateAllowancesAll');
+
+    //generate overtime
+    Route::get('payroll/vw-montly-overtime', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyOvertimes');
+    Route::post('payroll/vw-montly-overtimes', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewMonthlyOvertimes');
+    Route::get('payroll/add-montly-overtimes', 'App\Http\Controllers\Payroll\PayrollGenerationController@addMonthlyOvertimesAllemployee');
+    Route::post('payroll/vw-add-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listOvertimesAllemployee');
+    Route::post('payroll/save-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveOvertimesAll');
+    Route::post('payroll/update-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateOvertimesAll');
+
+//payroll end
 
 //plans
 Route::get('superadmin/plans', 'App\Http\Controllers\AdminController@getPlans');
