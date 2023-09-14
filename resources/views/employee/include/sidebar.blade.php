@@ -46,6 +46,7 @@
                    ->where('emid','=',$dtaem->emid) 
                   ->where('member_id','=',$dtaem->email) 
                   ->get()->toArray();
+				 
 $arrrole=array();
 			foreach($Roles_auth as $valrol){
 				$arrrole[]=$valrol->menu;
@@ -104,7 +105,7 @@ if(in_array('1', $arrrole))
 			<li class="nav-item">
 							<a href="{{url('employeeslist')}}">
 								<i class="fas fa-layer-group"></i>
-								<p>Employee</p>
+								<p>Employee Mater</p>
 								
 							</a>
 							

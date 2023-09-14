@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Input;
 use Mail;
 use Session;
 use Validator;
@@ -229,6 +229,7 @@ class LandingController extends Controller
 
     public function Dashboard(Request $request)
     {
+        
         if ($request->input("emp_email")) {
             $Employee1 = DB::table("users")
                 ->where(
@@ -257,6 +258,7 @@ class LandingController extends Controller
                     ->where("email", "=", $email)
                     ->first();
             } else {
+             
                 $usemail = Session::get("user_email");
                 $users_id = Session::get("users_id");
 
@@ -268,12 +270,13 @@ class LandingController extends Controller
                     ->where("emid", "=", $dtaem->emid)
                     ->where("emp_code", "=", $dtaem->employee_id)
                     ->first();
-
+               
                 $data["Roles_auth"] = DB::table("role_authorization")
                     ->where("emid", "=", $dtaem->emid)
                     ->where("member_id", "=", $dtaem->email)
                     ->get()
                     ->toArray();
+                    // dd($data["Roles_auth"]);
             }
             //dd($data);
             return View("employer-dashboard", $data);
@@ -318,7 +321,7 @@ class LandingController extends Controller
     }
     public function DoLogin(Request $request)
     {
-        // dd('sss');
+        // dd($request->email);
 
         $validator = Validator::make(
             $request->all(),
@@ -360,6 +363,7 @@ class LandingController extends Controller
                             ->first();
 
                         if (!empty($subscription)) {
+                            Session::put("employee_id", $request->employee_id);
                             Session::put("emp_email", $request->email);
                             Session::put("user_type", $Employee->user_type);
                             Session::put("users_id", $Employee->id);
@@ -372,6 +376,8 @@ class LandingController extends Controller
                             return redirect("/");
                         }
                     } else {
+                      
+                       Session::put("employee_id", $request->employee_id);
                         Session::put("emp_email", $request->email);
                         Session::put("user_type", $Employee->user_type);
                         Session::put("users_id", $Employee->id);
@@ -397,6 +403,7 @@ class LandingController extends Controller
                                 ->where("status", "=", "active")
                                 ->first();
                             if (!empty($Roledata)) {
+                                Session::put("employee_id", $request->employee_id);
                                 Session::put("emp_email", $Roledata->email);
                                 Session::put("user_email", $request->email);
                                 Session::put("user_type", $Employee->user_type);
@@ -421,7 +428,9 @@ class LandingController extends Controller
                             ->where("employee_id", "=", $Employee->emid)
                             ->where("status", "=", "active")
                             ->first();
+                            // dd($Roledata);
                         if (!empty($Roledata)) {
+                            Session::put("employee_id", $request->employee_id);
                             Session::put("emp_email", $Roledata->email);
                             Session::put("user_email", $request->email);
                             Session::put("user_type", $Employee->user_type);
@@ -458,6 +467,7 @@ class LandingController extends Controller
 
     public function DoLoginuser(Request $request)
     {
+        
         $Employee = DB::table("users_admin_emp")
             ->where("login_id", "=", $request->email)
             ->where("password", "=", $request->psw)

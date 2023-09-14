@@ -27,6 +27,11 @@ use App\MockInterview;
 use App\MockFactorDetail;
 use App\MockCapstoneDetail;
 use App\MockInterviewDetail;
+use App\Models\candidate;
+use App\Models\CandidateOffer;
+use App\Models\CompanyJobs;
+use App\Models\job_post;
+use App\Models\Registration;
 
 class RecruitmentController extends Controller
 {
@@ -35,23 +40,23 @@ class RecruitmentController extends Controller
 
         $email = Session::get('emp_email');
         if (!empty($email)) {
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $Roledata = Registration::where('status', '=', 'active')
 
                 ->where('email', '=', $email)
                 ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+                
+            $data['Roledata'] = Registration::where('status', '=', 'active')
 
                 ->where('email', '=', $email)
                 ->first();
-
-            $data['candidate_job'] = DB::Table('candidate')
-                ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
+               
+            $data['candidate_job'] = candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
                 ->where('company_job.emid', '=', $Roledata->reg)
                 ->select('candidate.*', 'company_job.job_code')
                 ->get();
-            $data['candidate_offer'] = DB::Table('candidate_offer')
-                ->join('company_job', 'candidate_offer.job_id', '=', 'company_job.id')
+              
+            $data['candidate_offer'] = CandidateOffer::join('company_job', 'candidate_offer.job_id', '=', 'company_job.id')
 
                 ->where('company_job.emid', '=', $Roledata->reg)
                 ->where('candidate_offer.status', '=', 'Hired')
@@ -59,8 +64,8 @@ class RecruitmentController extends Controller
                 ->select('candidate_offer.*', 'company_job.job_code')
                 ->orderBy('candidate_offer.id', 'DESC')
                 ->get();
-            $data['candidate_short'] = DB::Table('candidate')
-                ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
+               
+            $data['candidate_short'] = candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
                 ->where('company_job.emid', '=', $Roledata->reg)
 
@@ -70,27 +75,25 @@ class RecruitmentController extends Controller
                 })
                 ->select('candidate.*', 'company_job.job_code')
                 ->get();
+                
 
-            $data['candidate_rej'] = DB::Table('candidate')
-                ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
+            $data['candidate_rej'] = candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
                 ->where('company_job.emid', '=', $Roledata->reg)
                 ->where('candidate.status', '=', 'Rejected')
 
                 ->select('candidate.*', 'company_job.job_code')
                 ->get();
-
-            $data['candidate_hired'] = DB::Table('candidate')
-                ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
+              
+            $data['candidate_hired'] = candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
                 ->where('company_job.emid', '=', $Roledata->reg)
                 ->where('candidate.status', '=', 'Hired')
 
                 ->select('candidate.*', 'company_job.job_code')
                 ->get();
-
-            $data['candidate_interview'] = DB::Table('candidate')
-                ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
+               
+            $data['candidate_interview'] =candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
                 ->where('company_job.emid', '=', $Roledata->reg)
                 ->where(function ($query) {
@@ -104,19 +107,19 @@ class RecruitmentController extends Controller
 
                 ->select('candidate.*', 'company_job.job_code')
                 ->get();
-            $data['company_job_post_internal'] = DB::Table('company_job')
-                ->join('company_job_list', 'company_job.soc', '=', 'company_job_list.id')
+               
+            $data['company_job_post_internal'] = CompanyJobs::join('company_job_list', 'company_job_list.id', '=', 'company_job.soc')
 
                 ->where('company_job.emid', '=', $Roledata->reg)
                 ->select('company_job.*', 'company_job_list.soc')
                 ->get();
-            $data['company_job_post_external'] = DB::Table('job_post')
-                ->join('company_job_list', 'job_post.job_id', '=', 'company_job_list.id')
-
+            $data['company_job_post_external'] = job_post::join('company_job_list', 'company_job_list.id', '=', 'job_post.job_id')
                 ->where('job_post.emid', '=', $Roledata->reg)
                 ->select('job_post.*', 'company_job_list.soc')
-                ->groupBy('job_post.title')
+                // ->groupBy('job_post.title')
+                // ->toSql()
                 ->get();
+                // dd($data['company_job_post_external']);
             return View('recruitment/dashboard', $data);
         } else {
             return redirect('/');

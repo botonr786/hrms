@@ -281,22 +281,37 @@ class UseraceesController extends Controller
                 $Roledata = Registration::where("status", "=", "active")
                     ->where("email", "=", $email)
                     ->first();
+                // dd($Roledata->reg);
                 $data["Roledata"] = Registration::where("status", "=", "active")
                     ->where("email", "=", $email)
                     ->first();
 
                 $data["roles"] = module::get();
-                //  $data['roles'] = DB::table('role_authorization')
-                // ->join('module', 'role_authorization.module_name', '=', 'module.id')
-
-                // ->join('module_config', 'role_authorization.menu', '=', 'module_config.id')
-                // ->where('role_authorization.emid', '=', $Roledata->reg )
-                // ->select('role_authorization.*', 'module.module_name', 'module_config.menu_name')
-                // ->groupBy('role_authorization.member_id')
-                // ->groupBy('role_authorization.menu')
-                // ->groupBy('role_authorization.rights')
-                //  ->orderBy('role_authorization.id', 'DESC')
-                // ->get();
+                $data["roles"] = RoleAuthorization::join(
+                    "module",
+                    "role_authorization.module_name",
+                    "=",
+                    "module.id"
+                )
+                    ->join(
+                        "module_config",
+                        "role_authorization.menu",
+                        "=",
+                        "module_config.id"
+                    )
+                    ->where("role_authorization.emid", "=", $Roledata->reg)
+                    ->select(
+                        "role_authorization.member_id",
+                        "role_authorization.rights",
+                        "role_authorization.emid",
+                        "module.module_name",
+                        "module_config.menu_name"
+                    )
+                    // ->groupBy('role_authorization.member_id')
+                    // ->groupBy('role_authorization.menu')
+                    // ->groupBy('role_authorization.rights')
+                    ->orderBy("role_authorization.id", "DESC")
+                    ->get();
                 // dd($data['roles']);
 
                 return view("role/view-users-role", $data);
@@ -368,19 +383,51 @@ class UseraceesController extends Controller
         echo $result;
     }
 
+    public function userWiseAccessList(
+        $usermailid,
+        $module_name,
+        $sub_module_name,
+        $menu_name,
+        $rights
+    ) {
+        try {
+            if (!empty(Session::get("emp_email"))) {
+                //echo $usermailid; echo "--"; echo $module_name; echo "=="; echo $sub_module_name; echo "++"; echo $menu_name; echo "@@"; echo $rights;
+
+                $useraccessdtl = DB::table("role_authorization")
+                    ->select("role_authorization.*")
+                    ->where("role_authorization.member_id", "=", $usermailid)
+                    ->where("role_authorization.module_name", "=", $module_name)
+                    ->where(
+                        "role_authorization.sub_module_name",
+                        "=",
+                        $sub_module_name
+                    )
+                    ->where("role_authorization.menu", "=", $menu_name)
+                    ->where("role_authorization.rights", "=", $rights)
+                    ->first();
+
+                return $useraccessdtl;
+            } else {
+                return redirect("/");
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\FrontException($e->getMessage());
+        }
+    }
+
     public function UserAccessRightsFormAuth(Request $request)
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                // dd($request["sub_module_name"]);
                 $email = Session::get("emp_email");
-                $Roledata =Registration::where("status", "=", "active")
+                $Roledata = Registration::where("status", "=", "active")
                     ->where("email", "=", $email)
                     ->first();
                 $data["Roledata"] = Registration::where("status", "=", "active")
                     ->where("email", "=", $email)
                     ->first();
-                
+
                 foreach ($request["member_id"] as $valuemenm) {
                     foreach ($request["menu_name"] as $key => $value) {
                         $ins_data["menu"] = $request["menu_name"][$key];
@@ -395,65 +442,70 @@ class UseraceesController extends Controller
                             as $keyrights => $rights
                         ) {
                             $ins_data["rights"] = $rights;
-                            $check=RoleAuthorization::first();
-                            // dd($check);
-                            RoleAuthorization::insert($ins_data);
-                            // if (is_null($check_user_access)) {
-                            //     $userrightRoledata = DB::table(
-                            //         "role_authorization"
-                            //     )
-                            //         ->where("member_id", "=", $valuemenm)
-                            //         ->first();
+                            $check_user_access = $this->userWiseAccessList(
+                                $valuemenm,
+                                $ins_data["module_name"],
+                                $ins_data["sub_module_name"],
+                                $ins_data["menu"],
+                                $ins_data["rights"]
+                            );
 
-                            //     $employeeRoledata = DB::table("employee")
-                            //         ->where("emid", "=", $Roledata->reg)
-                            //         ->where("emp_ps_email", "=", $valuemenm)
-                            //         ->first();
-                            //     $employeusereRoledata = DB::table("users")
-                            //         ->where("emid", "=", $Roledata->reg)
-                            //         ->where("email", "=", $valuemenm)
-                            //         ->where("user_type", "=", "employee")
-                            //         ->first();
-                            //     if (empty($userrightRoledata)) {
-                            //         $data = [
-                            //             "firstname" =>
-                            //                 $employeeRoledata->emp_fname,
-                            //             "maname" =>
-                            //                 $employeeRoledata->emp_mname,
-                            //             "email" => $valuemenm,
-                            //             "lname" => $employeeRoledata->emp_lname,
-                            //             "password" =>
-                            //                 $employeusereRoledata->password,
-                            //         ];
-                            //         $toemail = $valuemenm;
-                            //         Mail::send("mail", $data, function (
-                            //             $message
-                            //         ) use ($toemail) {
-                            //             $message
-                            //                 ->to($toemail, "Workpermitcloud")
-                            //                 ->subject(
-                            //                     "Employee Login  Details"
-                            //                 );
-                            //             $message->from(
-                            //                 "noreply@workpermitcloud.co.uk",
-                            //                 "Workpermitcloud"
-                            //             );
-                            //         });
-                            //     }
+                            if (is_null($check_user_access)) {
                                
-                            //     DB::table("role_authorization")->insert(
-                            //         $ins_data
-                            //     );
-                            //     Session::flash(
-                            //         "message",
-                            //         "Role Successfully Saved."
-                            //     );
-                            // } else {
-                            //     Session::flash(
-                            //         "message",
-                            //         "User Permission already exist!!"
-                            //     );
-                            // }
+                                $userrightRoledata =RoleAuthorization::where("member_id", "=", $valuemenm)->first();
+                                
+                                $employeeRoledata = Employee::where("emid", "=", $Roledata->reg)
+                                    ->where("em_email", "=", $valuemenm)
+                                    ->first();
+                                    
+                                $employeusereRoledata =UserModel::where("emid", "=", $Roledata->reg)
+                                    ->where("email", "=", $valuemenm)
+                                    ->where("user_type", "=", "employee")
+                                    ->first();
+                                    // dd("hello",$employeusereRoledata);
+                                  
+                                if (empty($userrightRoledata)) {
+                                   
+                                        $data = [
+                                            "firstname" =>
+                                                $employeeRoledata->emp_fname,
+                                            "maname" =>
+                                                $employeeRoledata->emp_mname,
+                                            "email" => $valuemenm,
+                                            "lname" => $employeeRoledata->emp_lname,
+                                            "password" =>
+                                                $employeusereRoledata->password,
+                                        ];
+                                         $toemail = $valuemenm;
+                                        Mail::send("mail", $data, function (
+                                            $message
+                                        ) use ($toemail) {
+                                            $message
+                                                ->to($toemail, "Workpermitcloud")
+                                                ->subject(
+                                                    "Employee Login  Details"
+                                                );
+                                            $message->from(
+                                                "noreply@workpermitcloud.co.uk",
+                                                "Workpermitcloud"
+                                            );
+                                         });
+                                        
+                                }
+                                // dd($ins_data);
+                                RoleAuthorization::insert(
+                                    $ins_data
+                                );
+                                Session::flash(
+                                    "message",
+                                    "Role Successfully Saved."
+                                );
+                            } else {
+                                Session::flash(
+                                    "message",
+                                    "User Permission already exist!!"
+                                );
+                            }
                         }
                     }
                 }
@@ -480,39 +532,6 @@ class UseraceesController extends Controller
                     "Access permission deleted Successfully."
                 );
                 return redirect("role/view-users-role");
-            } else {
-                return redirect("/");
-            }
-        } catch (Exception $e) {
-            throw new \App\Exceptions\FrontException($e->getMessage());
-        }
-    }
-    public function userWiseAccessList(
-        $usermailid,
-        $module_name,
-        // $sub_module_name,
-        $menu_name,
-        $rights
-    ) {
-        try {
-            if (!empty(Session::get("emp_email"))) {
-                //echo $usermailid; echo "--"; echo $module_name; echo "=="; echo $sub_module_name; echo "++"; echo $menu_name; echo "@@"; echo $rights;
-            
-                $useraccessdtl = DB::table("role_authorization")
-                    ->select("role_authorization.*")
-                    ->where("role_authorization.member_id", "=", $usermailid)
-                    ->where("role_authorization.module_name", "=", $module_name)
-                    ->where(
-                        "role_authorization.sub_module_name",
-                        "=",
-                        $sub_module_name
-                    )
-                    ->where("role_authorization.menu", "=", $menu_name)
-                    ->where("role_authorization.rights", "=", $rights)
-                    ->first();
-                    dd($useraccessdtl);
-
-                return $useraccessdtl;
             } else {
                 return redirect("/");
             }

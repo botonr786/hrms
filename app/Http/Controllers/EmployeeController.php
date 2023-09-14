@@ -238,7 +238,7 @@ public function saveEmployeeaa(Request $request)
        $userObj=DB::table('users')->where('email',Session::get('emp_email'))->first();
        
     $insertData=[];
-    //    dd($request->all());
+   
     $insertData=array(
         "emid"=>$userObj->employee_id,
         "emp_code"=>$request->emp_code,
