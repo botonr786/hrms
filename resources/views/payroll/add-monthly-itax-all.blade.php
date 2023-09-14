@@ -8,7 +8,7 @@
          <li class="separator"> / </li>
          <li class="nav-item"><a href="{{url('payroll/dashboard')}}">Payroll</a></li>
          <li class="separator"> / </li>
-         <li class="nav-item active"><a href="#">Generat Monthly Co.Operative</a></li>
+         <li class="nav-item active">Add Monthly Income Tax Deduction for All Employee</li>
       </ul>
    </div>
    <div class="content">
@@ -16,26 +16,35 @@
          <div class="row">
             <div class="col-md-12">
                <div class="card custom-card">
-                <div class="card-header d-flex justify-content-end">
-                    {{-- <button class="btn btn-outline-primary mb-3">Generate Month Co Op</button> --}}
-                    <a href="{{url('payroll/add-montly-coop-all')}}" class="btn btn-outline-primary mb-3">Generate Monthly Employee Co.Operative Deduction <i class="fa fa-plus"></i></a>
-                </div>
                   @if(Session::has('message'))										
                   <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                   @endif
                   <div class="card-body">
-                    <form action="{{url('payroll/vw-montly-coop')}}" method="post" enctype="multipart/form-data" style="width:50%;margin:0 auto;padding: 18px 20px 1px;background: #ecebeb;">
+                    <form action="{{url('payroll/vw-add-itax-all')}}" method="post" enctype="multipart/form-data" style="width:50%;margin:0 auto;padding: 18px 20px 1px;background: #ecebeb;">
                         {{ csrf_field() }}
                         <div class="row form-group">
                             <div class="col-md-3">
                                 <label for="text-input" class=" form-control-label" style="text-align:right;">Select Month</label>
                             </div>
                             <div class="col-md-6">
-                                <select data-placeholder="Choose Month..." name="month" id="month" class="form-control" required>
+                                <select class="form-control" name="month_yr" id="month_yr" required>
+
                                     <option value="" selected disabled > Select </option>
-                                    @foreach ($monthlist as $month)
-                                    <option value="<?php echo $month->month_yr; ?>" @if(isset($req_month) && $req_month==$month->month_yr) selected @endif><?php echo $month->month_yr; ?></option>
-                                    @endforeach
+                                        <?php
+                                                for ($yy = 2022; $yy <= date('Y'); $yy++) {
+                                                    for ($mm = 1; $mm <= 12; $mm++) {
+                                                        if ($mm < 10) {
+                                                            $month_yr = '0' . $mm . "/" . $yy;
+                                                        } else {
+                                                            $month_yr = $mm . "/" . $yy;
+                                                        }
+                                                        ?>
+                                                            <option value="<?php echo $month_yr; ?>"  @if(isset($month_yr_new) && $month_yr_new==$month_yr) selected @endif><?php echo $month_yr; ?></option>
+                                                        <?php
+            
+                                                        }
+                                                }
+                                        ?>
                                 </select>
                                 @if ($errors->has('month'))
                                 <div class="error" style="color:red;">{{ $errors->first('month') }}</div>
@@ -60,71 +69,46 @@
                         <h4 class="card-title"><i class="fa fa-cog" aria-hidden="true" style="color:#10277f;"></i>&nbsp;Process Attendance</h4>
                     </div> --}}
                     <div class="card-body">
-                        <form action="{{url('payroll/update-coop-all')}}" method="post" id="myForm">
+                        <form action="{{url('payroll/save-itax-all')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" id="cboxes" name="cboxes" class="cboxes" value="" />
-                            <input type="hidden" id="deleteme" name="deleteme" class="deleteme" value="" />
-                            <input type="hidden" id="statusme" name="statusme" class="statusme" value="" />
-                            <input type="hidden" id="deletemy" name="deletemy" class="deletemy" value="@if(isset($req_month)){{$req_month}} @endif" />
                             <input type="hidden" id="sm_emp_code_ctrl" name="sm_emp_code_ctrl" class="sm_emp_code_ctrl" value="" />
                             <input type="hidden" id="sm_emp_name_ctrl" name="sm_emp_name_ctrl" class="sm_emp_name_ctrl" value="" />
                             <input type="hidden" id="sm_emp_designation_ctrl" name="sm_emp_designation_ctrl" class="sm_emp_designation_ctrl" value="" />
                             <input type="hidden" id="sm_month_yr_ctrl" name="sm_month_yr_ctrl" class="sm_month_yr_ctrl" value="" />
 
-                            <input type="hidden" id="sm_d_coop_ctrl" name="sm_d_coop_ctrl" class="sm_d_coop_ctrl" value="" />
-							<input type="hidden" id="sm_d_insup_ctrl" name="sm_d_insup_ctrl" class="sm_d_insup_ctrl" value="" />
-							<input type="hidden" id="sm_d_misc_ctrl" name="sm_d_misc_ctrl" class="sm_d_misc_ctrl" value="" />
+                            <input type="hidden" id="sm_d_itax_ctrl" name="sm_d_itax_ctrl" class="sm_d_itax_ctrl" value="" />
+                            <table id="basic-datatables" class="table table-striped table-bordered">
+                                <thead style="text-align:center;vertical-align:middle;">
+                                    <tr>
+                                        <th style="width:8%;">Sl. No.</th>
+                                        <th style="width:12%;">Employee Id</th>
+                                        <th style="width:12%;">Employee Code</th>
+                                        <th style="width:20%;">Employee Name</th>
+                                        <th style="width:20%;">Designation</th>
+                                        <th style="width:10%;">Month</th>
+                                        <th >Income Tax Deduction</th>
+                                    </tr>
+                                </thead>
 
-								<table id="basic-datatables" class="table table-striped table-bordered">
-									<thead style="text-align:center;vertical-align:middle;">
-										<tr>
-										<th style="width:5%;">Sl. No.</th>
-											<th style="width:8%;">Employee Id</th>
-											<th style="width:12%;">Employee Code</th>
-											<th style="width:18%;">Employee Name</th>
-											<th style="width:15%;">Designation</th>
-											<th style="width:10%;">Month</th>
-											<th >Cooperative Deduction</th>
-											<th >Insurance Premium Deduction</th>
-											<th >Miscellaneous Deduction</th>
-										</tr>
-									</thead>
+                                <tbody>
+                                    <?php print_r($result);?>
+                                </tbody>
 
-									<tbody>
-										<?php print_r($result);?>
-									</tbody>
-
-									<tfoot>
-									
-										<tr>
-											<td colspan="6" style="border:none;">
-											<div class="row">
-												<div class="col-md-4">
-													<button type="button" class="btn btn-info btn-sm checkall" style="margin-right:2%;">Check All</button>
-													<button type="submit" class="btn btn-default btn-sm" onclick="map_controls();">Save</button>
-													<button type="reset" class="btn btn-warning btn-sm"> Reset</button>
-												</div>
-												<div class="col-md-4">
-													<select class="form-control" name="status" id="status" >
-														<option value="">Select Status</option>
-														<option value="process" selected>Pending</option>
-														<option value="approved">Approved</option>
-													</select>
-												</div>
-												<div class="col-md-4">
-													<button type="submit" name="btnDelete" class="btn btn-info btn-sm" style="background-color:red !important;float:right;" onclick="confirmDelete(event);">Delete All Records for the month</button>
-												</div>
-											</div>
-											</td>
-											<td><div class="total_coop" style="font-weight:700;"></div></td>
-											<td><div class="total_insu" style="font-weight:700;"></div></td>
-											<td><div class="total_misc" style="font-weight:700;"></div></td>
-										</tr>
-									</tfoot>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6" style="border:none;">
+                                            <button type="button" class="btn btn-info btn-sm checkall" style="margin-right:2%;">Check All</button>
+											<button type="submit" class="btn btn-default btn-sm" onclick="map_controls();">Save</button>
+											<button type="reset" class="btn btn-warning btn-sm"> Reset</button>
+                                        </td>
+                                        <td><div class="total_itax" style="font-weight:700;"></div></td>
+                                    </tr>
+                                </tfoot>
 
 
-								</table>
-							</form>
+                            </table>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -172,20 +156,11 @@
     
         var cb44 = $('.sm_d_itax').map(function() {return this.value;}).get().join(',');
         $('#sm_d_itax_ctrl').val(cb44);
-        
-        $('#statusme').val($('#status').val());
+    
     
     
     }
     
-    function confirmDelete(e){
-        e.preventDefault();
-        if (confirm("Do you want to delete all the generated records for the month?") == true) {
-        //text = "You pressed OK!";
-            $('#deleteme').val('yes');
-            $('#myForm').submit();
-        }
-    }
     
     $(document).on("keyup", ".sm_d_itax", function() {
         doSumITax();
@@ -211,8 +186,7 @@
            $(".total_itax").html(total);
     }
     
-    </script>
     
-	
+    </script>
     @endsection
    

@@ -130,9 +130,32 @@ Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationC
     Route::post('payroll/vw-add-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listCoopAllemployee');
     Route::post('payroll/save-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveCoopAll');
     Route::post('payroll/update-coop-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateCoopAll');
-
     Route::get('payroll/vw-montly-coop/export', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyCoopDeductionExport')->name('payroll.vw-montly-coop.export');
     Route::post('payroll/vw-montly-coop/import', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyCoopDeductionImport')->name('payroll.vw-montly-coop.import');
+
+    //incometax
+    Route::get('payroll/vw-montly-itax', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyItaxDeduction');
+    Route::post('payroll/vw-montly-itax', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewMonthlyItaxDeduction');
+    Route::get('payroll/add-montly-itax-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@addMonthlyItaxDeductionAllemployee');
+    Route::post('payroll/vw-add-itax-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listItaxAllemployee');
+    Route::post('payroll/save-itax-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveItaxAll');
+    Route::post('payroll/update-itax-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateItaxAll');
+
+    //generate allowances
+    Route::get('payroll/vw-montly-allowances', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyEarningAllowances');
+    Route::post('payroll/vw-montly-allowances', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewMonthlyEarningAllowances');
+    Route::get('payroll/add-montly-allowances', 'App\Http\Controllers\Payroll\PayrollGenerationController@addMonthlyAllowancesAllemployee');
+    Route::post('payroll/vw-add-allowances-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listAllowancesAllemployee');
+    Route::post('payroll/save-allowances-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveAllowancesAll');
+    Route::post('payroll/update-allowances-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateAllowancesAll');
+
+    //generate overtime
+    Route::get('payroll/vw-montly-overtime', 'App\Http\Controllers\Payroll\PayrollGenerationController@getMonthlyOvertimes');
+    Route::post('payroll/vw-montly-overtimes', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewMonthlyOvertimes');
+    Route::get('payroll/add-montly-overtimes', 'App\Http\Controllers\Payroll\PayrollGenerationController@addMonthlyOvertimesAllemployee');
+    Route::post('payroll/vw-add-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listOvertimesAllemployee');
+    Route::post('payroll/save-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveOvertimesAll');
+    Route::post('payroll/update-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateOvertimesAll');
 
 //payroll end
 

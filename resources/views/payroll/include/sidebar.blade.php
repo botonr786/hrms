@@ -52,7 +52,7 @@
 			 
 			 ?>
 		  <ul class="nav nav-primary">
-			 <li class="nav-item @if (Request::Segment(1)=='payroll') active @endif">
+			 <li class="nav-item @if (Request::Segment(2)=='dashboard') active @endif">
 				<a href="{{url('payroll/dashboard')}}">
 				   <i class="fas fa-home"></i>
 				   <p>Dashboard</p>
@@ -66,7 +66,7 @@
 				</a>
 				
 				</li>-->
-			 <li class="nav-item @if (Request::Segment(2)=='add-montly-attendance-data-all') active @endif">
+			 <li class="nav-item @if (Request::Segment(2)=='vw-montly-coop') active @endif">
 				<a data-toggle="collapse" href="#sidebarLayouts">
 				   <i class="fas fa-user"></i>
 				   <p>Payroll Master </p>
@@ -80,7 +80,7 @@
 					{
 					
 					?>	
-				 <li class="@if (Request::Segment(2)=='add-montly-attendance-data-all') active @endif">
+				 <li class="@if (Request::Segment(2)=='vw-montly-coop') active @endif">
 					<a href="{{url('payroll/vw-montly-coop')}}">
 					<span class="sub-item">Generat Monthly Co.Operative</span>
 					</a>
@@ -92,7 +92,7 @@
 					}
 						}else{
 						?>
-				 <li class="@if (Request::Segment(2)=='add-montly-attendance-data-all') active @endif">
+				 <li class="@if (Request::Segment(2)=='vw-montly-coop') active @endif">
 					<a href="{{url('payroll/vw-montly-coop')}}">
 					<span class="sub-item">Genearte Monthly Co.Operative</span>
 					</a>
@@ -106,8 +106,8 @@
 					  {
 					  
 					  ?>	
-				   <li class="@if (Request::Segment(2)=='view-montly-attendance-data-all') active @endif">
-					  <a href="{{url('#')}}">
+				   <li class="@if (Request::Segment(2)=='vw-montly-itax') active @endif">
+					  <a href="{{url('payroll/vw-montly-itax')}}">
 					  <span class="sub-item">Generate Monthly Income Tax </span>
 					  </a>
 				   </li>
@@ -118,9 +118,61 @@
 					  }
 						  }else{
 						  ?>
-				   <li class="@if (Request::Segment(2)=='view-montly-attendance-data-all') active @endif">
-					  <a href="{{url('#')}}">
+				   <li class="@if (Request::Segment(2)=='vw-montly-itax') active @endif">
+					  <a href="{{url('payroll/vw-montly-itax')}}">
 					  <span class="sub-item">Generate Monthly Income Tax</span>
+					  </a>
+				   </li>
+				   <?php	
+					  }
+					  ?>
+					  <?php 
+					  if( $usetype=='employee'){
+					  if(in_array('79', $arrrole))
+					  {
+					  
+					  ?>	
+				   <li class="@if (Request::Segment(2)=='vw-montly-allowances') active @endif">
+					  <a href="{{url('payroll/vw-montly-allowances')}}">
+					  <span class="sub-item">Generate Monthly Allowances</span>
+					  </a>
+				   </li>
+				   <?php
+					  }else{
+					  ?>
+				   <?php
+					  }
+						  }else{
+						  ?>
+				   <li class="@if (Request::Segment(2)=='vw-montly-allowances') active @endif">
+					  <a href="{{url('payroll/vw-montly-allowances')}}">
+					  <span class="sub-item">Generate Monthly Allowances</span>
+					  </a>
+				   </li>
+				   <?php	
+					  }
+					  ?>
+					  <?php 
+					  if( $usetype=='employee'){
+					  if(in_array('79', $arrrole))
+					  {
+					  
+					  ?>	
+				   <li class="@if (Request::Segment(2)=='vw-montly-overtime') active @endif">
+					  <a href="{{url('payroll/vw-montly-overtime')}}">
+					  <span class="sub-item">Genearte Monthly Overtimes</span>
+					  </a>
+				   </li>
+				   <?php
+					  }else{
+					  ?>
+				   <?php
+					  }
+						  }else{
+						  ?>
+				   <li class="@if (Request::Segment(2)=='vw-montly-overtime') active @endif">
+					  <a href="{{url('payroll/vw-montly-overtime')}}">
+					  <span class="sub-item">Genearte Monthly Overtimes</span>
 					  </a>
 				   </li>
 				   <?php	

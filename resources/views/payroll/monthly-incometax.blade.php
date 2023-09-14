@@ -8,7 +8,7 @@
          <li class="separator"> / </li>
          <li class="nav-item"><a href="{{url('payroll/dashboard')}}">Payroll</a></li>
          <li class="separator"> / </li>
-         <li class="nav-item active"><a href="#">Generat Monthly Co.Operative</a></li>
+         <li class="nav-item active"><a href="#">Generate Monthly Income Tax Deduction</a></li>
       </ul>
    </div>
    <div class="content">
@@ -17,14 +17,13 @@
             <div class="col-md-12">
                <div class="card custom-card">
                 <div class="card-header d-flex justify-content-end">
-                    {{-- <button class="btn btn-outline-primary mb-3">Generate Month Co Op</button> --}}
-                    <a href="{{url('payroll/add-montly-coop-all')}}" class="btn btn-outline-primary mb-3">Generate Monthly Employee Co.Operative Deduction <i class="fa fa-plus"></i></a>
+                    <a href="{{url('payroll/add-montly-itax-all')}}" class="btn btn-outline-primary mb-3">Generate Monthly Income Tax Deduction <i class="fa fa-plus"></i></a>
                 </div>
                   @if(Session::has('message'))										
                   <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                   @endif
                   <div class="card-body">
-                    <form action="{{url('payroll/vw-montly-coop')}}" method="post" enctype="multipart/form-data" style="width:50%;margin:0 auto;padding: 18px 20px 1px;background: #ecebeb;">
+                    <form action="{{url('payroll/vw-montly-itax')}}" method="post" enctype="multipart/form-data" style="width:50%;margin:0 auto;padding: 18px 20px 1px;background: #ecebeb;">
                         {{ csrf_field() }}
                         <div class="row form-group">
                             <div class="col-md-3">
@@ -60,33 +59,28 @@
                         <h4 class="card-title"><i class="fa fa-cog" aria-hidden="true" style="color:#10277f;"></i>&nbsp;Process Attendance</h4>
                     </div> --}}
                     <div class="card-body">
-                        <form action="{{url('payroll/update-coop-all')}}" method="post" id="myForm">
+                        <form action="{{url('payroll/update-itax-all')}}" method="post" id="myForm">
                             {{csrf_field()}}
                             <input type="hidden" id="cboxes" name="cboxes" class="cboxes" value="" />
+							<input type="hidden" id="statusme" name="statusme" class="statusme" value="" />
                             <input type="hidden" id="deleteme" name="deleteme" class="deleteme" value="" />
-                            <input type="hidden" id="statusme" name="statusme" class="statusme" value="" />
                             <input type="hidden" id="deletemy" name="deletemy" class="deletemy" value="@if(isset($req_month)){{$req_month}} @endif" />
                             <input type="hidden" id="sm_emp_code_ctrl" name="sm_emp_code_ctrl" class="sm_emp_code_ctrl" value="" />
                             <input type="hidden" id="sm_emp_name_ctrl" name="sm_emp_name_ctrl" class="sm_emp_name_ctrl" value="" />
                             <input type="hidden" id="sm_emp_designation_ctrl" name="sm_emp_designation_ctrl" class="sm_emp_designation_ctrl" value="" />
                             <input type="hidden" id="sm_month_yr_ctrl" name="sm_month_yr_ctrl" class="sm_month_yr_ctrl" value="" />
 
-                            <input type="hidden" id="sm_d_coop_ctrl" name="sm_d_coop_ctrl" class="sm_d_coop_ctrl" value="" />
-							<input type="hidden" id="sm_d_insup_ctrl" name="sm_d_insup_ctrl" class="sm_d_insup_ctrl" value="" />
-							<input type="hidden" id="sm_d_misc_ctrl" name="sm_d_misc_ctrl" class="sm_d_misc_ctrl" value="" />
-
-								<table id="basic-datatables" class="table table-striped table-bordered">
+                            <input type="hidden" id="sm_d_itax_ctrl" name="sm_d_itax_ctrl" class="sm_d_itax_ctrl" value="" />
+								<table id="bootstrap-data-table" class="table table-striped table-bordered">
 									<thead style="text-align:center;vertical-align:middle;">
 										<tr>
-										<th style="width:5%;">Sl. No.</th>
-											<th style="width:8%;">Employee Id</th>
+											<th style="width:8%;">Sl. No.</th>
+											<th style="width:12%;">Employee Id</th>
 											<th style="width:12%;">Employee Code</th>
-											<th style="width:18%;">Employee Name</th>
-											<th style="width:15%;">Designation</th>
+											<th style="width:20%;">Employee Name</th>
+											<th style="width:20%;">Designation</th>
 											<th style="width:10%;">Month</th>
-											<th >Cooperative Deduction</th>
-											<th >Insurance Premium Deduction</th>
-											<th >Miscellaneous Deduction</th>
+											<th >Income Tax Deduction</th>
 										</tr>
 									</thead>
 
@@ -95,7 +89,6 @@
 									</tbody>
 
 									<tfoot>
-									
 										<tr>
 											<td colspan="6" style="border:none;">
 											<div class="row">
@@ -110,15 +103,17 @@
 														<option value="process" selected>Pending</option>
 														<option value="approved">Approved</option>
 													</select>
+
 												</div>
 												<div class="col-md-4">
 													<button type="submit" name="btnDelete" class="btn btn-info btn-sm" style="background-color:red !important;float:right;" onclick="confirmDelete(event);">Delete All Records for the month</button>
 												</div>
 											</div>
+												
+
+                                            
 											</td>
-											<td><div class="total_coop" style="font-weight:700;"></div></td>
-											<td><div class="total_insu" style="font-weight:700;"></div></td>
-											<td><div class="total_misc" style="font-weight:700;"></div></td>
+											<td><div class="total_itax" style="font-weight:700;"></div></td>
 										</tr>
 									</tfoot>
 
@@ -193,8 +188,8 @@
     });
     
     $(document).ready(function(){
-        $("#basic-datatables").dataTable().fnDestroy();
-        $('#basic-datatables').DataTable({
+        $("#bootstrap-data-table").dataTable().fnDestroy();
+        $('#bootstrap-data-table').DataTable({
             lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
             initComplete: function(settings, json) {
                 doSumITax();
@@ -202,7 +197,7 @@
         });
     });
     function doSumITax() {
-        var table = $('#basic-datatables').DataTable();
+        var table = $('#bootstrap-data-table').DataTable();
         var nodes = table.column(6).nodes();
         var total = table.column(6 ).nodes()
           .reduce( function ( sum, node ) {
@@ -212,7 +207,6 @@
     }
     
     </script>
-    
 	
     @endsection
    
