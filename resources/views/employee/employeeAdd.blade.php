@@ -197,7 +197,7 @@
                                              <div class="row">
                                                 <div class="col-md-3">
                                                    <div class="form-group">
-                                                      <label>Employee Code</label>
+                                                      <label>Employee Code <span style="color: red">(*)</label>
                                                       <input type="text"  placeholder="Employee Code..." class="form-control"   name="emp_old_code" id="emp_old_code"></p>
                                                    </div>
                                                 </div>
@@ -804,7 +804,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                    <div class="form-group">
-                                                      <label>Pin Code <span>(*)</span></label>
+                                                      <label>Pin Code <span style="color: red">(*)</span></label>
                                                       <input type="text" name="emp_ps_pincode" id="present_pincode" value="" class="form-control" required>
                                                    </div>
                                                 </div>
@@ -816,7 +816,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                    <div class="form-group">
-                                                      <label>State <span>(*)</span></label>
+                                                      <label>State <span style="color: red">(*)</span></label>
                                                       <input type="text" id="stat" class="form-control"> 
                                                    </div>
                                                 </div>

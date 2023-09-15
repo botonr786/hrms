@@ -72,7 +72,7 @@ $arrrole=array();
 							</a>
 							
 						</li>
-
+						
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
@@ -82,39 +82,32 @@ $arrrole=array();
 							<?php 
 									
 									if( $usetype=='employee'){
-if(in_array('1', $arrrole))
-{
-	
-	?><li class="nav-item">
-							<a href="{{url('employees')}}">
-								<i class="fas fa-layer-group"></i>
-								<p>Employee</p>
-								
-							</a>
+						if(in_array('1', $arrrole))
+						{
 							
-						</li>
-
-				<?php
-}else{
-	?>
-				
-				<?php
-}
-									}else{
-									?>
-			<li class="nav-item">
+							?><li class="nav-item">
 							<a href="{{url('employeeslist')}}">
 								<i class="fas fa-layer-group"></i>
-								<p>Employee Mater</p>
+								<p>Employee List</p>
 								
 							</a>
 							
 						</li>
 
+				<?php
+				}else{
+					?>
+								
+								<?php
+				}
+									}else{
+									?>
+
+
 						<li class="nav-item">
-							<a href="{{url('employeesadd')}}">
+							<a href="{{url('employeeslist')}}">
 								<i class="fas fa-layer-group"></i>
-								<p>Employee add</p>
+								<p>Employee List</p>
 								
 							</a>
 							

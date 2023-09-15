@@ -111,7 +111,7 @@ if ($usetype == 'employee') {
     if (in_array('1', $arrrole)) {
 
         ?>
-																<a href="{{url('employees')}}">
+																<a href="{{url('employeeslist')}}">
 																<?php
 } else {
         ?>  <a href="#">
@@ -119,7 +119,7 @@ if ($usetype == 'employee') {
 																<?php
 }
 } else {
-    ?> <a href="{{url('employees')}}">
+    ?> <a href="{{url('employeeslist')}}">
 
 																<?php
 }

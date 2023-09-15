@@ -30,7 +30,7 @@
   @include('settings.include.header')
 		<!-- Sidebar -->
 		
-		  @include('settings.include.sidebar')
+		  @include('employee.include.sidebar')
 		<!-- End Sidebar -->
 		<div class="main-panel">
 			<div class="page-header">
@@ -51,7 +51,7 @@
 							/
 							</li>
 							<li class="nav-item active">
-								<a href="{{url('settings/payitemlist')}}">EMPLOYEE REPORT</a>
+								<a href="#">EMPLOYEE REPORT</a>
 							</li>
                             
 						
@@ -71,7 +71,7 @@
                                         <!-- right -->
                                     </div>
                                     <div>
-                                       <a href="{{url('settings/bonus-add')}}"><button class="btn btn-outline-success">Add</button></a>
+                                       <a href="{{url('employeesadd')}}"><button class="btn btn-outline-success">Add</button></a>
                                     </div>
                                 </div>
 	@if(Session::has('message'))										
