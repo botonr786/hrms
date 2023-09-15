@@ -533,6 +533,8 @@ class EmployeeController extends Controller
             "relation_others" => $request->relation_others,
             "em_email" => $request->em_email,
             "em_phone" => $request->em_phone,
+            "hel_em_email" => $request->hel_em_email,
+            "hel_em_phone" => $request->hel_em_phone,
             "em_address" => $request->em_address,
             "pass_doc_no" => $request->pass_doc_no,
             "pass_nat" => $request->pass_nat,
@@ -733,6 +735,7 @@ class EmployeeController extends Controller
             $documentModel->valuededuct = $valuededuct[$key];
             $documentModel->save();
         }
+        redirect('employeeslist');
     }
     //end employee
 

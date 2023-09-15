@@ -352,7 +352,6 @@ class RecruitmentController extends Controller
             $data['company_job_rs'] = DB::Table('job_post')
 
                 ->where('emid', '=', $Roledata->reg)
-                ->groupBy('title')
                 ->get();
 
             return view('recruitment/job-published', $data);

@@ -248,6 +248,18 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
+                                                      <label>Email <span style="color: red">(*)</span></label>
+                                                      <input type="text" placeholder="Employee Email..."  class="form-control" name="em_email" id="emp_email"></p>
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                   <div class="form-group">
+                                                      <label>Phone <span style="color: red">(*)</span></label>
+                                                      <input type="text" placeholder="Phone Number..."  class="form-control" name="em_phone" id="emp_phone"></p>
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                   <div class="form-group">
                                                       <label>Caste</label>
                                                       <select class="form-control" name="emp_caste">
                                                          <option>Select</option>
@@ -515,7 +527,7 @@
                                                          <td>
                                                             <input type="file" name="emp_document_upload[]" class="form-control">
                                                          </td>
-                                                         <td><button class="btn-success" type="button" id="add1" onClick="accademinewrow(1)" data-id="1"> <i class="ti-plus"></i> </button></td>
+                                                         <td><button class="btn-success" type="button" id="add1" onClick="accademinewrow(1)" data-id="1"> <i class="fas fa-plus"></i> </button></td>
                                                       </tr>
                                                    </tbody>
                                                 </table>
@@ -549,7 +561,7 @@
                                                          <td>
                                                             <input type="file" name="emp1_document_upload[]" class="form-control">
                                                          </td>
-                                                         <td><button class="btn-success" type="button" id="add1" onClick="proaddnewrow(1)" data-id="1"> <i class="ti-plus"></i> </button></td>
+                                                         <td><button class="btn-success" type="button" id="add1" onClick="proaddnewrow(1)" data-id="1"> <i class="fas fa-plus"></i> </button></td>
                                                       </tr>
                                                    </tbody>
                                                 </table>
@@ -576,7 +588,7 @@
                                                          <td>
                                                             <input type="file" name="traning1_document_upload[]" class="form-control">
                                                          </td>
-                                                         <td><button class="btn-success" type="button" id="add1" onClick="Miscnewrow(1)" data-id="1"> <i class="ti-plus"></i> </button></td>
+                                                         <td><button class="btn-success" type="button" id="add1" onClick="Miscnewrow(1)" data-id="1"> <i class="fas fa-plus"></i> </button></td>
                                                       </tr>
                                                    </tbody>
                                                 </table>
@@ -870,13 +882,13 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabeliemail" class="placeholder">Email</label>
-                                                      <input id="inputFloatingLabeliemail" type="email" class="form-control input-border-bottom" name="em_email" value="">
+                                                      <input id="inputFloatingLabeliemail" type="email" class="form-control input-border-bottom" name="hel_em_email" value="">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabeliem" class="placeholder">Emergency Contact No.</label>
-                                                      <input id="inputFloatingLabeliem" type="text" class="form-control input-border-bottom" name="em_phone" value="07863786953">
+                                                      <input id="inputFloatingLabeliem" type="text" class="form-control input-border-bottom" name="hel_em_phone" value="07863786953">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -1364,7 +1376,7 @@
                                                          </td>
                                                          <td><input type="text" name="value_emp[]"  id="value0" class="form-control"></td>
                                                          <td>
-                                                            <button class="btn-success" type="button" id="addearn1" onClick="addnewrowearn(1)" data-id="earn1"> <i class="ti-plus"></i> </button>
+                                                            <button class="btn-success" type="button" id="addearn1" onClick="addnewrowearn(1)" data-id="earn1"> <i class="fas fa-plus"></i> </button>
                                                          </td>
                                                       </tr>
                                                    </tbody>
@@ -1463,7 +1475,7 @@
                                                             </select>
                                                          </td>
                                                          <td><input type="text" name="valuededuct[]"  id="valuededuct0" class="form-control"></td>
-                                                         <td><button class="btn-success" type="button" id="adddeduct1" onClick="addnewrowdeduct(1)" data-id="deduct1"> <i class="ti-plus"></i> </button></td>
+                                                         <td><button class="btn-success" type="button" id="adddeduct1" onClick="addnewrowdeduct(1)" data-id="deduct1"> <i class="fas fa-plus"></i> </button></td>
                                                       </tr>
                                                    </tbody>
                                                 </table>
@@ -2043,7 +2055,7 @@
          
          
          function validateForm() {
-         var inputIdsToValidate = ["emp_old_code","emp_fname","emp_father_name","deptid","rate_id","dateofbirth","dateofjoin","type"];
+         var inputIdsToValidate = ["emp_old_code","emp_fname","emp_father_name","deptid","rate_id","dateofbirth","dateofjoin","type","emp_email","emp_phone"];
          // , "emp_father_name","deptid","rate_id","dateofbirth","dateofjoin","type"
          //   ,"type","parmenent_pincode","parmenent_state","emp_group","emp_basic_pay","emp_apf_percent","emp_pf_type","emp_bank_name","bank_branch_ids","emp_ifsc_code","emp_account_no"
          var valid = true;
