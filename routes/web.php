@@ -157,7 +157,24 @@ Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationC
     Route::post('payroll/save-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveOvertimesAll');
     Route::post('payroll/update-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateOvertimesAll');
 
+    //Single Payroll Generation
+    Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationController@payrollDashboard');
+    Route::get('payroll/vw-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@getPayroll');
+    Route::post('payroll/vw-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@showPayroll');
+    // Route::post('payroll/xls-export-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@payroll_xlsexport');
+    Route::get('payroll/add-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewPayroll');
+    Route::post('payroll/add-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@savePayrollDetails');
+    Route::get('payroll/getEmployeePayrollById/{empid}/{month}/{year}', 'App\Http\Controllers\Payroll\PayrollGenerationController@empPayrollAjax');
+    //Bulk  Payroll Generation
+    Route::get('payroll/vw-payroll-generation-all-employee', 'App\Http\Controllers\Payroll\PayrollGenerationController@getPayrollallemployee');
+    Route::post('payroll/vw-payroll-generation-all-employee', 'App\Http\Controllers\Payroll\PayrollGenerationController@showPayrollallemployee');
+    Route::get('payroll/add-generate-payroll-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@addPayrollallemployee');
+    Route::post('payroll/vw-generate-payroll-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listPayrollallemployee');
+    Route::post('payroll/save-payroll-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SavePayrollAll');
+
 //payroll end
+
+   
 
 //plans
 Route::get('superadmin/plans', 'App\Http\Controllers\AdminController@getPlans');
