@@ -172,6 +172,11 @@ Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationC
     Route::post('payroll/vw-generate-payroll-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listPayrollallemployee');
     Route::post('payroll/save-payroll-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SavePayrollAll');
 
+    Route::get('payroll/vw-process-payroll', 'App\Http\Controllers\Payroll\PayrollGenerationController@getProcessPayroll');
+    Route::post('payroll/vw-process-payroll', 'App\Http\Controllers\Payroll\PayrollGenerationController@vwProcessPayroll');
+    Route::post('payroll/edit-process-payroll', 'App\Http\Controllers\Payroll\PayrollGenerationController@updateProcessPayroll');
+    Route::get('pis/payrolldelete/{payroll_id}', 'App\Http\Controllers\Payroll\PayrollGenerationController@deletePayroll');
+
 //payroll end
 
    

@@ -230,6 +230,32 @@
 					 <?php	
 						}
 						?>
+						 <?php 
+						 if( $usetype=='employee'){
+						 if(in_array('79', $arrrole))
+						 {
+						 
+						 ?>	
+					  <li class="@if (Request::Segment(2)=='payroll/vw-process-payroll') active @endif">
+						 <a href="{{url('payroll/vw-process-payroll')}}">
+						 <span class="sub-item">Process Employee Payroll</span>
+						 </a>
+					  </li>
+					  <?php
+						 }else{
+						 ?>
+					  <?php
+						 }
+							 }else{
+							 ?>
+					  <li class="@if (Request::Segment(2)=='vw-process-payroll') active @endif">
+						 <a href="{{url('payroll/vw-process-payroll')}}">
+						 <span class="sub-item">Process Employee Payroll</span>
+						 </a>
+					  </li>
+					  <?php	
+						 }
+						 ?>
 				   </ul>
 				</div>
 			 </li>

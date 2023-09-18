@@ -18,6 +18,8 @@ use App\Models\Payroll\MonthlyEmployeeOvertime;
 use App\Models\Loan\Loan;
 use App\Models\Loan\LoanRecovery;
 use App\Models\Masters\Interest;
+use App\Models\Leave\Nps_details;
+use App\Models\Leave\Gpf_details;
 use Session;
 use View;
 use DB;
@@ -4039,6 +4041,112 @@ class PayrollGenerationController extends Controller
         } else {
             return redirect('/');
         }
+    }
+    public function getProcessPayroll()
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+            $data['monthlist'] = Payroll_detail::select('month_yr')->distinct('month_yr')->get();
+            $data['process_payroll'] = "";
+            $data['rate_master'] = Rate_master::get();
+            return view('payroll/vw-process-payroll', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+    public function vwProcessPayroll(Request $request)
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+            //dd($request->all());
+            $data['process_payroll'] = Payroll_detail::where('month_yr', '=', $request->month)
+                ->where('proces_status', '=', 'process')
+                ->select('payroll_details.*',DB::raw("(SELECT emp_code FROM employee WHERE payroll_details.employee_id=employee.emp_code) as old_emp_code"))
+                ->get();
+
+            // print_r(count($data['process_payroll']));
+            // die();
+            //dd($data);
+            if (count($data['process_payroll']) == 0) {
+                // print_r('Empty');
+                // die();
+                Session::flash('error', 'No Data Found.');
+            }
+            $data['rate_master'] = Rate_master::get();
+            $data['monthlist'] = Payroll_detail::select('month_yr')->distinct('month_yr')->get();
+            $data['month_yr'] = $request->month;
+            //dd($data);
+
+            return view('payroll/vw-process-payroll', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+    public function updateProcessPayroll(Request $request)
+    {
+
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+             //dd($request->all());
+            if (isset($request->deleteme) && $request->deleteme == 'yes') {
+                LoanRecovery::where('payout_month','=',$request->deletemy)->delete();
+                Payroll_detail::where('month_yr', $request->deletemy)->delete();
+                Session::flash('message', 'All generated payroll records for the month ' . $request->deletemy . ' deleted successfully.');
+                return redirect('payroll/vw-process-payroll');
+            }
+
+            if (isset($request['payroll_id']) && count($request['payroll_id']) != 0) {
+                foreach ($request['payroll_id'] as $payroll) {
+                    $dataUpdate = Payroll_detail::where('id', '=', $payroll)
+                        ->update(['proces_status' => 'completed']);
+                }
+                Session::flash('message', 'Pay Detail Save Successfully.');
+            } else {
+                Session::flash('error', 'No Pay Detail is Selected.');
+            }
+            return redirect('payroll/vw-process-payroll');
+        } else {
+            return redirect('/');
+        }
+    }
+    public function deletePayroll($paystructure_id)
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+            $emp_dtl = Payroll_detail::where('id', $paystructure_id)->first();
+            $this->deleteNps($emp_dtl->month_yr, $emp_dtl->employee_id);
+            $this->deleteGpf($emp_dtl->month_yr, $emp_dtl->employee_id);
+
+            $allloans=Loan::where('emp_code', '=', $emp_dtl->employee_id)
+                ->where('deduction', '=', 'Y')
+                ->where(DB::raw('DATE_FORMAT(loans.start_month, "%m/%Y")'), '<=', $emp_dtl->month_yr)
+                ->get(); 
+
+            foreach($allloans as $loan){
+                LoanRecovery::where('loan_id','=',$loan->id)->where('payout_month','=',$emp_dtl->month_yr)->delete();
+            }                         
+
+
+            $result = Payroll_detail::where('id', $paystructure_id)->delete();
+            Session::flash('message', 'Pay Detail Deleted Successfully.');
+            return redirect('payroll/vw-process-payroll');
+        } else {
+            return redirect('/');
+        }
+    }
+    public function deleteNps($month, $emp_code)
+    {
+        $result = Nps_details::where('month_year', $month)
+            ->where('emp_code', $emp_code)
+            ->delete();
+
+    }
+    public function deleteGpf($month, $emp_code)
+    {
+        $result = Gpf_details::where('month_year', $month)
+            ->where('emp_code', $emp_code)
+            ->delete();
+
     }
     public function empPayrollAjax($empid, $month, $year)
     {
