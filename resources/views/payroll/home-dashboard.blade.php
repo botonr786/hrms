@@ -379,7 +379,7 @@ footer p{color:#fff;margin-bottom:0;}
 <body>
 <div class="wrapper">
 
-@include('attendance.include.header')
+@include('payroll.include.header')
 <!-- Sidebar -->
  {{-- @include('attendance.include.sidebar') --}}
 <!-- End Sidebar -->

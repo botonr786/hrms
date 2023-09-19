@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payroll;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\Payroll\MonthlyEmployeeCooperative;
 use App\Models\Payroll\Payroll_detail;
@@ -20,6 +21,9 @@ use App\Models\Loan\LoanRecovery;
 use App\Models\Masters\Interest;
 use App\Models\Leave\Nps_details;
 use App\Models\Leave\Gpf_details;
+use App\Models\Payroll\PfOpeningBalance;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\PfOpeningBalanceImport;
 use Session;
 use View;
 use DB;
@@ -4134,6 +4138,207 @@ class PayrollGenerationController extends Controller
             return redirect('/');
         }
     }
+    public function viewPfOpeningBalance()
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            $data['pf_opening_balance'] = PfOpeningBalance::get();
+
+            //dd($data['pf_opening_balance']);
+            return view('payroll/view-pf-opening-balance', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function importPfOpeningBalance(Request $request)
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+            try {
+                $file = $request->file('import_file');
+                if ($file) {
+                    $path1 = $request->file('import_file')->store('temp');
+                    $path = storage_path('app') . '/' . $path1;
+                    $data = Excel::import(new PfOpeningBalanceImport, $path);
+                    Session::flash('message', 'Opening Balance Data imported Successfully.');
+                    return redirect('payroll/pf-opening-balance');
+                }
+
+            } catch (Exception $e) {
+                //throw new \App\Exceptions\AdminException($e->getMessage());
+                return redirect('payroll/pf-opening-balance')->withErrors($e->getMessage())->withInput();
+            }
+        } else {
+            return redirect('/');
+        }
+    }
+    public function getAdjustPayroll()
+    {
+
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            $data['payroll_rs'] = Payroll_detail::join('employee', 'employee.emp_code', '=', 'payroll_details.employee_id')
+                ->select('employee.old_emp_code', 'payroll_details.*')
+                ->where('payroll_details.emp_adjust_days','>',0)
+                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
+                ->get();
+            $data['rate_master'] = Rate_master::get();
+            //dd($data['payroll_rs'][0]);
+            return view('payroll/view-adjust-payroll-generation', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+    public function viewAdjustPayroll()
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+            $data['Employee'] = Employee::where('status', '=', 'active')->orderBy('emp_fname', 'asc')->get();
+            return view('payroll/adjustment-payroll-generation', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+    public function saveAdjustmentPayrollDetails(Request $request)
+    {
+
+        // dd($request->all());
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            if (empty($request->emp_gross_salary)) {
+                Session::flash('message', 'Gross Salary Cannot be Blank.');
+                return redirect('payroll/vw-payroll-generation');
+            }
+
+            if (empty($request->emp_total_deduction)) {
+
+                Session::flash('message', 'Total Salary Cannot be Blank.');
+                return redirect('payroll/vw-payroll-generation');
+            }
+
+            if (empty($request->emp_net_salary)) {
+
+                Session::flash('message', 'Net Salary Cannot be Blank.');
+                return redirect('payroll/vw-payroll-generation');
+            }
+
+            $monthyr = $request->month_yr;
+            $mnt_yr = date('m/Y', strtotime("$monthyr"));
+
+            $data['employee_id'] = $request->empname;
+            $data['emp_name'] = $request->emp_name;
+            $data['emp_designation'] = $request->emp_designation;
+            $data['emp_basic_pay'] = $request->emp_basic_pay;
+            $data['month_yr'] = $mnt_yr;
+            $data['emp_present_days'] = $request->emp_present_days;
+            $data['emp_cl'] = $request->emp_cl;
+            $data['emp_el'] = $request->emp_el;
+            $data['emp_hpl'] = $request->emp_hpl;
+            $data['emp_absent_days'] = $request->emp_absent_days;
+            $data['emp_rh'] = $request->emp_rh;
+            $data['emp_cml'] = $request->emp_cml;
+            $data['emp_eol'] = $request->emp_eol;
+            $data['emp_lnd'] = $request->emp_lnd;
+            $data['emp_maternity_leave'] = $request->emp_maternity_leave;
+            $data['emp_paternity_leave'] = $request->emp_paternity_leave;
+            $data['emp_ccl'] = $request->emp_ccl;
+            $data['emp_el'] = $request->emp_el;
+            $data['emp_da'] = $request->emp_da;
+            $data['emp_vda'] = $request->emp_vda;
+            $data['emp_hra'] = $request->emp_hra;
+            $data['emp_prof_tax'] = $request->emp_prof_tax;
+            $data['emp_others_alw'] = $request->emp_others_alw;
+            $data['emp_tiff_alw'] = $request->emp_tiff_alw;
+            $data['emp_conv'] = $request->emp_conv;
+            $data['emp_medical'] = $request->emp_medical;
+            $data['emp_misc_alw'] = $request->emp_misc_alw;
+            $data['emp_over_time'] = $request->emp_over_time;
+            $data['emp_bouns'] = $request->emp_bouns;
+            $data['emp_pf'] = $request->emp_pf;
+            $data['emp_pf_int'] = $request->emp_pf_int;
+            $data['emp_co_op'] = $request->emp_co_op;
+            $data['emp_apf'] = $request->emp_apf;
+            $data['emp_i_tax'] = $request->emp_i_tax;
+            $data['emp_insu_prem'] = $request->emp_insu_prem;
+            $data['emp_pf_loan'] = $request->emp_pf_loan;
+            $data['emp_esi'] = $request->emp_esi;
+            $data['emp_adv'] = $request->emp_adv;
+            $data['emp_absent_deduction'] = $request->emp_absent_deduction;
+            $data['emp_gross_salary'] = $request->emp_gross_salary;
+            $data['emp_hrd'] = $request->emp_hrd;
+            $data['emp_gross_salary'] = $request->emp_gross_salary;
+            $data['emp_total_deduction'] = $request->emp_total_deduction;
+            $data['emp_net_salary'] = $request->emp_net_salary;
+            $data['emp_furniture'] = $request->emp_furniture;
+            $data['emp_pf_employer'] = $request->emp_pf_employer;
+            $data['emp_misc_ded'] = $request->emp_misc_ded;
+            $data['emp_leave_inc'] = $request->emp_leave_inc;
+            $data['emp_hta'] = $request->emp_hta;
+            $data['emp_income_tax'] = $request->emp_income_tax;
+            $data['other_deduction'] = $request->other_deduction;
+            $data['other_addition'] = $request->other_addition;
+            $data['emp_adjust_days'] = $request->emp_adjust_days;
+            $data['proces_status'] = 'process';
+            $data['created_at'] = date('Y-m-d');
+            $status['status_of_co_op']=$request->status_co;
+
+            $employee_pay_structure = Payroll_detail::where('employee_id', '=', $request->empname)
+                ->where('month_yr', '=', $mnt_yr)
+                ->first();
+
+            if (!empty($employee_pay_structure)) {
+                Session::flash('message', 'Payroll for this employee already generated for the month of "' . date('m-Y') . '". ');
+            } else {
+
+                Payroll_detail::insert($data);
+                MonthlyEmployeeCooperative::where('month_yr', $mnt_yr)->where('emp_code', $request->empname)->update($status);
+
+                $salary_adv_loan=$this->getLoanDeductionValue($request->empname,'SA',$mnt_yr);
+                $pf_loan=$this->getLoanDeductionValue($request->empname,'PF',$mnt_yr);
+
+                if(!empty($salary_adv_loan)){
+                    foreach($salary_adv_loan as $rec){
+                        $loanRecovery = new LoanRecovery;
+                        $loanRecovery->loan_id = $rec['id'];
+                        $loanRecovery->amount = $request->emp_adv;
+                        $loanRecovery->payout_month = $mnt_yr;
+                        $loanRecovery->save();
+                    }
+                }
+
+                if(!empty($pf_loan)){
+                    foreach($pf_loan as $rec){
+                        $loanRecovery = new LoanRecovery;
+                        $loanRecovery->loan_id = $rec['id'];
+                        $loanRecovery->amount = $request->emp_pf_loan;
+                        $loanRecovery->payout_month = $mnt_yr;
+                        $loanRecovery->save();
+                    }
+                }
+
+
+                $check_gpf = $this->checkGpfEligibility($data['employee_id']);
+
+                if (isset($check_gpf->pf) && $check_gpf->pf == '1') {
+                    //$this->npsMonthlyEnty($data);
+                    $this->gpfMonthlyEnty($data);
+                }
+
+                Session::flash('message', 'Payroll Information Successfully Saved.');
+            }
+
+            return redirect('payroll/vw-adjustment-payroll-generation');
+        } else {
+            return redirect('/');
+        }
+    }
+
+
+   
     public function deleteNps($month, $emp_code)
     {
         $result = Nps_details::where('month_year', $month)

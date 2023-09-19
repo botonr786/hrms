@@ -20,9 +20,7 @@
                     {{-- <button class="btn btn-outline-primary mb-3">Generate Month Co Op</button> --}}
                     <a href="{{url('payroll/add-montly-coop-all')}}" class="btn btn-outline-primary mb-3">Generate Monthly Employee Co.Operative Deduction <i class="fa fa-plus"></i></a>
                 </div>
-                  @if(Session::has('message'))										
-                  <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
-                  @endif
+                    @include('layout.message')
                   <div class="card-body">
                     <form action="{{url('payroll/vw-montly-coop')}}" method="post" enctype="multipart/form-data" style="width:50%;margin:0 auto;padding: 18px 20px 1px;background: #ecebeb;">
                         {{ csrf_field() }}

@@ -20,10 +20,7 @@
                                 <a href="{{ url('payroll/add-payroll-generation') }}"
                                     class="btn btn-outline-primary mb-3">Generate Payroll <i class="fa fa-plus"></i></a>
                             </div>
-                            @if (Session::has('message'))
-                                <div class="alert alert-success" style="text-align:center;"><span
-                                        class="glyphicon glyphicon-ok"></span><em> {{ Session::get('message') }}</em></div>
-                            @endif
+                            @include('layout.message')
                             <div class="card-body">
                                 <form action="{{ url('payroll/vw-payroll-generation') }}" method="post"
                                     enctype="multipart/form-data"

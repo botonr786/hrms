@@ -235,8 +235,8 @@
 						 if(in_array('79', $arrrole))
 						 {
 						 
-						 ?>	
-					  <li class="@if (Request::Segment(2)=='payroll/vw-process-payroll') active @endif">
+						 ?>	 
+					  <li class="@if (Request::Segment(2)=='vw-process-payroll') active @endif">
 						 <a href="{{url('payroll/vw-process-payroll')}}">
 						 <span class="sub-item">Process Employee Payroll</span>
 						 </a>
@@ -256,6 +256,59 @@
 					  <?php	
 						 }
 						 ?>
+						  <?php 
+						  if( $usetype=='employee'){
+						  if(in_array('79', $arrrole))
+						  {
+						  
+						  ?>	 
+					   <li class="@if (Request::Segment(2)=='pf-opening-balance') active @endif">
+						  <a href="{{url('payroll/pf-opening-balance')}}">
+						  <span class="sub-item">PF Opening Balance</span>
+						  </a>
+					   </li>
+					   <?php
+						  }else{
+						  ?>
+					   <?php
+						  }
+							  }else{
+							  ?>
+					   <li class="@if (Request::Segment(2)=='pf-opening-balance') active @endif">
+						  <a href="{{url('payroll/pf-opening-balance')}}">
+						  <span class="sub-item">PF Opening Balance</span>
+						  </a>
+					   </li>
+					   <?php	
+						  }
+						  ?>
+						  <?php 
+						  if( $usetype=='employee'){
+						  if(in_array('79', $arrrole))
+						  {
+						  
+						  ?>	 
+					   <li class="@if (Request::Segment(2)=='vw-adjustment-payroll-generation') active @endif">
+						  <a href="{{url('payroll/vw-adjustment-payroll-generation')}}">
+						  <span class="sub-item">Salary Adjustment (Payroll)</span>
+						  </a>
+					   </li>
+					   <?php
+						  }else{
+						  ?>
+					   <?php
+						  }
+							  }else{
+							  ?>
+					   <li class="@if (Request::Segment(2)=='vw-adjustment-payroll-generation') active @endif">
+						  <a href="{{url('payroll/vw-adjustment-payroll-generation')}}">
+						  <span class="sub-item">Salary Adjustment (Payroll)</span>
+						  </a>
+					   </li>
+					   <?php	
+						  }
+						  ?>
+						  
 				   </ul>
 				</div>
 			 </li>

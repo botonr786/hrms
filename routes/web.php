@@ -177,6 +177,15 @@ Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationC
     Route::post('payroll/edit-process-payroll', 'App\Http\Controllers\Payroll\PayrollGenerationController@updateProcessPayroll');
     Route::get('pis/payrolldelete/{payroll_id}', 'App\Http\Controllers\Payroll\PayrollGenerationController@deletePayroll');
 
+    //pf opening
+    Route::get('payroll/pf-opening-balance', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewPfOpeningBalance');
+    Route::post('payroll/upload-pf-opening-balance', 'App\Http\Controllers\Payroll\PayrollGenerationController@importPfOpeningBalance');
+
+    //salary adjustment
+    Route::get('payroll/vw-adjustment-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@getAdjustPayroll');
+    Route::get('payroll/adjustment-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewAdjustPayroll');
+    Route::post('payroll/adjustment-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@saveAdjustmentPayrollDetails');
+
 //payroll end
 
    
