@@ -16,9 +16,7 @@
          <div class="row">
             <div class="col-md-12">
                <div class="card custom-card">
-                  @if(Session::has('message'))										
-                  <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
-                  @endif
+                @include('layout.message')
                   <div class="card-body">
                     <form action="{{url('payroll/vw-add-coop-all')}}" method="post" enctype="multipart/form-data" style="width:50%;margin:0 auto;padding: 18px 20px 1px;background: #ecebeb;">
                         {{ csrf_field() }}

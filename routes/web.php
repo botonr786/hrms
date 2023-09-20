@@ -157,7 +157,51 @@ Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationC
     Route::post('payroll/save-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveOvertimesAll');
     Route::post('payroll/update-overtimes-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateOvertimesAll');
 
+    //Single Payroll Generation
+    Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationController@payrollDashboard');
+    Route::get('payroll/vw-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@getPayroll');
+    Route::post('payroll/vw-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@showPayroll');
+    // Route::post('payroll/xls-export-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@payroll_xlsexport');
+    Route::get('payroll/add-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewPayroll');
+    Route::post('payroll/add-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@savePayrollDetails');
+    Route::get('payroll/getEmployeePayrollById/{empid}/{month}/{year}', 'App\Http\Controllers\Payroll\PayrollGenerationController@empPayrollAjax');
+    //Bulk  Payroll Generation
+    Route::get('payroll/vw-payroll-generation-all-employee', 'App\Http\Controllers\Payroll\PayrollGenerationController@getPayrollallemployee');
+    Route::post('payroll/vw-payroll-generation-all-employee', 'App\Http\Controllers\Payroll\PayrollGenerationController@showPayrollallemployee');
+    Route::get('payroll/add-generate-payroll-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@addPayrollallemployee');
+    Route::post('payroll/vw-generate-payroll-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@listPayrollallemployee');
+    Route::post('payroll/save-payroll-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SavePayrollAll');
+
+    Route::get('payroll/vw-process-payroll', 'App\Http\Controllers\Payroll\PayrollGenerationController@getProcessPayroll');
+    Route::post('payroll/vw-process-payroll', 'App\Http\Controllers\Payroll\PayrollGenerationController@vwProcessPayroll');
+    Route::post('payroll/edit-process-payroll', 'App\Http\Controllers\Payroll\PayrollGenerationController@updateProcessPayroll');
+    Route::get('pis/payrolldelete/{payroll_id}', 'App\Http\Controllers\Payroll\PayrollGenerationController@deletePayroll');
+
+    //pf opening
+    Route::get('payroll/pf-opening-balance', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewPfOpeningBalance');
+    Route::post('payroll/upload-pf-opening-balance', 'App\Http\Controllers\Payroll\PayrollGenerationController@importPfOpeningBalance');
+
+    //salary adjustment
+    Route::get('payroll/vw-adjustment-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@getAdjustPayroll');
+    Route::get('payroll/adjustment-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewAdjustPayroll');
+    Route::post('payroll/adjustment-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@saveAdjustmentPayrollDetails');
+
+    //without payslip - voucher payroll entry
+    Route::get('payroll/vw-voucher-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@getVoucherPayroll');
+    Route::get('payroll/voucher-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewVoucherPayroll');
+    Route::post('payroll/voucher-payroll-generation', 'App\Http\Controllers\Payroll\PayrollGenerationController@saveVoucherPayroll');
+
+    //yearly bonus input
+    Route::get('payroll/vw-yearly-bonus', 'App\Http\Controllers\Payroll\PayrollGenerationController@getYearlyBonus');
+    Route::post('payroll/vw-yearly-bonus', 'App\Http\Controllers\Payroll\PayrollGenerationController@viewYearlyBonus');
+    Route::get('payroll/add-yearly-bonus', 'App\Http\Controllers\Payroll\PayrollGenerationController@addYearlyBonus');
+    Route::post('payroll/add-yearly-bonus', 'App\Http\Controllers\Payroll\PayrollGenerationController@listAddYearlyBonus');
+    Route::post('payroll/save-bonus-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@SaveBonusAll');
+    Route::post('payroll/update-bonus-all', 'App\Http\Controllers\Payroll\PayrollGenerationController@UpdateBonusAll');
+
 //payroll end
+
+   
 
 //plans
 Route::get('superadmin/plans', 'App\Http\Controllers\AdminController@getPlans');

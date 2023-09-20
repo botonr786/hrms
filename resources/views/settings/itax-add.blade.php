@@ -98,8 +98,8 @@
 											<label for="inputFloatingLabel" class="placeholder">Status</label>
 											<select class="form-control" name="status">
                                               <option value="">Select</option>
-                                              <option value="Active">Active</option>
-                                              <option value="inActive">inActive</option>
+                                              <option value="active">Active</option>
+                                              <option value="inactive">inActive</option>
                                             </select>
 										</div>
 											</div>

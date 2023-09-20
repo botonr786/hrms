@@ -78,7 +78,7 @@
 										<div class="col-md-3">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Effective From</label>
-												<input id="inputFloatingLabel" type="date" class="form-control input-border-bottom" value="<?php print_r($itex['0']->effectivefrom) ?>" name="effectivefrom"/>
+												<input id="inputFloatingLabel" type="date" class="form-control input-border-bottom" value="<?php print_r($itex['0']->effective_from) ?>" name="effectivefrom"/>
 										</div>
                                          </div>
                                         <div class="col-md-3">
@@ -99,8 +99,8 @@
 											<label for="inputFloatingLabel" class="placeholder">Status</label>
 											<select class="form-control" name="status">
                                               <option value="">Select</option>
-                                              <option value="Active" <?php if($itex['0']->status==="Active"){?> selected="selected" <?php } ?>>Active</option>
-                                              <option value="inActive" <?php if($itex['0']->status==="inActive"){ ?> selected="selected" <?php }?>>inActive</option>
+                                              <option value="Active" <?php if($itex['0']->status==="active"){?> selected="selected" <?php } ?>>Active</option>
+                                              <option value="inActive" <?php if($itex['0']->status==="inactive"){ ?> selected="selected" <?php }?>>inActive</option>
                                             </select>
 										</div>
 											</div>
