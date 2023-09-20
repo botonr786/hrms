@@ -302,7 +302,7 @@
                      ?>
                   <?php }else{
                      ?>
-                  <a href="{{url('holidaydashboard')}">
+                  <a href="{{url('holidaydashboard')}}">
                      <?php }  ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
@@ -428,7 +428,7 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <a href="#">
+                  <a href="{{url('payroll-home-dashboard')}}">
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/payroll.png')}}" alt="" style="width:50px;">
@@ -755,7 +755,7 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <a href="#">
+                  <a href="{{url('payroll-home-dashboard')}}">
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/payroll.png')}}" alt="" style="width:50px;">
@@ -1081,7 +1081,7 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <a href="#">
+                  <a href="{{url('payroll-home-dashboard')}}">
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/payroll.png')}}" alt="" style="width:50px;">
