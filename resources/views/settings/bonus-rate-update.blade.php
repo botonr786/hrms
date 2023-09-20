@@ -79,13 +79,13 @@
 										<div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Effective From</label>
-												<input id="inputFloatingLabel" type="date" class="form-control input-border-bottom"  name="effectivefrom" value="<?php print_r($bonas['0']->effectivefrom) ?>"/>
+												<input id="inputFloatingLabel" type="date" class="form-control input-border-bottom"  name="effectivefrom" value="<?php print_r($bonas['0']->effective_from) ?>"/>
 										</div>
                                          </div>
                                         <div class="col-md-4">
 										<div class="form-group">
 											<label for="inputFloatingLabel" class="placeholder">Bonus Rate</label>
-												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bonusrate" value="<?php print_r($bonas['0']->bonusrate) ?>"/>
+												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bonusrate" value="<?php print_r($bonas['0']->interest) ?>"/>
 										</div>
                                         </div>
                                         <div class="col-md-4">
@@ -93,8 +93,8 @@
 											<label for="inputFloatingLabel" class="placeholder">Status</label>
 											<select class="form-control" name="status">
                                               <option value="">Select</option>
-                                              <option value="Active" <?php if($bonas['0']->status==="Active"){ ?> selected="selected" <?php } ?>>Active</option>
-                                              <option value="inActive" <?php if($bonas['0']->status==="inActive"){ ?> selected="selected" <?php } ?>>inActive</option>
+                                              <option value="Active" <?php if($bonas['0']->status==="active"){ ?> selected="selected" <?php } ?>>Active</option>
+                                              <option value="inActive" <?php if($bonas['0']->status==="inactive"){ ?> selected="selected" <?php } ?>>inActive</option>
                                             </select>
 										</div>
 											</div>

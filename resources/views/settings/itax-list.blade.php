@@ -97,7 +97,7 @@
             @foreach($itax as $ratedtl)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $ratedtl->effectivefrom }}</td>
+                                        <td>{{ $ratedtl->effective_from }}</td>
                                         <td>{{ $ratedtl->surcharge }}</td>
                                         <td>{{ $ratedtl->ecess }}</td>
                                         <td>{{ $ratedtl->status }}</td>

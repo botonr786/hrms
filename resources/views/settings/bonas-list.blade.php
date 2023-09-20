@@ -96,8 +96,8 @@
             @foreach($bonas as $ratedtl)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $ratedtl->effectivefrom }}</td>
-                                        <td>{{ $ratedtl->bonusrate }}</td>
+                                        <td>{{ $ratedtl->effective_from }}</td>
+                                        <td>{{ $ratedtl->interest }}</td>
                                         <td>{{ $ratedtl->status }}</td>
                                        
                                         

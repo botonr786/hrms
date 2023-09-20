@@ -56,7 +56,7 @@ class SettingController extends Controller
         return redirect('settings/pflist');
     }
     public function getbonaslistt(){
-        $data['bonas']=DB::table("bonas_rate_master")->get();
+        $data['bonas']=DB::table("bonus_rates")->get();
         return view('settings/bonas-list',$data);
     }
     public function getbonasadd(){
@@ -65,28 +65,28 @@ class SettingController extends Controller
     }
     public function bonusrateaddFun(){
         $dataArray=[
-            "effectivefrom"=>$_POST['effectivefrom'],
-            "bonusrate"=>$_POST['bonusrate'],
+            "effective_from"=>$_POST['effectivefrom'],
+            "interest"=>$_POST['bonusrate'],
             "status"=>$_POST['status'],
         ];
-        DB::table("bonas_rate_master")->insert($dataArray);
+        DB::table("bonus_rates")->insert($dataArray);
         return redirect("settings/bonus-rate");
     }
     public function bonusrategetFun($id){
-    $data['bonas']=DB::table("bonas_rate_master")->where("id",$id)->get();
+    $data['bonas']=DB::table("bonus_rates")->where("id",$id)->get();
     return view("settings/bonus-rate-update",$data);
     }
     public function bonusrateupdatefunc(){
         $updateArray=[
-            "effectivefrom"=>$_POST['effectivefrom'],
-            "bonusrate"=>$_POST['bonusrate'],
+            "effective_from"=>$_POST['effectivefrom'],
+            "interest"=>$_POST['bonusrate'],
             "status"=>$_POST['status'],
         ];
-        DB::table("bonas_rate_master")->where("id",$_POST['id'])->update($updateArray);
+        DB::table("bonus_rates")->where("id",$_POST['id'])->update($updateArray);
         return redirect("settings/bonus-rate");
     }
     public function getitaxListFunc(){
-       $data['itax']=DB::table('itax_rate_master')->get();
+       $data['itax']=DB::table('itax_rates')->get();
         return view("settings/itax-list",$data);
     }
     public function itaxaddfunc(){
@@ -94,26 +94,26 @@ class SettingController extends Controller
     }
     public function itexaddfuncdetail(){
         $updateArray=[
-            "effectivefrom"=>$_POST['effectivefrom'],
+            "effective_from"=>$_POST['effectivefrom'],
             "surcharge"=>$_POST['surcharge'],
             "ecess"=>$_POST['ecess'],
             "status"=>$_POST['status'],
         ];
-        DB::table("itax_rate_master")->insert($updateArray);
+        DB::table("itax_rates")->insert($updateArray);
         return redirect("settings/itaxList");
     }
     public function itexUpdatefuncdetail($id){
-        $data['itex']=DB::table('itax_rate_master')->where("id",$id)->get();
+        $data['itex']=DB::table('itax_rates')->where("id",$id)->get();
         return view("settings/itax-update-page",$data);
     }
     public function updateitex(){
         $arrayvalueUpdate=[
-            "effectivefrom"=>$_POST['effectivefrom'],
+            "effective_from"=>$_POST['effectivefrom'],
             "surcharge"=>$_POST['surcharge'],
             "ecess"=>$_POST['ecess'],
             "status"=>$_POST['status'],
         ];
-        DB::table("itax_rate_master")->where("id",$_POST['id'])->update($arrayvalueUpdate);
+        DB::table("itax_rates")->where("id",$_POST['id'])->update($arrayvalueUpdate);
         return redirect("settings/itaxList");
     }
 

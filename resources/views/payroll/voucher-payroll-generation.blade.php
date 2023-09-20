@@ -55,7 +55,7 @@
          <li class="separator"> / </li>
          <li class="nav-item"><a href="{{url('payroll/dashboard')}}">Payroll</a></li>
          <li class="separator"> / </li>
-         <li class="nav-item active"><a href="#">Employee Salary Adjustment (Payroll)</a></li>
+         <li class="nav-item active"><a href="#">Employee Voucher (Payroll)</a></li>
       </ul>
    </div>
    <div class="content">
@@ -65,7 +65,8 @@
                <div class="card custom-card">
                 @include('layout.message')
                   <div class="card-body">
-                    <form action="{{ url('payroll/adjustment-payroll-generation') }}" method="post"
+                    
+                    <form action="{{ url('payroll/voucher-payroll-generation') }}" method="post"
                     id="single_payroll_generation">
                     {{ csrf_field() }}
                     <!-- <div class="mon" style="float:right;">
@@ -90,7 +91,7 @@
                         <label>Month</label>
                         <div class="input-group mb-3">
                             <input class="demo-1 form-control" id="month_yr" type="date" value="<?php echo date('Y-m-d');
-?>" name="month_yr"   />
+                                ?>" name="month_yr"   />
 
                             <!-- <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-calendar"
@@ -120,24 +121,24 @@
                     <div class="row form-group">
                         <div class="col-md-4">
                             <label class="form-control-label">Working Days</label>
-                            <input id="emp_working_days" readonly name="emp_working_days" type="text"
+                            <input id="emp_working_days"  name="emp_working_days" type="text"
                                 class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label class="form-control-label">Present Days</label>
-                            <input type="text" name="emp_present_days" readonly id="emp_present_days"
+                            <input type="text" name="emp_present_days"  id="emp_present_days"
                                 class="form-control">
                         </div>
 
 
                         <div class="col-md-4">
                             <label class="form-control-label">Absent Days</label>
-                            <input type="text" id="emp_absent_days" readonly name="emp_absent_days"
+                            <input type="text" id="emp_absent_days"  name="emp_absent_days"
                                 class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label class="form-control-label">No. of Days Salary</label>
-                            <input type="text" id="emp_no_of_days_salary" readonly name="emp_no_of_days_salary"
+                            <input type="text" id="emp_no_of_days_salary"  name="emp_no_of_days_salary"
                                 class="form-control">
                         </div>
                         <div class="col-md-4">
@@ -401,6 +402,7 @@
                     <button type="submit" class="btn btn-info btn-sm">Save</button>
 
                 </form>
+
                   </div>
                </div>
             </div>
@@ -462,10 +464,10 @@
         
                     //alert(obj);
                     //console.log(obj); return;
-                    if(obj[2]==null){
-                        alert('Please generate attendance for the month before generating payroll.');
-                        return;
-                    }
+                    // if(obj[2]==null){
+                    //     alert('Please generate attendance for the month before generating payroll.');
+                    //     return;
+                    // }
                     
         
                     var basicpay = obj[0].basic_pay;
@@ -1836,9 +1838,8 @@
         
         
         <script src="{{ asset('js/monthpicker.min.js') }}"></script>
+        
     
 	
-   
-   
-        @endsection
+    @endsection
    

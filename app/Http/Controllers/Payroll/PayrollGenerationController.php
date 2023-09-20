@@ -24,6 +24,9 @@ use App\Models\Leave\Gpf_details;
 use App\Models\Payroll\PfOpeningBalance;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\PfOpeningBalanceImport;
+use App\Models\Payroll\PayrollDummy;
+use App\Models\Payroll\YearlyEmployeeBonus;
+use App\Models\Masters\BonusRate;
 use Session;
 use View;
 use DB;
@@ -4337,8 +4340,266 @@ class PayrollGenerationController extends Controller
         }
     }
 
+    public function getVoucherPayroll()
+    {
 
-   
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            $data['payroll_rs'] = PayrollDummy::join('employee', 'employee.emp_code', '=', 'payroll_dummies.employee_id')
+                ->select('employee.old_emp_code', 'payroll_dummies.*')
+                
+                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
+                ->get();
+            $data['rate_master'] = Rate_master::get();
+            //dd($data['payroll_rs'][0]);
+            return view('payroll/view-voucher-payroll-generation', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function viewVoucherPayroll()
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            $data['Employee'] = Employee::where('status', '=', 'active')->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')->get();
+            return view('payroll/voucher-payroll-generation', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function saveVoucherPayroll(Request $request)
+    {
+
+        // dd($request->all());
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            if (empty($request->emp_gross_salary)) {
+                Session::flash('message', 'Gross Salary Cannot be Blank.');
+                return redirect('payroll/vw-voucher-payroll-generation');
+            }
+
+            if (empty($request->emp_total_deduction)) {
+
+                Session::flash('message', 'Total Salary Cannot be Blank.');
+                return redirect('payroll/vw-voucher-payroll-generation');
+            }
+
+            if (empty($request->emp_net_salary)) {
+
+                Session::flash('message', 'Net Salary Cannot be Blank.');
+                return redirect('payroll/vw-voucher-payroll-generation');
+            }
+
+            $monthyr = $request->month_yr;
+            $mnt_yr = date('m/Y', strtotime("$monthyr"));
+
+            $data['employee_id'] = $request->empname;
+            $data['emp_name'] = $request->emp_name;
+            $data['emp_designation'] = $request->emp_designation;
+            $data['emp_basic_pay'] = $request->emp_basic_pay;
+            $data['month_yr'] = $mnt_yr;
+            $data['emp_present_days'] = $request->emp_present_days;
+            $data['emp_cl'] = $request->emp_cl;
+            $data['emp_el'] = $request->emp_el;
+            $data['emp_hpl'] = $request->emp_hpl;
+            $data['emp_absent_days'] = $request->emp_absent_days;
+            $data['emp_rh'] = $request->emp_rh;
+            $data['emp_cml'] = $request->emp_cml;
+            $data['emp_eol'] = $request->emp_eol;
+            $data['emp_lnd'] = $request->emp_lnd;
+            $data['emp_maternity_leave'] = $request->emp_maternity_leave;
+            $data['emp_paternity_leave'] = $request->emp_paternity_leave;
+            $data['emp_ccl'] = $request->emp_ccl;
+            $data['emp_el'] = $request->emp_el;
+            $data['emp_da'] = $request->emp_da;
+            $data['emp_vda'] = $request->emp_vda;
+            $data['emp_hra'] = $request->emp_hra;
+            $data['emp_prof_tax'] = $request->emp_prof_tax;
+            $data['emp_others_alw'] = $request->emp_others_alw;
+            $data['emp_tiff_alw'] = $request->emp_tiff_alw;
+            $data['emp_conv'] = $request->emp_conv;
+            $data['emp_medical'] = $request->emp_medical;
+            $data['emp_misc_alw'] = $request->emp_misc_alw;
+            $data['emp_over_time'] = $request->emp_over_time;
+            $data['emp_bouns'] = $request->emp_bouns;
+            $data['emp_pf'] = $request->emp_pf;
+            $data['emp_pf_int'] = $request->emp_pf_int;
+            $data['emp_co_op'] = $request->emp_co_op;
+            $data['emp_apf'] = $request->emp_apf;
+            $data['emp_i_tax'] = $request->emp_i_tax;
+            $data['emp_insu_prem'] = $request->emp_insu_prem;
+            $data['emp_pf_loan'] = $request->emp_pf_loan;
+            $data['emp_esi'] = $request->emp_esi;
+            $data['emp_adv'] = $request->emp_adv;
+            $data['emp_absent_deduction'] = $request->emp_absent_deduction;
+            $data['emp_gross_salary'] = $request->emp_gross_salary;
+            $data['emp_hrd'] = $request->emp_hrd;
+            $data['emp_gross_salary'] = $request->emp_gross_salary;
+            $data['emp_total_deduction'] = $request->emp_total_deduction;
+            $data['emp_net_salary'] = $request->emp_net_salary;
+            $data['emp_furniture'] = $request->emp_furniture;
+            $data['emp_pf_employer'] = $request->emp_pf_employer;
+            $data['emp_misc_ded'] = $request->emp_misc_ded;
+            $data['emp_leave_inc'] = $request->emp_leave_inc;
+            $data['emp_hta'] = $request->emp_hta;
+            $data['emp_income_tax'] = $request->emp_income_tax;
+            $data['other_deduction'] = $request->other_deduction;
+            $data['other_addition'] = $request->other_addition;
+            $data['emp_adjust_days'] = $request->emp_adjust_days;
+            $data['proces_status'] = 'process';
+            $data['created_at'] = date('Y-m-d');
+
+            $employee_pay_structure = PayrollDummy::where('employee_id', '=', $request->empname)
+                ->where('month_yr', '=', $mnt_yr)
+                ->first();
+
+            if (!empty($employee_pay_structure)) {
+                Session::flash('message', 'Payroll for this employee already generated for the month of "' . date('m-Y') . '". ');
+            } else {
+
+                PayrollDummy::insert($data);
+
+                // $salary_adv_loan=$this->getLoanDeductionValue($request->empname,'SA',$mnt_yr);
+                // $pf_loan=$this->getLoanDeductionValue($request->empname,'PF',$mnt_yr);
+
+                // if(!empty($salary_adv_loan)){
+                //     foreach($salary_adv_loan as $rec){
+                //         $loanRecovery = new LoanRecovery;
+                //         $loanRecovery->loan_id = $rec['id'];
+                //         $loanRecovery->amount = $request->emp_adv;
+                //         $loanRecovery->payout_month = $mnt_yr;
+                //         $loanRecovery->save();
+                //     }
+                // }
+
+                // if(!empty($pf_loan)){
+                //     foreach($pf_loan as $rec){
+                //         $loanRecovery = new LoanRecovery;
+                //         $loanRecovery->loan_id = $rec['id'];
+                //         $loanRecovery->amount = $request->emp_pf_loan;
+                //         $loanRecovery->payout_month = $mnt_yr;
+                //         $loanRecovery->save();
+                //     }
+                // }
+
+
+                // $check_gpf = $this->checkGpfEligibility($data['employee_id']);
+
+                // if (isset($check_gpf->pf) && $check_gpf->pf == '1') {
+                //     //$this->npsMonthlyEnty($data);
+                //     $this->gpfMonthlyEnty($data);
+                // }
+
+                Session::flash('message', 'Payroll Information Successfully Saved.');
+            }
+
+            return redirect('payroll/vw-voucher-payroll-generation');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function getYearlyBonus()
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            $data['yearlist'] = YearlyEmployeeBonus::select('year')->distinct('year')->get();
+            //dd($data);
+            $data['result'] = '';
+            
+
+            return view('payroll/yearly-bonus', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+    public function viewYearlyBonus(Request $request)
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            //dd($request->all());
+
+            $data['yearlist'] = YearlyEmployeeBonus::select('year')->distinct('year')->get();
+
+            $data['req_year'] = $request->year;
+
+            $currentBonusRate=$this->getEffectiveBonustRate($request->year);  
+
+            $employee_rs = YearlyEmployeeBonus::join('employee', 'employee.emp_code', '=', 'yearly_employee_bonuses.emp_code')
+                ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'yearly_employee_bonuses.*')
+                ->where('yearly_employee_bonuses.year', '=', $request->year)
+                ->where('yearly_employee_bonuses.status', '=', 'process')
+                // ->where('yearly_employee_bonuses.emp_code', '=', '7086')
+                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
+                ->get();
+
+            // dd($employee_rs);
+            if (count($employee_rs) == 0) {
+                Session::flash('error', 'Bonus for the year ' . $request->year . ' already processed.');
+                return redirect('payroll/vw-yearly-bonus');
+            }
+            $result = '';
+            foreach ($employee_rs as $mainkey => $emcode) {
+
+                $result .= '<tr id="' . $emcode->emp_code . '">
+                <td><div class="checkbox"><label><input type="checkbox" name="empcode_check[]" id="chk_' . $emcode->emp_code . '" value="' . $emcode->emp_code . '" class="checkhour"></label></div></td>
+                <td><input type="text" readonly class="form-control sm_emp_code" name="emp_code' . $emcode->emp_code . '" style="width:100%;" value="' . $emcode->emp_code . '"></td>
+                <td>' . $emcode->old_emp_code . '</td>
+                <td>' . $emcode->emp_fname . ' ' . $emcode->emp_mname . ' ' . $emcode->emp_lname . '</td>
+                <td><input type="text" readonly class="form-control sm_month_yr" name="month_yr' . $emcode->emp_code . '" style="width:100%;" value="' . $request['year'] . '"></td>
+                <td><input type="number" step="any" class="form-control sm_basic" name="basic' . $emcode->emp_code . '" style="width:100%;" value="'.$emcode->basic.'" id="basic_' . $emcode->emp_code . '" onkeyup="calBonus('.$emcode->emp_code.','.$currentBonusRate.')"></td>
+                <td><input type="number" step="any" class="form-control sm_bonus" name="bonus' . $emcode->emp_code . '" style="width:100%;" value="'.$emcode->bonus.'" id="bonus_' . $emcode->emp_code . '" readonly></td>
+                <td><input type="number" step="any" class="form-control sm_exgratia" name="exgratia' . $emcode->emp_code . '" style="width:100%;" value="'.$emcode->exgratia.'" id="exgratia_' . $emcode->emp_code . '"></td>
+                <td><input type="number" step="any" class="form-control sm_deduction" name="deduction' . $emcode->emp_code . '" style="width:100%;" value="'.$emcode->deduction.'" id="deduction_' . $emcode->emp_code . '"></td>';
+            }
+
+            $data['result'] = $result;
+
+            return view('payroll/yearly-bonus', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+    public function addYearlyBonus()
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            $data['result'] = '';
+
+            return view('payroll/add-yearly-bonus-all', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+
+    function getEffectiveBonustRate($paroll_month){
+        $payrolldate = explode('/', $paroll_month);
+        $payroll_date = $payrolldate[0];
+        $datestring = $payrolldate[1] . '-' . $payrolldate[0] . '-01';
+        // Converting string to date
+        $date = strtotime($datestring);
+        //echo date("Y-m-t", $date);
+        $last_paroll_month_date = date("Y-m-t", $date);
+
+        $interest=BonusRate::where('effective_from', '<=', $last_paroll_month_date)
+                ->where('status','=','active')
+                ->orderBy('id', 'desc')
+                ->first();
+
+        if(isset($interest->interest)){
+            return $interest->interest;
+        }else{
+            return "8.33";
+        }        
+    }
     public function deleteNps($month, $emp_code)
     {
         $result = Nps_details::where('month_year', $month)
