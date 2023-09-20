@@ -100,6 +100,37 @@
 											<span class="sub-item">View Profile</span>
 										</a>
 									</li>
+									<li>
+										<a href="{{url('employee-corner-organisation/user-profile')}}">
+											<span class="sub-item">Update Profile</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{url('employee-corner/holiday')}}">
+											<span class="sub-item">Holiday Calender</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{url('employee-corner/work-update')}}">
+											<span class="sub-item">Daily Work Update</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{url('employee-corner/leave-apply')}}">
+											<span class="sub-item">Leave application</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{url('employee-corner/attendance-status')}}">
+											<span class="sub-item">Attendance Status</span>
+										</a>
+									</li>
+									{{-- <li>
+										<a href="{{url('employee-corner/change-of-circumstances')}}">
+											<span class="sub-item">Change Of Circumstances</span>
+										</a>
+									</li> --}}
+									
 									
 									@if(Session::get('user_type_new')=='employee')
 									@if(!empty($enplit->verify_status))  @if($enplit->verify_status == "approved")

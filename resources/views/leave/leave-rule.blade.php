@@ -83,16 +83,18 @@
 											<tbody>
 												 @foreach($leave_rule_rs as $leaveRule)
 												 <?php
-												$leaveemdata = DB::table('employee_type')      
-                 ->where('id','=', $leaveRule->employee_type)
+												//  dd($leaveRule->employee_type);
+												$leaveemdata = DB::table('employ_type_master')      
+                 ->where('employ_type_id','=', $leaveRule->employee_type)
                  
                   ->first(); 
+				//   dd($leaveemdata);
 												 
 												 
 												 ?>
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-											 <td>{{$leaveemdata->employee_type_name}}</td>
+											 <td>{{$leaveemdata->employ_type_name}}</td>
                                             <td>{{$leaveRule->leave_type_name}}</td>
                                             <td>{{$leaveRule->max_no}}</td>
                                             

@@ -30,7 +30,7 @@
   @include('employee-corner.include.header')
 		<!-- Sidebar -->
 
-		  @include('employee-corner.include.sidebar')
+		  @include('employee-corner-organisation.include.sidebar')
 		<!-- End Sidebar -->
 		<div class="main-panel">
 			<div class="content">
@@ -86,7 +86,7 @@
 								          <div class="row form-group">
 											<div class="col-md-3">
 												<div class="app-form-text">
-													<h5>Employment Type:<span>{{$employee->emp_status}}</span></h5>
+													<h5>Employment Type:<span>{{$employee->employeetype}}</span></h5>
 												</div>
 											</div>
 											<div class="col-md-3">

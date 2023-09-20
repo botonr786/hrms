@@ -87,13 +87,16 @@
 											</thead>
 											
 											<tbody>
+												
 										 @foreach($leave_allocation as $leave_allo)
 										 
 												 <?php
-												$leaveemdata = DB::table('employee_type')      
-                 ->where('id','=', $leave_allo->employee_type)
+												
+												$leaveemdata = DB::table('employee')      
+                 ->where('emp_code','=', $leave_allo->employee_code)
                  
                   ->first(); 
+				//   dd($leaveemdata);
 				    $email = Session::get('emp_email'); 
 		   $Roledata = DB::table('registration')      
                  
@@ -108,7 +111,7 @@
 							?>
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-											  <td>{{$leaveemdata->employee_type_name}}</td>
+											  <td>{{$leaveemdata->employeetype}}</td>
                                             <td>{{$leave_allo->leave_type_name}}</td>
                                             <td>{{$leave_allo->employee_code}}</td>
 											  <td>{{$leaveenamemdata->emp_fname}} {{$leaveenamemdata->emp_mname}} {{$leaveenamemdata->emp_lname}}</td>

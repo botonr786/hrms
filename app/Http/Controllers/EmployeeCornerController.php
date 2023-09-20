@@ -10,6 +10,12 @@ use Session;
 use view;
 use App\Models\UserModel;
 use App\Models\Employee;
+use App\Models\Registration;
+use App\Models\RotaEmployee;
+use App\Models\EmployeeType;
+use App\Models\LeaveType;
+use App\Models\LeaveRule;
+use App\Models\Holiday;
 
 class EmployeeCornerController extends Controller
 {
@@ -49,6 +55,7 @@ class EmployeeCornerController extends Controller
             return redirect('/');
         }
     }
+    
     public function viewdetadash()
     {
 
@@ -288,12 +295,12 @@ class EmployeeCornerController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
             $user_id = Session::get('users_id');
-            $users = DB::table('users')->where('id', '=', $user_id)->first();
+            $users = UserModel::where('id', '=', $user_id)->first();
 
-            $employee = DB::table('employee')->where('emp_code', '=', $users->employee_id)->where('emid', '=', $users->emid)->first();
+            $employee = Employee::where('emp_code', '=', $users->employee_id)->where('emid', '=', $users->emid)->first();
+            // dd($employee);
             $leave_type_rs =
-            DB::table('leave_type')
-                ->join('leave_allocation', 'leave_type.id', '=', 'leave_allocation.leave_type_id')
+            LeaveType::join('leave_allocation', 'leave_type.id', '=', 'leave_allocation.leave_type_id')
 
                 ->select('leave_type.*', 'leave_allocation.id as lv_alloc_id', 'leave_allocation.month_yr')
                 ->where('leave_type.emid', '=', $users->emid)
@@ -305,7 +312,7 @@ class EmployeeCornerController extends Controller
 
             //dd($leave_type_rs);
 
-            $holiday_rs = DB::Table('holiday')->where('emid', '=', $users->emid)->select('from_date', 'to_date', 'day', 'holiday_type')->get();
+            $holiday_rs = Holiday::where('emid', '=', $users->emid)->select('from_date', 'to_date', 'day', 'holiday_type')->get();
             // dd($holiday_rs);
 
             $holidays = array();
@@ -362,11 +369,12 @@ class EmployeeCornerController extends Controller
         if (!empty(Session::get('emp_email'))) {
             // dd($request);
             $user_id = Session::get('users_id');
-            $users = DB::table('users')->where('id', '=', $user_id)->first();
+            $users = UserModel::where('id', '=', $user_id)->first();
 
-            $report_auth = DB::table('employee')->where('emp_code', '=', $users->employee_id)->where('emid', '=', $users->emid)->first();
+            $report_auth = Employee::where('emp_code', '=', $users->employee_id)->where('emid', '=', $users->emid)->first();
+           
             if (!empty($report_auth)) {
-                $report_auth_name = $report_auth->emp_reporting_auth;
+                $report_auth_name = $report_auth->reportingauthority;
             } else {
                 $report_auth_name = '';
 
@@ -496,13 +504,9 @@ class EmployeeCornerController extends Controller
 
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')
-
-                ->where('email', '=', $email)
+            $Roledata = Registration::where('email', '=', $email)
                 ->first();
-            $data['Roledata'] = DB::table('registration')
-
-                ->where('email', '=', $email)
+            $data['Roledata'] =Registration::where('email', '=', $email)
                 ->first();
 
             return view('employee-corner/daily-status', $data);
@@ -517,16 +521,12 @@ class EmployeeCornerController extends Controller
 
         if (!empty(Session::get('emp_email'))) {
             $user_id = Session::get('users_id');
-            $users = DB::table('users')->where('id', '=', $user_id)->first();
+            $users = UserModel::where('id', '=', $user_id)->first();
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')
-
-                ->where('email', '=', $email)
+            $Roledata = Registration::where('email', '=', $email)
                 ->first();
-            $data['Roledata'] = DB::table('registration')
-
-                ->where('email', '=', $email)
+            $data['Roledata'] = Registration::where('email', '=', $email)
                 ->first();
 
             $employee_code = $users->employee_id;
@@ -576,6 +576,7 @@ class EmployeeCornerController extends Controller
             $user_id = Session::get('users_id');
             $users = DB::table('users')->where('id', '=', $user_id)->first();
             $data['employee_rs'] = DB::table('change_circumstances')->where('emp_code', '=', $users->employee_id)->where('emid', '=', $users->emid)->get();
+          
 
             $data['employeet'] = DB::table('employee')->where('emp_code', '=', $users->employee_id)->where('emid', '=', $users->emid)->first();
 
@@ -1666,15 +1667,14 @@ class EmployeeCornerController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
             $user_id = Session::get('users_id');
-            $users = DB::table('users')->where('id', '=', $user_id)->first();
+            $users = UserModel::where('id', '=', $user_id)->first();
 
-            $data['Roledata'] = DB::table('registration')->where('reg', '=', $users->emid)->first();
+            $data['Roledata'] = Registration::where('reg', '=', $users->emid)->first();
 
-            $data['employee'] = DB::table('employee')
-                ->where('emp_code', '=', $users->employee_id)
+            $data['employee'] =Employee::where('emp_code', '=', $users->employee_id)
                 ->where('emid', '=', $users->emid)->first();
 
-            $data['employee_workupdate'] = DB::table('rota_employee')->where('employee_id', '=', $users->employee_id)->orderBy('date', 'DESC')->get();
+            $data['employee_workupdate'] = RotaEmployee::where('employee_id', '=', $users->employee_id)->orderBy('date', 'DESC')->get();
             //dd($data);
             return view('employee-corner/work-update', $data);
         } else {
@@ -1707,18 +1707,14 @@ class EmployeeCornerController extends Controller
     public function viewtasksave(Request $request)
     {
         try {
-            $Employee1 = DB::table('users')
-                ->where('employee_id', '=', $request->employee_code)
+            $Employee1 =UserModel::where('employee_id', '=', $request->employee_code)
                 ->where('emid', '=', $request->reg)
                 ->where('status', '=', 'active')->first();
 
-            $data['Roledata'] = DB::table('registration')
-
-                ->where('reg', '=', $Employee1->emid)
+            $data['Roledata'] =Registration::where('reg', '=', $Employee1->emid)
                 ->first();
 
-            $data['employee'] = DB::table('employee')
-                ->where('emp_code', '=', $request->employee_code)
+            $data['employee'] =Employee::where('emp_code', '=', $request->employee_code)
                 ->where('emid', '=', $request->reg)->first();
 
             $tot = $request->w_min + ($request->w_hours * 60);
@@ -1751,7 +1747,7 @@ class EmployeeCornerController extends Controller
 
             );
 
-            DB::table('rota_employee')->insert($datagg);
+            RotaEmployee::insert($datagg);
 
             Session::flash('message', ' Tasks Added Successfully .');
 

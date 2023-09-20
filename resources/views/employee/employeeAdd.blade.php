@@ -385,11 +385,14 @@
                                                       <label>Employee Type <span style="color:red">(*)</span></label>
                                                       <select name="employeetype" class="form-control" id="type" onchange="employeeFunc()">
                                                          <option>Employee Type</option>
-                                                         <option value="TEMPORARY" >TEMPORARY</option>
-                                                         <option value="PERMANENT" >PERMANENT</option>
+                                                         
+                                                         @foreach($EmployeeType_master as $emp)
+                                                         <option value="{{$emp->employ_type_name}}" >{{$emp->employ_type_name}}</option>
+                                                         @endforeach
+                                                         {{-- <option value="PERMANENT" >PERMANENT</option>
                                                          <option value="PROBATIONARY EMPLOYEE" >PROBATIONARY EMPLOYEE</option>
                                                          <option value="CONTRACT" >CONTRACT</option>
-                                                         <option value="EX- EMPLOYEE" >EX- EMPLOYEE</option>
+                                                         <option value="EX-EMPLOYEE" >EX- EMPLOYEE</option> --}}
                                                       </select>
                                                       <!-- <input type="date" name="nextincrementdate"  class="form-control"> -->
                                                    </div>
@@ -508,7 +511,7 @@
                                                          <td>
                                                             <select class="form-control" name="emp_document_name[]">
                                                                <option></option>
-                                                               <option value="10th">10 th</option>
+                                                               <option value="10 th">10 th</option>
                                                                <option value="11 th">11 th</option>
                                                                <option value="12 th">12 th</option>
                                                                <option value="BA">BA</option>
@@ -2032,9 +2035,9 @@
          
          
          
-         if (n == 1 && !validateForm()){
-            return false;
-         }
+         // if (n == 1 && !validateForm()){
+         //    return false;
+         // }
          // if (n == 2 && !validateForm2()){
          //    return false;
          // }

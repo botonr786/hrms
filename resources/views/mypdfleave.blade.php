@@ -55,36 +55,7 @@ tr:nth-child(even) {
     <td style="font-size:10px;"><?php echo $i; ?></td>
 	<td style="font-size:10px;"><?php echo $ls->emp_code; ?></td>
 	<td style="font-size:10px;"><?php echo $ls->emp_fname; ?> <?php echo $ls->emp_mname; ?> <?php echo $ls->emp_lname; ?></td>
-	<td style="font-size:10px;"><?php echo $ls->emp_designation; ?></td>
-	 <?php foreach($leave_type as $leave_name){
-	 
-	 
-	 $leavetype=DB::Table('leave_apply')
-          ->where('leave_type', '=', $leave_name->id)
-		     ->where('employee_id', '=', $ls->emp_code)
-		       ->where('emid', '=', $emid)
-		         ->where('status', '=', 'APPROVED')
-        ->whereYear('from_date', '=', $year_value)
-        ->whereYear('to_date', '=', $year_value)
-        
-        ->select(DB::raw("SUM(no_of_leave) as no_of_leave"))
-		->orderBy('id','desc')
-        ->first();
-	 ?>
-				<td style="font-size:10px;"><?php
-			
-				if(!empty($leavetype)){
-				if($leavetype->no_of_leave!=''){
-				   echo $leavetype->no_of_leave; 
-				}else{
-				 	echo '0';   
-				}
-
-}else{
-	echo '0';
-}?>
-</td style="font-size:10px;">
-					<?php } ?>
+	<td style="font-size:10px;"><?php echo $ls->designation; ?></td>
 
   </tr>
    <?php } ?>

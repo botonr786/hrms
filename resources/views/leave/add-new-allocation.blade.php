@@ -79,13 +79,14 @@
 										<input type="hidden" name="_token" value="{{ csrf_token() }}">
 										
 										<div class="row form-group">
-  <div class="col-md-4">
+  									<div class="col-md-4">
 										<div class="form-group">			
 											<label for="employee_type" class="placeholder">Employment Type</label>
 										<select id="employee_type"   name="employee_type" type="date" class="form-control input-border-bottom" required="" onchange="paygr(this.value);">
 											<option value=""></option>
+											
 											@foreach($employee_type_rs as $emp)
-						                        	<option value="{{$emp->employee_type_name}}" <?php if( isset($rempty) && $emp->id==$rempty){echo 'selected';}?>>{{$emp->employee_type_name }}</option>
+						                        	<option value="{{$emp->employ_type_name}}">{{$emp->employ_type_name }}</option>
 						                        @endforeach
 											
 										</select>

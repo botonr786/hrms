@@ -85,16 +85,13 @@
 									 <input type="hidden" name="id" value="<?php  if(!empty($leave_rule_data->id)){echo $leave_rule_data->id;} ?>">
 					
 										<div class="row form-group">
-                                        
-                                      
-
                                         <div class="col-md-4">
 										  <div class="form-group">	
-<label for="employee_type" class="placeholder">Employee Type</label>
+										   <label for="employee_type" class="placeholder">Employee Type</label>
 										   <select   id="employee_type" name="employee_type"  class="form-control input-border-bottom" required="">
-											
+											<option>Select</option>
 											@foreach($employee_type_rs as $employee_type)
-												<option value="{{$employee_type->id}}"<?php if(!empty($leave_rule_data->employee_type)){ if($leave_rule_data->employee_type == $employee_type->id){ echo "selected"; } } ?> >{{ $employee_type->employee_type_name }}</option>
+												<option value="{{$employee_type->employ_type_id}}" <?php if($employee_type->employ_type_id==$employee_type->employ_type_id) {?> selected="selected" <?php }?>>{{ $employee_type->employ_type_name}}</option>
 												@endforeach
 									    	</select>
 											

@@ -2640,18 +2640,18 @@ Route::get('settings/get-add-row-acc/{row}', function ($row) {
     $result = ' <tr class="itemslot" id="' . $row . '" >
 					    <td>' . $row . '</td>
 						 <td> 
-                         <select class="form-control" name="document_name[]">
+                         <select class="form-control" name="emp_document_name[]">
                          <option></option>
-                         <option value="10th">10 th</option>
-                         <option value="11 th">11 th</option>
-                         <option value="12 th">12 th</option>
-                         <option value="BA">BA</option>
-                         <option value="ma">Ma</option>
+                         <option value="10 th">10 th</option>
+                                                               <option value="11 th">11 th</option>
+                                                               <option value="12 th">12 th</option>
+                                                               <option value="BA">BA</option>
+                                                               <option value="ma">Ma</option>
                        </select>
                          </td>
                          <td>
                                                               
-                           <input type="text" name="board[]" class="form-control">
+                           <input type="text" name="boardss[]" class="form-control">
                          </td>
                          <td>
                                                                
@@ -2659,11 +2659,11 @@ Route::get('settings/get-add-row-acc/{row}', function ($row) {
                         </td>
                                                               <td>
                                                                 
-                                                                <input type="text" name="grade[]" class="form-control">
+                                                                <input type="text" name="emp_grade[]" class="form-control">
                                                               </td>
                                                               <td>
                                                               
-                                                                <input type="file" name="document_upload[]" class="form-control">
+                                                                <input type="file" name="emp_document_upload[]" class="form-control">
                                                               </td>
 						 <td><button class="btn-success" type="button" id="add' . $row . '" onClick="accademinewrow(' . $row . ')" data-id="' . $row . '"> <i class="fas fa-plus"></i> </button>
 						 <button class="btn-danger deleteButton" type="button" id="del' . $row . '"  onClick="delRow(' . $row . ')"> <i class="fas fa-minus"></i> </button></td>
@@ -2694,7 +2694,7 @@ Route::get('settings/get-add-row-pro/{row}', function ($row) {
                        </td>
                        <td>
                        
-                         <input type="file" name="document_upload[]" class="form-control">
+                         <input type="file" name="emp1_document_upload[]" class="form-control">
                        </td>
 						 <td><button class="btn-success" type="button" id="add' . $row . '" onClick="proaddnewrow(' . $row . ')" data-id="' . $row . '"> <i class="fas fa-plus"></i> </button>
 						 <button class="btn-danger deleteButton" type="button" id="del' . $row . '"  onClick="delRow(' . $row . ')"> <i class="fas fa-minus"></i> </button></td>
@@ -2708,7 +2708,7 @@ Route::get('settings/get-add-row-mic/{row}', function ($row) {
 					    <td>' . $row . '</td>
 						 
                          <td>
-                         <select class="form-control" name="">
+                         <select class="form-control" name="emp_traning">
                          <option>Select</option>
                          <option value="traning">Traning</option>
                          <option value="legal">Legal</option>
@@ -2718,7 +2718,7 @@ Route::get('settings/get-add-row-mic/{row}', function ($row) {
                       
                        <td>
                        
-                         <input type="file" name="document_upload[]" class="form-control">
+                         <input type="file" name="traning1_document_upload[]" class="form-control">
                        </td>
 						 <td><button class="btn-success" type="button" id="add' . $row . '" onClick="proaddnewrow(' . $row . ')" data-id="' . $row . '"> <i class="fas fa-plus"></i> </button>
 						 <button class="btn-danger deleteButton" type="button" id="del' . $row . '"  onClick="delRow(' . $row . ')"> <i class="fas fa-minus"></i> </button></td>
@@ -4070,10 +4070,9 @@ Route::get('pis/getEmployeedailyattandeaneById/{empid}', function ($empid) {
         ->first();
 
     $employee_rs = DB::table('employee')
-
-        ->where('emp_status', '=', $empid)
-        ->where('emid', '=', $Roledata->reg)
+        ->where('employeetype',$empid)
         ->get();
+       
     $result = '';
     $result_status1 = "  <option value=''>Select</option>
     <option value=''>All</option>";

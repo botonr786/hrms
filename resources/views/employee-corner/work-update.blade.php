@@ -39,7 +39,7 @@
         @include('employee-corner.include.header')
         <!-- Sidebar -->
 
-        @include('employee-corner.include.sidebar')
+        @include('employee-corner-organisation.include.sidebar')
         <!-- End Sidebar -->
         <div class="main-panel">
             <div class="content">
@@ -117,7 +117,7 @@
                                                         <a href="{{ url('/').'/'.$candidate->file }}"
                                                             target="_blank"><img style="width: 20px;"
                                                                 src="{{ asset('assets/img/download.png')}}"
-                                                                alt="Download" /></a>
+                                                                alt="Download" download /></a>
 
                                                         @endif
                                                     </td>

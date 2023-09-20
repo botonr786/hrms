@@ -30,6 +30,7 @@ use App\Models\Masters\Bank;
 use App\Models\RateDetail;
 use App\Models\Rate_master;
 use App\Models\EmployeePayStructure;
+use App\Models\EmployeeType;
 
 class EmployeeController extends Controller
 {
@@ -178,7 +179,6 @@ class EmployeeController extends Controller
         $data["religion"] = DB::table("religion_master")->get();
         $data["designation"] = DB::table("designation")->get();
         $data["department"] = DB::table("department")->get();
-        $data["employee_type"] = DB::table("employee_type")->get();
         $data["employeelists"] = Employee::where("emp_status", "REGULAR")
             ->orWhere("emp_status", "PROBATIONARY EMPLOYEE")
             ->get();
@@ -189,6 +189,7 @@ class EmployeeController extends Controller
         $data["DEDUCATION"] = DB::table("rate_masters")
             ->where("head_type", "deduction")
             ->get();
+            $data['EmployeeType_master']=EmployeeType::get();
 
         return view("employee/employeeAdd", $data);
     }
@@ -376,99 +377,9 @@ class EmployeeController extends Controller
     //employee add
     public function saveEmployeeaa(Request $request)
     {
-        // $validator = Validator::make(
-        //     $request->all(),
-        //     [
-        //         'emp_old_code' => 'required',
-
-        //         'emp_fname' => 'required',
-
-        //         'emp_father_name' => 'required',
-
-        //         'department' => 'required',
-
-        //         'designation' => 'required',
-
-        //         'dateofbirth' => 'required',
-
-        //         'dateofJoining' => 'required',
-
-        //         'employeetype' => 'required',
-
-        //         'emp_pr_pincode' => 'required',
-
-        //         'emp_pr_state' => 'required',
-
-        //         'emp_ps_pincode' => 'required',
-
-        //         'emp_group' => 'required',
-
-        //         'emp_basic_pay' => 'required',
-
-        //         'emp_apf_percent' => 'required',
-
-        //         'emp_pf_type' => 'required',
-
-        //         'emp_bank_name' => 'required',
-
-        //         'bank_branch_id' => 'required',
-
-        //         'emp_ifsc_code' => 'required',
-
-        //         'emp_account_no' => 'required',
-
-        //     ],
-        //     [
-        //         'emp_old_code.required' => 'emp_old_code Required',
-
-        //         'emp_fname.required' => 'emp_fname Required',
-
-        //         'emp_father_name.required' => 'emp_father_name Required',
-
-        //         'department.required' => 'department Required',
-
-        //         'designation.required' => 'designation Required',
-
-        //         'dateofbirth.required' => 'dateofbirth Required',
-
-        //         'dateofJoining.required' => 'dateofJoining Required',
-
-        //         'employeetype.required' => 'employeetype Required',
-
-        //         'emp_pr_pincode.required' => 'emp_pr_pincode required',
-
-        //         'emp_pr_state.required' => 'emp_pr_state required',
-
-        //         'emp_ps_pincode.required' => 'emp_ps_pincode Required',
-
-        //         'emp_group.required' => 'emp_group Required',
-
-        //         'emp_basic_pay.required' => 'emp_basic_pay Required',
-
-        //         'emp_apf_percent.required' => 'emp_apf_percent Required',
-
-        //         'emp_pf_type.required' => 'emp_pf_type Required',
-
-        //         'emp_bank_name.required' => 'emp_bank_name Required',
-
-        //         'bank_branch_id.required' => 'bank_branch_id Required',
-
-        //         'emp_ifsc_code.required' => 'emp_ifsc_code Required',
-
-        //         'emp_account_no.required' => 'emp_account_no Required',
-            
-        //     ]
-        // );
-
-        // if ($validator->fails()) {
-        //     return redirect('/')->withErrors($validator)->withInput();
-        // } else {
-        // }
-
         $userObj = DB::table("users")
             ->where("email", Session::get("emp_email"))
             ->first();
-
         $insertData = [];
         $employeeId = $this->generateUniqueEmployeeCode();
         $insertData = [
@@ -567,17 +478,17 @@ class EmployeeController extends Controller
             "emp_pf_inactuals" => $request->emp_pf_inactuals,
             "emp_bonus" => $request->emp_bonus,
         ];
-    //    dd($insertData);
+      
         $service_details_id = DB::table("employee")->insertGetId($insertData);
 
         //pay structure
 
         $pay = [];
-        $pay["employee_code"] = $request->emp_code;
+        $pay["employee_code"] =$employeeId;
         $pay["basic_pay"] = $request->emp_basic_pay;
         $pay["apf_percent"] = $request->emp_apf_percent;
         $pay["empid"] = $service_details_id;
-        $pay["emp_code"] = $employeeId;
+        // $pay["emp_code"] = $employeeId;
         $pay["created_at"] = date("Y-m-d h:i:s");
         $pay["updated_at"] = date("Y-m-d h:i:s");
 
@@ -620,18 +531,18 @@ class EmployeeController extends Controller
                 }
             }
         }
-        //  dd($pay);
+        
         EmployeePayStructure::insert($pay);
 
         //end pay structure
       
-
+       
         $documentNames = $request->input("document_name");
         $employeeId = $request->input("empid");
-
+        
         if ($request->hasFile("document_upload")) {
+         
             $documents = $request->file("document_upload");
-
             foreach ($documents as $key => $document) {
                 $documentName =
                     time() . "_" . $document->getClientOriginalName();
@@ -642,17 +553,20 @@ class EmployeeController extends Controller
                 $documentModel->empid = $service_details_id;
                 $documentModel->document_upload = $documentName;
                 $documentModel->save();
-            }
+            } 
         }
+     
         $emp_document_names = $request->input("emp_document_name");
+      
         $boardsss = $request->input("boardss");
         $yearofpassings = $request->input("yearofpassing");
         $emp_grades = $request->input("emp_grade");
-
+      
         if ($request->hasFile("emp_document_upload")) {
+            
             $documents = $request->file("emp_document_upload");
+           
             foreach ($documents as $key => $document) {
-                // dd($employeeId);
                 $documentName =
                     time() . "_" . $document->getClientOriginalName();
                 $document->move(public_path("/emp_pic"), $documentName);
@@ -667,9 +581,12 @@ class EmployeeController extends Controller
                 $documentModel->emp_document_upload = $documentName;
                 $documentModel->save();
             }
+          
         }
-
+       
+       
         $Organization = $request->input("Organization");
+      
         $Desigination = $request->input("Desigination");
         $formdate = $request->input("formdate");
         $todate = $request->input("todate");
@@ -694,7 +611,7 @@ class EmployeeController extends Controller
         }
 
         $emp_tranings = $request->input("emp_traning");
-        // $traning1_document_upload=$request->input('traning1_document_upload');
+        $traning1_document_upload=$request->input('traning1_document_upload');
         if ($request->hasFile("traning1_document_upload")) {
             $documentss = $request->file("traning1_document_upload");
             foreach ($documentss as $key => $document) {
@@ -709,6 +626,7 @@ class EmployeeController extends Controller
                 $documentModel->save();
             }
         }
+   
 
         $name_earn = $request->input("name_earn");
         $head_type = $request->input("head_type");
@@ -735,7 +653,12 @@ class EmployeeController extends Controller
             $documentModel->valuededuct = $valuededuct[$key];
             $documentModel->save();
         }
-        redirect('employeeslist');
+        Session::flash(
+            "message",
+            "Employee Information Successfully Saved."
+        );
+        return redirect("employeeslist");
+        
     }
     //end employee
 

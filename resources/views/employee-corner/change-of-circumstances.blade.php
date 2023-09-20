@@ -30,7 +30,7 @@
   @include('employee-corner.include.header')
 		<!-- Sidebar -->
 		
-		  @include('employee-corner.include.sidebar')
+		  @include('employee-corner-organisation.include.sidebar')
 		<!-- End Sidebar -->
 		<div class="main-panel">
 			<div class="content">
