@@ -29,7 +29,7 @@
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 						<li><a href="{{url('employerdashboard')}}"  data-toggle="tooltip" data-placement="bottom" title="Main Dashboard"><img src="{{ asset('assets/img/home.png')}}" alt="" style="width: 19px;
     "></a></li>
-	<li><a href="{{url('attendancedashboard')}}" data-toggle="tooltip" data-placement="bottom" title="Attendence Dashboard"><img src="{{ asset('assets/img/dashboard.png')}}" alt="" width="19" ></a></i>
+	<li><a href="{{url('payroll-home-dashboard')}}" data-toggle="tooltip" data-placement="bottom" title="Payroll Dashboard"><img src="{{ asset('assets/img/dashboard.png')}}" alt="" width="19" ></a></i>
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
 								<!-- <div class="avatar-sm">

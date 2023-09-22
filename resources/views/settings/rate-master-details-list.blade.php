@@ -103,8 +103,8 @@
             @foreach($rate as $ratedtl)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $ratedtl->headname }}</td>
-                                        <td>{{ $ratedtl->headtype }}</td>
+                                        <td>{{ $ratedtl->head_name }}</td>
+                                        <td>{{ $ratedtl->head_type }}</td>
 										@if($ratedtl->cal_type == 'V')
                                         <td>Variable</td>
 										@else
