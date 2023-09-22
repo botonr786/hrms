@@ -101,7 +101,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="{{url('employee-corner-organisation/user-profile')}}">
+										<a href="{{url('employee-corner/update-profile')}}">
 											<span class="sub-item">Update Profile</span>
 										</a>
 									</li>
