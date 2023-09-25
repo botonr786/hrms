@@ -19,6 +19,11 @@ use App\Models\EmployeeType;
 use App\Models\LeaveType;
 use App\Models\LeaveRule;
 use App\Models\Holiday;
+use App\Models\EmployeePersonalRecord;
+use App\Models\ExperienceRecords;
+use App\Models\ProfessionalRecords;
+use App\Models\MiscDocuments;
+use App\Models\EmployeePayStructure;
 
 class EmployeeCornerController extends Controller
 {
@@ -162,22 +167,57 @@ class EmployeeCornerController extends Controller
                 ->where("emid", "=", $Roledata->reg)
                 ->get();
 
-            
             if ($userAccess) {
-                // $data["employee_rs"] = DB::table("employee")
-                //     ->join("employee_pay_structures","employee.emp_code", "=","employee_pay_structures.employee_code")
-                //     ->where("employee.emp_code", "=", $employee_id)
-                //     ->where("employee.emid", "=", $Roledata->reg)
-                //     // ->where("employee_pay_structure.emid", "=", $Roledata->reg)
-                //     ->select("employee.*", "employee_pay_structures.*")
-                //     ->get();
-                
-                $data["employee_rs"]= Employee::where('emp_code',$employee_id)->first();
-                $data["cast"] = Cast::where("cast_status", "=", "active")->get();
-                $data["sub_cast"] = Sub_cast::where("sub_cast_status","=","active")->get();
+                $data["employee_rs"] = Employee::where(
+                    "emp_code",
+                    $employee_id
+                )->first();
+                $current_emp_id = $data["employee_rs"]->id;
+                $data["cast"] = Cast::where(
+                    "cast_status",
+                    "=",
+                    "active"
+                )->get();
+                $data["sub_cast"] = Sub_cast::where(
+                    "sub_cast_status",
+                    "=",
+                    "active"
+                )->get();
                 $data["religion"] = DB::table("religion_master")->get();
                 $data["department"] = DB::table("department")->get();
                 $data["designation"] = DB::table("designation")->get();
+                $data["EmployeePersonalRecord"] = EmployeePersonalRecord::where(
+                    "empid",
+                    $current_emp_id
+                )->get();
+                $data["ExperienceRecords"] = ExperienceRecords::where(
+                    "empid",
+                    $current_emp_id
+                )->get();
+                $data["ProfessionalRecords"] = ProfessionalRecords::where(
+                    "empid",
+                    $current_emp_id
+                )->get();
+                $data["MiscDocuments"] = MiscDocuments::where(
+                    "empid",
+                    $current_emp_id
+                )->get();
+                $data["EmployeePayStructure"] = EmployeePayStructure::where(
+                    "empid",
+                    $current_emp_id
+                )->first();
+                $data["emp_pay_st"] = EmployeePayStructure::where(
+                    "empid",
+                    "=",
+                    $current_emp_id
+                )->first();
+                $data["rate_master"] = DB::table("rate_masters")
+                    ->where("head_type", "earning")
+                    ->get();
+                $data["rate_masterss"] = DB::table("rate_masters")
+                    ->where("head_type", "deduction")
+                    ->get();
+
                 return view("employee-corner/edit-employee", $data);
             }
 
@@ -1314,727 +1354,282 @@ class EmployeeCornerController extends Controller
     {
         if (!empty(Session::get("emp_email"))) {
             $email = Session::get("emp_email");
-            $Roledata = DB::table("registration")
-
-                ->where("email", "=", $email)
+            $Roledata = Registration::where("email", "=", $email)
                 ->first();
 
-            $data["Roledata"] = DB::table("registration")
-
-                ->where("email", "=", $email)
+            $data["Roledata"] = Registration::where("email", "=", $email)
                 ->first();
+                $employee_data=Employee::where('emid',$data["Roledata"]->reg)->first();
+                $employee_id=$employee_data->id;
+                $updateData = [];
 
-            function my_simple_crypt($string, $action = "encrypt")
-            {
-                // you may change these values to your own
-                $secret_key = "bopt_saltlake_kolkata_secret_key";
-                $secret_iv = "bopt_saltlake_kolkata_secret_iv";
-
-                $output = false;
-                $encrypt_method = "AES-256-CBC";
-                $key = hash("sha256", $secret_key);
-                $iv = substr(hash("sha256", $secret_iv), 0, 16);
-
-                if ($action == "encrypt") {
-                    $output = base64_encode(
-                        openssl_encrypt($string, $encrypt_method, $key, 0, $iv)
-                    );
-                } elseif ($action == "decrypt") {
-                    $output = openssl_decrypt(
-                        base64_decode($string),
-                        $encrypt_method,
-                        $key,
-                        0,
-                        $iv
-                    );
-                }
-
-                return $output;
-            }
-
-            //print_r($request->hasFile('emp_image')); print_r($request->edit_emp_image); exit;
-            if (
-                !empty($request->edit_emp_image) &&
-                $request->hasFile("emp_image") == 1
-            ) {
-                $files = $request->file("emp_image");
-                $filename = $files->store("emp_pic");
-            } elseif (
-                empty($request->edit_emp_image) &&
-                $request->hasFile("emp_image") == 1
-            ) {
-                $files = $request->file("emp_image");
-                $filename = $files->store("emp_pic");
-            } elseif (
-                !empty($request->edit_emp_image) &&
-                $request->hasFile("emp_image") != 1
-            ) {
-                $filename = $request->edit_emp_image;
-            } else {
-                $filename = "";
-            }
-
-            $id = Input::get("q");
-            if ($id) {
-                $decrypted_id = my_simple_crypt($id, "decrypt");
-
-                $ckeck_dept = DB::table("employee")
-                    ->where("emp_code", $request->emp_code)
-                    ->where("emp_code", "!=", $decrypted_id)
-                    ->where("emid", $Roledata->reg)
-                    ->first();
-                if (!empty($ckeck_dept)) {
-                    Session::flash(
-                        "message",
-                        "Employee Code Code  Already Exists."
-                    );
-                    return redirect("employee-corner/update-profile?q=" . $id);
-                }
-
-                $ckeck_email = DB::table("users")
-                    ->where("email", "=", $request->emp_ps_email)
-                    ->where("employee_id", "!=", $decrypted_id)
-                    ->where("status", "=", "active")
-                    ->where("emid", $Roledata->reg)
-                    ->first();
-                if (!empty($ckeck_email)) {
-                    Session::flash("message", "E-mail id  Already Exists.");
-                    return redirect("employee-corner/update-profile?q=" . $id);
-                }
-
-                if (!empty($request->emqliup)) {
-                    $tot_item_edit_quli = count($request->emqliup);
-
-                    foreach ($request->emqliup as $value) {
-                        if ($request->input("quli_" . $value) != "") {
-                            if ($request->has("doc_" . $value)) {
-                                $extension_doc_edit = $request
-                                    ->file("doc_" . $value)
-                                    ->extension();
-                                $path_quli_doc_edit = $request
-                                    ->file("doc_" . $value)
-                                    ->store("employee_quli_doc", "public");
-                                $dataimgedit = [
-                                    "doc" => $path_quli_doc_edit,
-                                ];
-                                DB::table("employee_qualification")
-                                    ->where("emid", "=", $Roledata->reg)
-                                    ->where("id", $value)
-                                    ->update($dataimgedit);
-                            }
-                            if ($request->has("doc2_" . $value)) {
-                                $extension_doc_edit2 = $request
-                                    ->file("doc2_" . $value)
-                                    ->extension();
-                                $path_quli_doc_edit2 = $request
-                                    ->file("doc2_" . $value)
-                                    ->store("employee_quli_doc2", "public");
-                                $dataimgedit = [
-                                    "doc2" => $path_quli_doc_edit2,
-                                ];
-                                DB::table("employee_qualification")
-                                    ->where("id", $value)
-                                    ->where("emid", "=", $Roledata->reg)
-                                    ->update($dataimgedit);
-                            }
-                            $dataquli_edit = [
-                                "emp_id" => $decrypted_id,
-                                "quli" => $request->input("quli_" . $value),
-                                "dis" => $request->input("dis_" . $value),
-                                "ins_nmae" => $request->input(
-                                    "ins_nmae_" . $value
-                                ),
-                                "board" => $request->input("board_" . $value),
-                                "year_passing" => $request->input(
-                                    "year_passing_" . $value
-                                ),
-                                "perce" => $request->input("perce_" . $value),
-                                "grade" => $request->input("grade_" . $value),
-                            ];
-
-                            DB::table("employee_qualification")
-                                ->where("id", $value)
-                                ->where("emid", "=", $Roledata->reg)
-                                ->update($dataquli_edit);
-                        }
-                    }
-                }
-
-                if ($request->has("emp_image")) {
-                    $file = $request->file("emp_image");
-                    $extension = $request->emp_image->extension();
-                    $path = $request->emp_image->store(
-                        "employee_logo",
-                        "public"
-                    );
-                    $dataimg = [
-                        "emp_image" => $path,
-                    ];
-                    DB::table("employee")
-                        ->where("emp_code", $decrypted_id)
-                        ->where("emid", "=", $Roledata->reg)
-                        ->update($dataimg);
-                }
-                if ($request->has("pass_docu")) {
-                    $file_doc = $request->file("pass_docu");
-                    $extension_doc = $request->pass_docu->extension();
-                    $path_doc = $request->pass_docu->store(
-                        "employee_doc",
-                        "public"
-                    );
-
-                    $dataimgdoc = [
-                        "pass_docu" => $path_doc,
-                    ];
-                    DB::table("employee")
-                        ->where("emp_code", $decrypted_id)
-                        ->where("emid", "=", $Roledata->reg)
-                        ->update($dataimgdoc);
-                }
-                if ($request->has("visa_upload_doc")) {
-                    $file_visa_doc = $request->file("visa_upload_doc");
-                    $extension_visa_doc = $request->visa_upload_doc->extension();
-                    $path_visa_doc = $request->visa_upload_doc->store(
-                        "employee_vis_doc",
-                        "public"
-                    );
-                    $dataimgvis = [
-                        "visa_upload_doc" => $path_visa_doc,
-                    ];
-                    DB::table("employee")
-                        ->where("emp_code", $decrypted_id)
-                        ->where("emid", "=", $Roledata->reg)
-                        ->update($dataimgvis);
-                }
-
-                if ($request->has("visaback_doc")) {
-                    $file_visa_doc = $request->file("visaback_doc");
-                    $extension_visa_doc = $request->visaback_doc->extension();
-                    $path_visa_doc = $request->visaback_doc->store(
-                        "employee_vis_doc",
-                        "public"
-                    );
-                    $dataimgvis = [
-                        "visaback_doc" => $path_visa_doc,
-                    ];
-                    DB::table("employee")
-                        ->where("emp_code", $decrypted_id)
-                        ->where("emid", "=", $Roledata->reg)
-                        ->update($dataimgvis);
-                }
-                if ($request->has("pr_add_proof")) {
-                    $file_peradd = $request->file("pr_add_proof");
-                    $extension_per_add = $request->pr_add_proof->extension();
-                    $path_peradd = $request->pr_add_proof->store(
-                        "employee_per_add",
-                        "public"
-                    );
-                    $dataimgper = [
-                        "pr_add_proof" => $path_peradd,
-                    ];
-                    DB::table("employee")
-                        ->where("emp_code", $decrypted_id)
-                        ->where("emid", "=", $Roledata->reg)
-                        ->update($dataimgper);
-                }
-                if ($request->has("ps_add_proof")) {
-                    $file_ps_add = $request->file("pr_add_proof");
-                    $extension_ps_add = $request->ps_add_proof->extension();
-                    $path_ps_ad = $request->ps_add_proof->store(
-                        "employee_ps_add",
-                        "public"
-                    );
-                    $dataimgps = [
-                        "ps_add_proof" => $path_ps_ad,
-                    ];
-                    DB::table("employee")
-                        ->where("emp_code", $decrypted_id)
-                        ->where("emid", "=", $Roledata->reg)
-                        ->update($dataimgps);
-                }
-
-                $dataupdate = [
-                    "emp_fname" => strtoupper($request->emp_fname),
-                    "emp_mname" => strtoupper($request->emp_mid_name),
-                    "emp_lname" => strtoupper($request->emp_lname),
-
-                    "emp_dob" => date("Y-m-d", strtotime($request->emp_dob)),
-                    "emp_ps_phone" => $request->emp_ps_phone,
-                    "em_contact" => $request->em_contact,
-                    "emp_gender" => $request->emp_gender,
+                //employee update
+                $updateData = [
+                    // "emid" => $userObj->employee_id,
+                    // "emp_code" => $employeeId,
+                    "emp_old_code"=> $request->emp_old_code,
+                    "salutation" => $request->salutation,
+                    "emp_fname" => $request->emp_fname,
+                    "emp_mname" => $request->emp_mname,
+                    "emp_lname" => $request->emp_lname,
                     "emp_father_name" => $request->emp_father_name,
-
-                    "marital_status" => $request->marital_status,
-                    "marital_date" => date(
-                        "Y-m-d",
-                        strtotime($request->marital_date)
-                    ),
-                    "spouse_name" => $request->spouse_name,
-                    "nationality" => $request->nationality,
-
-                    "dis_remarks" => $request->dis_remarks,
-                    "cri_remarks" => $request->cri_remarks,
-                    "criminal" => $request->criminal,
-
-                    "ni_no" => $request->ni_no,
+                    "spousename" => $request->spousename,
+                    "emp_caste" => $request->emp_caste,
+                    "emp_sub_caste" => $request->emp_sub_caste,
+                    "emp_religion" => $request->emp_religion,
+                    "maritalstatus" => $request->maritalstatus,
+                    "mariddate" => $request->mariddate,
+                    "department" => $request->department,
+                    "designation" => $request->designation,
+                    "dateofbirth" => $request->dateofbirth,
+                    "dateofretirement" => $request->dateofretirement,
+                    "dateofretirementbvc" => $request->dateofretirementbvc,
+                    "dateofJoining" => $request->dateofJoining,
+                    "confirmationdate" => $request->confirmationdate,
+                    "nextincrementdate" => $request->nextincrementdate,
+                    "eligibleforpromotion" => $request->eligibleforpromotion,
+                    "employeetype" => $request->employeetype,
+                    "renewdate" => $request->renewdate,
+                    "profileimage" => $request->profileimage,
+                    "reportingauthority" => $request->reportingauthority,
+                    "leaveauthority" => $request->leaveauthority,
+                    "grade" => $request->grade,
+                    "registration_no" => $request->registration_no,
+                    "registration_date" => $request->registration_date,
+                    "registration_counci" => $request->registration_counci,
+                    "date_of_up_gradation" => $request->date_of_up_gradation,
                     "emp_blood_grp" => $request->emp_blood_grp,
                     "emp_eye_sight_left" => $request->emp_eye_sight_left,
                     "emp_eye_sight_right" => $request->emp_eye_sight_right,
-                    "emp_weight" => $request->emp_weight,
+                    "emp_family_plan_status" => $request->emp_family_plan_status,
+        
+                    "emp_family_plan_date" => $request->emp_family_plan_date,
                     "emp_height" => $request->emp_height,
+        
                     "emp_identification_mark_one" =>
                         $request->emp_identification_mark_one,
                     "emp_identification_mark_two" =>
                         $request->emp_identification_mark_two,
                     "emp_physical_status" => $request->emp_physical_status,
-
-                    "em_name" => $request->em_name,
-                    "em_relation" => $request->em_relation,
-                    "em_email" => $request->em_email,
-                    "em_phone" => $request->em_phone,
-                    "em_address" => $request->em_address,
-
                     "emp_pr_street_no" => $request->emp_pr_street_no,
                     "emp_per_village" => $request->emp_per_village,
                     "emp_pr_city" => $request->emp_pr_city,
-                    "emp_pr_country" => $request->emp_pr_country,
+                    "emp_per_post_office" => $request->emp_per_post_office,
+                    "emp_per_policestation" => $request->emp_per_policestation,
                     "emp_pr_pincode" => $request->emp_pr_pincode,
+                    "emp_per_dist" => $request->emp_per_dist,
                     "emp_pr_state" => $request->emp_pr_state,
-
-                    "emp_ps_street_no" => $request->emp_ps_street_no,
-                    "emp_ps_village" => $request->emp_ps_village,
-                    "emp_ps_city" => $request->emp_ps_city,
-                    "emp_ps_country" => $request->emp_ps_country,
-                    "emp_ps_pincode" => $request->emp_ps_pincode,
-                    "emp_ps_state" => $request->emp_ps_state,
-
-                    "nat_id" => $request->nat_id,
-                    "place_iss" => $request->place_iss,
-                    "iss_date" => $request->iss_date,
-                    "exp_date" => date("Y-m-d", strtotime($request->exp_date)),
-                    "pass_nation" => $request->pass_nation,
-                    "country_residence" => $request->country_residence,
-                    "country_birth" => $request->country_birth,
-                    "place_birth" => $request->place_birth,
-
+                    "emp_pr_country" => $request->emp_pr_country,
+                    "emp_pr_mobile" => $request->emp_pr_mobile,
+                    "em_name" => $request->em_name,
+                    "em_relation" => $request->em_relation,
+                    "relation_others" => $request->relation_others,
+                    "em_email" => $request->em_email,
+                    "em_phone" => $request->em_phone,
+                    "hel_em_email" => $request->hel_em_email,
+                    "hel_em_phone" => $request->hel_em_phone,
+                    "em_address" => $request->em_address,
                     "pass_doc_no" => $request->pass_doc_no,
                     "pass_nat" => $request->pass_nat,
+                    "place_birth" => $request->place_birth,
                     "issue_by" => $request->issue_by,
-                    "pas_iss_date" => date(
-                        "Y-m-d",
-                        strtotime($request->pas_iss_date)
-                    ),
-                    "pass_exp_date" => date(
-                        "Y-m-d",
-                        strtotime($request->pass_exp_date)
-                    ),
-                    "pass_review_date" => date(
-                        "Y-m-d",
-                        strtotime($request->pass_review_date)
-                    ),
-                    "eli_status" => $request->eli_status,
-
+                    "pas_iss_date" => $request->pas_iss_date,
+                    "pass_exp_date" => $request->pass_exp_date,
+                    "pass_review_date" => $request->pass_review_date,
+                    "pass_docu" => $request->pass_docu,
                     "cur_pass" => $request->cur_pass,
+                    "cur_passss" => $request->cur_passss,
                     "remarks" => $request->remarks,
-
-                    "visa_doc_no" => $request->visa_doc_no,
-                    "visa_nat" => $request->visa_nat,
-                    "visa_issue" => $request->visa_issue,
-                    "visa_issue_date" => date(
-                        "Y-m-d",
-                        strtotime($request->visa_issue_date)
-                    ),
-                    "visa_exp_date" => date(
-                        "Y-m-d",
-                        strtotime($request->visa_exp_date)
-                    ),
-                    "visa_review_date" => date(
-                        "Y-m-d",
-                        strtotime($request->visa_review_date)
-                    ),
-                    "visa_eli_status" => $request->visa_eli_status,
-
-                    "visa_cur" => $request->visa_cur,
-                    "visa_remarks" => $request->visa_remarks,
-
-                    "drive_doc" => $request->drive_doc,
-                    "licen_num" => $request->licen_num,
-                    "lin_exp_date" => $request->lin_exp_date,
-
-                    "emid" => $Roledata->reg,
-                    "titleof_license" => $request->titleof_license,
-                    "cf_license_number" => $request->cf_license_number,
-                    "cf_start_date" => date(
-                        "Y-m-d",
-                        strtotime($request->cf_start_date)
-                    ),
-                    "cf_end_date" => date(
-                        "Y-m-d",
-                        strtotime($request->cf_end_date)
-                    ),
-                    "euss_ref_no" => $request->euss_ref_no,
-                    "euss_nation" => $request->euss_nation,
-
-                    "euss_issue_date" => date(
-                        "Y-m-d",
-                        strtotime($request->euss_issue_date)
-                    ),
-                    "euss_exp_date" => date(
-                        "Y-m-d",
-                        strtotime($request->euss_exp_date)
-                    ),
-                    "euss_review_date" => date(
-                        "Y-m-d",
-                        strtotime($request->euss_review_date)
-                    ),
-                    "euss_cur" => $request->euss_cur,
-
-                    "euss_remarks" => $request->euss_remarks,
-
-                    "nat_id_no" => $request->nat_id_no,
-                    "nat_nation" => $request->nat_nation,
-                    "nat_country_res" => $request->nat_country_res,
-                    "nat_issue_date" => date(
-                        "Y-m-d",
-                        strtotime($request->nat_issue_date)
-                    ),
-                    "nat_exp_date" => date(
-                        "Y-m-d",
-                        strtotime($request->nat_exp_date)
-                    ),
-                    "nat_review_date" => date(
-                        "Y-m-d",
-                        strtotime($request->nat_review_date)
-                    ),
-                    "nat_cur" => $request->nat_cur,
-
-                    "nat_remarks" => $request->nat_remarks,
+                    "emp_group" => $request->emp_group,
+                    "emp_basic_pay" => $request->emp_basic_pay,
+                    "emp_apf_percent" => $request->emp_apf_percent,
+                    "emp_pf_type" => $request->emp_pf_type,
+                    "emp_passport_no" => $request->emp_passport_no,
+                    "emp_pf_no" => $request->emp_pf_no,
+                    "emp_uan_no" => $request->emp_uan_no,
+                    "emp_pan_no" => $request->emp_pan_no,
+                    "emp_bank_name" => $request->emp_bank_name,
+                    "bank_branch_id" => $request->bank_branch_id,
+                    "emp_ifsc_code" => $request->emp_ifsc_code,
+                    "emp_account_no" => $request->emp_account_no,
+        
+                    "emp_gradess" => $request->emp_gradess,
+        
+                    "emp_aadhar_no" => $request->emp_aadhar_no,
+                    "emp_pension" => $request->emp_pension,
+                    "emp_pf_inactuals" => $request->emp_pf_inactuals,
+                    "emp_bonus" => $request->emp_bonus,
                 ];
+                DB::table('employee')->where('id',$employee_id)->update($updateData);
+                //end employee update
 
-                DB::table("employee")
-                    ->where("emp_code", $decrypted_id)
-                    ->where("emid", "=", $Roledata->reg)
-                    ->update($dataupdate);
-
-                if (!empty($request->emqliotherdoc)) {
-                    $tot_item_edit_quli = count($request->emqliotherdoc);
-
-                    foreach ($request->emqliotherdoc as $value) {
-                        if ($request->input("doc_name_" . $value) != "") {
-                            if ($request->has("doc_upload_doc_" . $value)) {
-                                $extension_doc_edit = $request
-                                    ->file("doc_upload_doc_" . $value)
-                                    ->extension();
-                                $path_quli_doc_edit = $request
-                                    ->file("doc_upload_doc_" . $value)
-                                    ->store("emp_other_doc", "public");
-                                $dataimgedit = [
-                                    "doc_upload_doc" => $path_quli_doc_edit,
-                                ];
-                                DB::table("employee_other_doc")
-                                    ->where("emid", "=", $Roledata->reg)
-                                    ->where("id", $value)
-                                    ->update($dataimgedit);
-                            }
-
-                            $dataquli_edit = [
-                                "emp_code" => $decrypted_id,
-                                "doc_name" => $request->input(
-                                    "doc_name_" . $value
-                                ),
-                                "doc_ref_no" => $request->input(
-                                    "doc_ref_no_" . $value
-                                ),
-                                "doc_nation" => $request->input(
-                                    "doc_nation_" . $value
-                                ),
-                                "doc_issue_date" => date(
-                                    "Y-m-d",
-                                    strtotime(
-                                        $request->input(
-                                            "doc_issue_date_" . $value
-                                        )
-                                    )
-                                ),
-                                "doc_review_date" => date(
-                                    "Y-m-d",
-                                    strtotime(
-                                        $request->input(
-                                            "doc_review_date_" . $value
-                                        )
-                                    )
-                                ),
-                                "doc_exp_date" => date(
-                                    "Y-m-d",
-                                    strtotime(
-                                        $request->input(
-                                            "doc_exp_date_" . $value
-                                        )
-                                    )
-                                ),
-                                "doc_cur" => $request->input(
-                                    "doc_cur_" . $value
-                                ),
-                                "doc_remarks" => $request->input(
-                                    "doc_remarks_" . $value
-                                ),
-                            ];
-
-                            DB::table("employee_other_doc")
-                                ->where("id", $value)
-                                ->where("emid", "=", $Roledata->reg)
-                                ->update($dataquli_edit);
-                        }
-                    }
-                }
-
-                if ($request->has("euss_upload_doc")) {
-                    $file_ps_doc = $request->file("euss_upload_doc");
-                    $extension_ps_doc = $request->euss_upload_doc->extension();
-                    $path_euss_doc = $request->euss_upload_doc->store(
-                        "emp_euss",
-                        "public"
-                    );
-                    $dataimgps = [
-                        "euss_upload_doc" => $path_euss_doc,
-                    ];
-                    DB::table("employee")
-                        ->where("emp_code", $decrypted_id)
-                        ->where("emid", "=", $Roledata->reg)
-                        ->update($dataimgps);
-                }
-
-                if ($request->has("nat_upload_doc")) {
-                    $file_ps_doc = $request->file("nat_upload_doc");
-                    $extension_ps_doc = $request->nat_upload_doc->extension();
-                    $path_nat_doc = $request->nat_upload_doc->store(
-                        "emp_nation",
-                        "public"
-                    );
-                    $dataimgps = [
-                        "nat_upload_doc" => $path_nat_doc,
-                    ];
-                    DB::table("employee")
-                        ->where("emp_code", $decrypted_id)
-                        ->where("emid", "=", $Roledata->reg)
-                        ->update($dataimgps);
-                }
-
-                if (!empty($request->doc_name)) {
-                    $tot_item_nat = count($request->doc_name);
-
-                    for ($i = 0; $i < $tot_item_nat; $i++) {
-                        if ($request->doc_name[$i] != "") {
-                            if ($request->has("doc_upload_doc")) {
-                                $extension_upload_doc = $request->doc_upload_doc[
-                                    $i
-                                ]->extension();
-                                $path_upload_otherdoc = $request->doc_upload_doc[
-                                    $i
-                                ]->store("emp_other_doc", "public");
-                            } else {
-                                $path_upload_otherdoc = "";
-                            }
-                            $dataupload = [
-                                "emp_code" => $request->emp_code,
-                                "doc_name" => $request->doc_name[$i],
-                                "emid" => $Roledata->reg,
-                                "doc_upload_doc" => $path_upload_otherdoc,
-
-                                "doc_ref_no" => $request->doc_ref_no[$i],
-                                "doc_nation" => $request->doc_nation[$i],
-                                "doc_remarks" => $request->doc_remarks[$i],
-                                "doc_issue_date" => date(
-                                    "Y-m-d",
-                                    strtotime($request->doc_issue_date[$i])
-                                ),
-                                "doc_exp_date" => date(
-                                    "Y-m-d",
-                                    strtotime($request->doc_exp_date[$i])
-                                ),
-                                "doc_review_date" => date(
-                                    "Y-m-d",
-                                    strtotime($request->doc_review_date[$i])
-                                ),
-                                "doc_cur" => $request->doc_cur[$i],
-                            ];
-                            DB::table("employee_other_doc")->insert(
-                                $dataupload
-                            );
-                        }
-                    }
-                }
-
-                $tot_job_item = count($request->job_name);
-                DB::table("employee_job")
-                    ->where("emp_id", "=", $decrypted_id)
-                    ->where("emid", "=", $Roledata->reg)
-                    ->delete();
-                for ($i = 0; $i < $tot_job_item; $i++) {
-                    if ($request->job_name[$i] != "") {
-                        $datajob = [
-                            "emp_id" => $decrypted_id,
-                            "job_name" => $request->job_name[$i],
-                            "job_start_date" => date(
-                                "Y-m-d",
-                                strtotime($request->job_start_date[$i])
-                            ),
-                            "job_end_date" => date(
-                                "Y-m-d",
-                                strtotime($request->job_end_date[$i])
-                            ),
-                            "des" => $request->des[$i],
-                            "emid" => $Roledata->reg,
-                            "exp" => $request->exp[$i],
-                        ];
-                        DB::table("employee_job")->insert($datajob);
-                    }
-                }
-
-                $tot_train_item = count($request->tarin_name);
-                DB::table("employee_training")
-                    ->where("emp_id", "=", $decrypted_id)
-                    ->where("emid", "=", $Roledata->reg)
-                    ->delete();
-
-                for ($i = 0; $i < $tot_train_item; $i++) {
-                    if ($request->tarin_name[$i] != "") {
-                        $datatrain = [
-                            "emp_id" => $decrypted_id,
-                            "train_des" => $request->train_des[$i],
-                            "tarin_start_date" => date(
-                                "Y-m-d",
-                                strtotime($request->tarin_start_date[$i])
-                            ),
-                            "tarin_end_date" => date(
-                                "Y-m-d",
-                                strtotime($request->tarin_end_date[$i])
-                            ),
-                            "tarin_name" => $request->tarin_name[$i],
-
-                            "emid" => $Roledata->reg,
-                        ];
-                        DB::table("employee_training")->insert($datatrain);
-                    }
-                }
-
-                if (!empty($request->quli)) {
-                    $tot_item_quli = count($request->quli);
-
-                    for ($i = 0; $i < $tot_item_quli; $i++) {
-                        if ($request->quli[$i] != "") {
-                            if ($request->has("doc")) {
-                                $extension_quli_doc = $request->doc[
-                                    $i
-                                ]->extension();
-                                $path_quli_doc = $request->doc[$i]->store(
-                                    "employee_quli_doc",
-                                    "public"
-                                );
-                            } else {
-                                $path_quli_doc = "";
-                            }
-                            if ($request->has("doc2")) {
-                                $extension_quli_doc2 = $request->doc2[
-                                    $i
-                                ]->extension();
-                                $path_quli_doc2 = $request->doc2[$i]->store(
-                                    "employee_quli_doc2",
-                                    "public"
-                                );
-                            } else {
-                                $path_quli_doc2 = "";
-                            }
-                            $dataquli = [
-                                "emp_id" => $request->emp_code,
-                                "quli" => $request->quli[$i],
-                                "dis" => $request->dis[$i],
-                                "ins_nmae" => $request->ins_nmae[$i],
-                                "board" => $request->board[$i],
-                                "year_passing" => $request->year_passing[$i],
-                                "perce" => $request->perce[$i],
-                                "grade" => $request->grade[$i],
-                                "doc" => $path_quli_doc,
-                                "doc2" => $path_quli_doc2,
-                                "emid" => $Roledata->reg,
-                            ];
-                            DB::table("employee_qualification")->insert(
-                                $dataquli
-                            );
-                        }
-                    }
-                }
-
-                if (!empty($request->id_up_doc)) {
-                    $tot_item_nat_edit = count($request->id_up_doc);
-
-                    foreach ($request->id_up_doc as $valuee) {
-                        if ($request->input("type_doc_" . $valuee) != "") {
-                            if ($request->has("docu_nat_" . $valuee)) {
-                                $extension_doc_edit_up = $request
-                                    ->file("docu_nat_" . $valuee)
-                                    ->extension();
-
-                                $path_quli_doc_edit_up = $request
-                                    ->file("docu_nat_" . $valuee)
-                                    ->store("employee_upload_doc", "public");
-                                $dataimgeditup = [
-                                    "docu_nat" => $path_quli_doc_edit_up,
-                                ];
-
-                                DB::table("employee_upload")
-                                    ->where("id", $valuee)
-                                    ->where("emid", "=", $Roledata->reg)
-                                    ->update($dataimgeditup);
-                            }
-
-                            $datauploadedit = [
-                                "emp_id" => $decrypted_id,
-                                "type_doc" => $request->input(
-                                    "type_doc_" . $valuee
-                                ),
-                            ];
-                            DB::table("employee_upload")
-                                ->where("id", $valuee)
-                                ->where("emid", "=", $Roledata->reg)
-                                ->update($datauploadedit);
-                        }
-                    }
-                }
-
-                if (!empty($request->type_doc)) {
-                    $tot_item_nat = count($request->type_doc);
-
-                    for ($i = 0; $i < $tot_item_nat; $i++) {
-                        if ($request->type_doc[$i] != "") {
-                            if ($request->has("docu_nat")) {
-                                $extension_upload_doc = $request->docu_nat[
-                                    $i
-                                ]->extension();
-                                $path_upload_doc = $request->docu_nat[
-                                    $i
-                                ]->store("employee_upload_doc", "public");
-                            } else {
-                                $path_upload_doc = "";
-                            }
-                            $dataupload = [
-                                "emp_id" => $decrypted_id,
-                                "type_doc" => $request->type_doc[$i],
-                                "emid" => $Roledata->reg,
-                                "docu_nat" => $path_upload_doc,
-                            ];
-                            DB::table("employee_upload")->insert($dataupload);
-                        }
-                    }
-                }
-
-                Session::flash(
-                    "message",
-                    "Employee data has been successfully updated"
-                );
-                return redirect("employee-corner/update-profile?q=" . $id);
+        $documentNames = $request->input("document_name");
+        $employeeId = $request->input("empid");
+        $perId=$request->input("perid");
+        if ($request->hasFile("document_upload")) {
+            $documents = $request->file("document_upload");
+            foreach ($documents as $key => $document) {
+                $documentName =
+                    time() . "_" . $document->getClientOriginalName();
+                $document->move(public_path("/emp_pic"), $documentName);
+                $documentModel = new EmployeePersonalRecord();
+                $documentModel->emp_code=$employeeId;
+                $documentModel->document_name = $documentNames[$key];
+                $documentModel->document_upload = $documentName;
+               
+                $documentModel->where('id',$perId[$key])->update([
+                    "document_name"=>$documentNames[$key],
+                    "document_upload"=>$documentName,
+                ]);
+            } 
+        }
+     
+        $emp_document_names = $request->input("emp_document_name");
+      
+        $boardsss = $request->input("boardss");
+        $yearofpassings = $request->input("yearofpassing");
+        $emp_grades = $request->input("emp_grade");
+        $erprec=$request->input("erprec");
+        if ($request->hasFile("emp_document_upload")) {
+            
+            $documents = $request->file("emp_document_upload");
+           
+            foreach ($documents as $key => $document) {
+                $documentName =
+                    time() . "_" . $document->getClientOriginalName();
+                $document->move(public_path("/emp_pic"), $documentName);
+                $documentModel = new ExperienceRecords();
+                ExperienceRecords::where('id',$erprec[$key])->update([
+                    'emp_document_name'=>$emp_document_names[$key],
+                    'boardss'=>$boardsss[$key],
+                    'yearofpassing'=>$yearofpassings[$key],
+                    'emp_grade'=>$emp_grades[$key],
+                    'emp_document_upload'=>$documentName
+                ]);
             }
-        } else {
+          
+        }
+
+        $Organization = $request->input("Organization");
+        $Desigination = $request->input("Desigination");
+        $formdate = $request->input("formdate");
+        $todate = $request->input("todate");
+        $proId=$request->input("proId");
+        if ($request->hasFile("emp1_document_upload")) {
+            $documentss = $request->file("emp1_document_upload");
+            foreach ($documentss as $key => $document) {
+                $documentName =
+                    time() . "_" . $document->getClientOriginalName();
+                $document->move(public_path("/emp_pic"), $documentName);
+                $documentModel = new ProfessionalRecords();
+                $documentModel::where('id',$proId[$key])->update([
+                    'Organization'=>$Organization[$key],
+                    'Desigination'=>$Desigination[$key],
+                    'formdate'=>$formdate[$key],
+                    'todate'=>$todate[$key],
+                    'emp1_document_upload'=>$documentName
+                ]);
+            }
+        }
+
+        $emp_tranings = $request->input("emp_traning");
+        $traning1_document_upload=$request->input('traning1_document_upload');
+        $miscId=$request->input('miscId');
+        if ($request->hasFile("traning1_document_upload")) {
+            $documentss = $request->file("traning1_document_upload");
+            foreach ($documentss as $key => $document) {
+                $documentName =
+                    time() . "_" . $document->getClientOriginalName();
+                $document->move(public_path("/emp_pic"), $documentName);
+                $documentModel = new MiscDocuments();
+                $documentModel::where('id',$miscId)->update([
+                    'emp_traning'=>$emp_tranings[$key],
+                    'traning1_document_upload'=>$documentName
+                ]); 
+            }
+        }
+
+
+            // //pay structure
+
+            // $pay = [];
+            // // $pay["employee_code"] =$employeeId;
+            // $pay["basic_pay"] = $request->emp_basic_pay;
+            // $pay["apf_percent"] = $request->emp_apf_percent;
+            // $pay["pf_type"] = $request->emp_pf_type;
+            // // $pay["empid"] = $service_details_id;
+           
+            // $pay["emp_passport_no"] = $request->emp_passport_no;
+            // $pay["emp_group"] = $request->emp_group;
+            // $pay["emp_pan_no"] = $request->emp_pan_no;
+            // $pay["emp_uan_no"] = $request->emp_uan_no;
+    
+            // $pay["emp_pf_no"] = $request->emp_pf_no;
+            // $pay["emp_bank_name"] = $request->emp_bank_name;
+            // $pay["bank_branch_id"] = $request->bank_branch_id;
+            // $pay["emp_ifsc_code"] = $request->emp_ifsc_code;
+    
+            // $pay["emp_pension"] = $request->emp_pension;
+            // $pay["emp_aadhar_no"] = $request->emp_aadhar_no;
+            // $pay["emp_account_no"] = $request->emp_account_no;
+            // $pay["emp_pf_inactuals"] = $request->emp_pf_inactuals;
+            // $pay["emp_bonus"] = $request->emp_bonus;
+    
+    
+            // $pay["created_at"] = date("Y-m-d h:i:s");
+            // $pay["updated_at"] = date("Y-m-d h:i:s");
+    
+            // if ($request->name_earn && count($request->name_earn) != 0) {
+            //     $arr_un = count(array_unique($request->name_earn));
+            //     if (count($request->name_earn) != $arr_un) {
+            //         Session::flash(
+            //             "error",
+            //             "Pay Structure Earning Head Must be unique"
+            //         );
+    
+            //         return redirect("employees");
+            //     }
+            //     // dd($request->value_emp);
+            //     for ($i = 0; $i < count($request->name_earn); $i++) {
+            //         if ($request->name_earn[$i] != "") {
+            //             $pay[$request->name_earn[$i]] = $request->value_emp[$i];
+            //             $pay[$request->name_earn[$i] . "_type"] =
+            //                 $request->head_type[$i];
+            //         }
+            //     }
+            // }
+    
+            // if ($request->name_deduct && count($request->name_deduct) != 0) {
+            //     $arr_un = count(array_unique($request->name_deduct));
+            //     if (count($request->name_deduct) != $arr_un) {
+            //         Session::flash(
+            //             "error",
+            //             "Pay Structure Deduction Head Must be unique"
+            //         );
+    
+            //         return redirect("employees");
+            //     }
+            //     for ($i = 0; $i < count($request->name_deduct); $i++) {
+            //         if ($request->name_deduct[$i] != "") {
+            //             $pay[$request->name_deduct[$i]] = $request->valuededuct[$i];
+            //             $pay[$request->name_deduct[$i] . "_type"] =
+            //                 $request->head_typededuct[$i];
+            //         }
+            //     }
+            // }
+            
+            // EmployeePayStructure::insert($pay);
+    
+            //end pay structure
+       
+
+        Session::flash(
+            "message",
+            "Employee Information Successfully Saved."
+        );
+
+                return redirect("employee-corner/update-profile");
+            }else{
             return redirect("/");
         }
     }

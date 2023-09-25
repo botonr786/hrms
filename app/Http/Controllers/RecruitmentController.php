@@ -388,7 +388,7 @@ class RecruitmentController extends Controller
                 return view('recruitment/add-new-job-post', $data);
             } else {
 
-                $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $Roledata->reg)->groupBy('soc')->get();
+                $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $Roledata->reg)->get();
                 return view('recruitment/add-new-job-post', $data);
             }
         } else {
@@ -409,7 +409,7 @@ class RecruitmentController extends Controller
                 ->where('email', '=', $email)
                 ->first();
 
-            $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $Roledata->reg)->groupBy('soc')->get();
+            $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $Roledata->reg)->get();
             if (Input::get('id')) {
                 $data['designation'] = DB::Table('job_post')
 

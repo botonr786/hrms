@@ -487,8 +487,26 @@ class EmployeeController extends Controller
         $pay["employee_code"] =$employeeId;
         $pay["basic_pay"] = $request->emp_basic_pay;
         $pay["apf_percent"] = $request->emp_apf_percent;
+        $pay["pf_type"] = $request->emp_pf_type;
         $pay["empid"] = $service_details_id;
-        // $pay["emp_code"] = $employeeId;
+       
+        $pay["emp_passport_no"] = $request->emp_passport_no;
+        $pay["emp_group"] = $request->emp_group;
+        $pay["emp_pan_no"] = $request->emp_pan_no;
+        $pay["emp_uan_no"] = $request->emp_uan_no;
+
+        $pay["emp_pf_no"] = $request->emp_pf_no;
+        $pay["emp_bank_name"] = $request->emp_bank_name;
+        $pay["bank_branch_id"] = $request->bank_branch_id;
+        $pay["emp_ifsc_code"] = $request->emp_ifsc_code;
+
+        $pay["emp_pension"] = $request->emp_pension;
+        $pay["emp_aadhar_no"] = $request->emp_aadhar_no;
+        $pay["emp_account_no"] = $request->emp_account_no;
+        $pay["emp_pf_inactuals"] = $request->emp_pf_inactuals;
+        $pay["emp_bonus"] = $request->emp_bonus;
+
+
         $pay["created_at"] = date("Y-m-d h:i:s");
         $pay["updated_at"] = date("Y-m-d h:i:s");
 
@@ -524,7 +542,6 @@ class EmployeeController extends Controller
             }
             for ($i = 0; $i < count($request->name_deduct); $i++) {
                 if ($request->name_deduct[$i] != "") {
-                    // dd($request->name_deduct[$i]);
                     $pay[$request->name_deduct[$i]] = $request->valuededuct[$i];
                     $pay[$request->name_deduct[$i] . "_type"] =
                         $request->head_typededuct[$i];
@@ -586,7 +603,6 @@ class EmployeeController extends Controller
        
        
         $Organization = $request->input("Organization");
-      
         $Desigination = $request->input("Desigination");
         $formdate = $request->input("formdate");
         $todate = $request->input("todate");

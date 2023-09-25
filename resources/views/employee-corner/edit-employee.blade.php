@@ -120,9 +120,9 @@
    </head>
    <body>
       <div class="wrapper">
-         @include('employee.include.header')
+         @include('employee-corner.include.header')
          <!-- Sidebar -->
-         @include('employee.include.sidebar')
+         @include('employee-corner-organisation.include.sidebar')
          <!-- End Sidebar -->
          <div class="main-panel">
             <div class="page-header">
@@ -169,6 +169,7 @@
                -webkit-border-radius: 50%;
                }
             </style>
+           
             <div class="content">
                <div class="page-inner">
                   <div class="row">
@@ -188,7 +189,7 @@
                               <main class="content" role="content">
                                  <section id="section1">
                                     <div class="container-fluid">
-                                       <form id="regForm" action="{{url('employee/savemploy')}}" method="POST" enctype="multipart/form-data">
+                                       <form id="regForm" action="{{url('employee-corner/update-profile')}}" method="POST" enctype="multipart/form-data">
                                           @csrf
                                           <div class="tab">
                                              <p>Personal and Service Details</p>
@@ -198,13 +199,13 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Employee Code <span style="color: red">(*)</label>
-                                                      <input type="text"  placeholder="Employee Code..." class="form-control"   name="emp_old_code" id="emp_old_code" value="<?php print_r($employee_rs->emp_old_code) ?>"></p>
+                                                      <input type="text"  placeholder="Employee Code..." class="form-control"   name="emp_old_code" id="emp_old_code" value="<?php print_r($employee_rs->emp_old_code) ?>" readonly></p>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Salutation</label>
-                                                      <select name="salutation" class="form-control">
+                                                      <select name="salutation" class="form-control" readonly>
                                                          <option value="">select</option>
                                                          <option value="MR." <?php if($employee_rs->salutation=='MR.'){?> selected="selected"<?php }?> >MR.</option>
                                                          <option value="MRS." <?php if($employee_rs->salutation=='MRS.'){?> selected="selected"<?php }?>>MRS.</option>
@@ -218,50 +219,50 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>First Name <span style="color:red">(*)</span></label>
-                                                      <input type="text" placeholder="First Name..."  class="form-control" name="emp_fname" id="emp_fname" value="<?php print_r($employee_rs->emp_fname) ?>" required></p>
+                                                      <input type="text" placeholder="First Name..."  class="form-control" name="emp_fname" id="emp_fname" value="<?php print_r($employee_rs->emp_fname) ?>" required readonly></p>
                                                       <span id="fname"></span>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Middle Name</label>
-                                                      <input type="text" placeholder="Middle Name..."  class="form-control" name="emp_mname" value="<?php print_r($employee_rs->emp_mname) ?>"></p>
+                                                      <input type="text" placeholder="Middle Name..."  class="form-control" name="emp_mname" value="<?php print_r($employee_rs->emp_mname) ?>" readonly></p>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Last Name</label>
-                                                      <input type="text" placeholder="Last Name..."  class="form-control" name="emp_lname" value="<?php print_r($employee_rs->emp_lname) ?>"></p>
+                                                      <input type="text" placeholder="Last Name..."  class="form-control" name="emp_lname" value="<?php print_r($employee_rs->emp_lname) ?>" readonly></p>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Father Name<span style="color:red">(*)</span></label>
-                                                      <input type="text" placeholder="Father Name..."  class="form-control" id="emp_father_name" name="emp_father_name" value="<?php print_r($employee_rs->emp_father_name) ?>"></p>
+                                                      <input type="text" placeholder="Father Name..."  class="form-control" id="emp_father_name" name="emp_father_name" value="<?php print_r($employee_rs->emp_father_name) ?>" readonly></p>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Spouse Name</label>
-                                                      <input type="text" placeholder="Spouse Name..."  class="form-control" name="spousename" value="<?php print_r($employee_rs->spousename) ?>"></p>
+                                                      <input type="text" placeholder="Spouse Name..."  class="form-control" name="spousename" value="<?php print_r($employee_rs->spousename) ?>" readonly></p>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Email <span style="color: red">(*)</span></label>
-                                                      <input type="text" placeholder="Employee Email..."  class="form-control" name="em_email" id="emp_email" value="<?php print_r($employee_rs->em_email) ?>"></p>
+                                                      <input type="text" placeholder="Employee Email..."  class="form-control" name="em_email" id="emp_email" value="<?php print_r($employee_rs->em_email) ?>" readonly></p>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Phone <span style="color: red">(*)</span></label>
-                                                      <input type="text" placeholder="Phone Number..."  class="form-control" name="em_phone" id="emp_phone" value="<?php print_r($employee_rs->em_phone) ?>"></p>
+                                                      <input type="text" placeholder="Phone Number..."  class="form-control" name="em_phone" id="emp_phone" value="<?php print_r($employee_rs->em_phone) ?>" readonly></p>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Caste</label>
-                                                      <select class="form-control" name="emp_caste">
+                                                      <select class="form-control" name="emp_caste" readonly>
                                                          <option>Select</option>
                                 
                                                          @foreach($cast as $item)
@@ -273,7 +274,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Sub Caste</label>
-                                                      <select class="form-control" name="emp_sub_caste" style="width:205px">
+                                                      <select class="form-control" name="emp_sub_caste" style="width:205px" readonly>
                                                          <option>Select</option>
                                                          @foreach($sub_cast as $item)
                                                          <option value='{{ $item->sub_cast_name }}' <?php if($employee_rs->emp_sub_caste==$item->sub_cast_name){?> selected="selected"<?php }?>>{{ $item->sub_cast_name }}</option>
@@ -284,7 +285,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Religion</label>
-                                                      <select class="form-control" name="emp_religion"  style="width:205px">
+                                                      <select class="form-control" name="emp_religion"  style="width:205px" readonly>
                                                          <option>Select</option>
                                                          @foreach($religion as $item)
                                                          <option value='{{ $item->religion_name }}' <?php if($employee_rs->emp_religion==$item->religion_name){?> selected="selected"<?php }?>>{{ $item->religion_name }}</option>
@@ -295,7 +296,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Marital Status</label>
-                                                      <select class="form-control" name="maritalstatus" style="width:205px" id="marid" onchange="MaritalChange()">
+                                                      <select class="form-control" name="maritalstatus" style="width:205px" id="marid" onchange="MaritalChange()" readonly>
                                                          <option>Select</option>
                                                          <option value="YES" <?php if($employee_rs->maritalstatus=='YES'){?> selected="selected"<?php }?>>YES</option>
                                                          <option value="NO" <?php if($employee_rs->maritalstatus=='NO'){?> selected="selected"<?php }?>>NO</option>
@@ -314,7 +315,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Department<span style="color:red">(*)</span></label>
-                                                      <select class="form-control" name="department" id="deptid" onclick="deptFunc()">
+                                                      <select class="form-control" name="department" id="deptid" onclick="deptFunc()" readonly>
                                                          <option></option>
                                                          @foreach($department as $dept)
                                                          <option value='{{ $dept->department_name }}' <?php if($employee_rs->department==$dept->department_name){?> selected="selected"<?php }?>>{{ $dept->department_name }}</option>
@@ -326,7 +327,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Designation <span style="color:red">(*)</span></label>
-                                                      <select class="form-control" id="rate_id" name="designation" required>
+                                                      <select class="form-control" id="rate_id" name="designation" required readonly>
                                                          <option value="" selected disabled required>Select</option>
                                                       </select>
                                                    </div>
@@ -334,44 +335,39 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Date Of Birth <span style="color:red">(*)</span></label>
-                                                      <input type="date" name="dateofbirth" class="form-control" id="dateofbirth" value="<?php print_r($employee_rs->dateofbirth) ?>" onchange="datefunction()"><br/>
+                                                      <input type="date" name="dateofbirth" class="form-control" id="dateofbirth" value="<?php print_r($employee_rs->dateofbirth) ?>" onchange="datefunction()" readonly><br/>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Date Of Retirement</label>
-                                                      <input type="text" name="dateofretirement" id="dateofretirementDate" value="<?php print_r($employee_rs->dateofretirement) ?>" class="form-control">
+                                                      <input type="text" name="dateofretirement" id="dateofretirementDate" value="<?php print_r($employee_rs->dateofretirement) ?>" class="form-control" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Date Of Retirement BVC</label>
-                                                      <input type="text" name="dateofretirementbvc" id="dateofretirementbvcid" value="<?php print_r($employee_rs->dateofretirementbvc) ?>" class="form-control">
+                                                      <input type="text" name="dateofretirementbvc" id="dateofretirementbvcid" value="<?php print_r($employee_rs->dateofretirementbvc) ?>" class="form-control" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Date of Joining <span style="color:red">(*)</span></label>
-                                                      <input type="date" name="dateofJoining" class="form-control" id="dateofjoin" value="<?php print_r($employee_rs->dateofJoining) ?>" onchange="dateofjoinfunc()">
+                                                      <input type="date" name="dateofJoining" class="form-control" id="dateofjoin" value="<?php print_r($employee_rs->dateofJoining) ?>" onchange="dateofjoinfunc()" readonly>
                                                    </div>
                                                 </div>
                                                 <div id="datecon"></div>
-                                                <!-- <div class="col-md-3">
-                                                   <div class="form-group">
-                                                     <label>Confirmation Date</label>
-                                                     <input type="text" name="confirmationdate"  class="form-control">
-                                                   </div>
-                                                   </div> -->
+                                               
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Next Increment Date</label>
-                                                      <input type="date" name="nextincrementdate" value="<?php print_r($employee_rs->nextincrementdate) ?>"  class="form-control">
+                                                      <input type="date" name="nextincrementdate" value="<?php print_r($employee_rs->nextincrementdate) ?>"  class="form-control" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Eligible for Promotion</label>
-                                                      <select class="form-control" name="eligibleforpromotion">
+                                                      <select class="form-control" name="eligibleforpromotion" readonly>
                                                          <option>Eligible for Promotion</option>
                                                          <option value="YES">YES</option>
                                                          <option value="NO">NO</option>
@@ -383,7 +379,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Employee Type <span style="color:red">(*)</span></label>
-                                                      <select name="employeetype" class="form-control" id="type" onchange="employeeFunc()">
+                                                      <select name="employeetype" class="form-control" id="type" onchange="employeeFunc()" readonly>
                                                          <option>Employee Type</option>
                                                          
                                                          {{-- @foreach($EmployeeType_master as $emp)
@@ -401,13 +397,13 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="imageUpload">Profile Image</label>
-                                                      <input type="file" class="form-control" id="ImageMedias" multiple="multiple" accept=".png, .jpg, .jpeg" name="profileimage">
+                                                      <input type="file" class="form-control" id="ImageMedias" multiple="multiple" accept=".png, .jpg, .jpeg" name="profileimage" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Reporting Authority</label>
-                                                      <select class="form-control" name="reportingauthority">
+                                                      <select class="form-control" name="reportingauthority" readonly>
                                                          <option>Reporting Authority</option>
                                                   
                                                       </select>
@@ -416,7 +412,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Leave Sanctioning Authority</label>
-                                                      <select class="form-control" name="leaveauthority">
+                                                      <select class="form-control" name="leaveauthority" readonly>
                                                          <option>Leave Sanctioning Authority</option>
                                                          <option></option>
                                                       </select>
@@ -426,31 +422,31 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Employee Grade</label>
-                                                      <input type="text" name="grade" class="form-control" placeholder="Employee Grade" value="<?php print_r($employee_rs->grade) ?>">
+                                                      <input type="text" name="grade" class="form-control" placeholder="Employee Grade" value="<?php print_r($employee_rs->grade) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Employee Registration No</label>
-                                                      <input type="text" name="registration_no" class="form-control" placeholder="Employee Registration No" value="<?php print_r($employee_rs->registration_no) ?>">
+                                                      <input type="text" name="registration_no" class="form-control" placeholder="Employee Registration No" value="<?php print_r($employee_rs->registration_no) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Employee Registration Date</label>
-                                                      <input type="date" name="registration_date" class="form-control" placeholder="Employee Registration No" value="<?php print_r($employee_rs->registration_date) ?>">
+                                                      <input type="date" name="registration_date" class="form-control" placeholder="Employee Registration No" value="<?php print_r($employee_rs->registration_date) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Employee Registration Council</label>
-                                                      <input type="text" name="registration_counci" class="form-control" placeholder="Employee Registration Council" value="<?php print_r($employee_rs->registration_counci) ?>"><br/>
+                                                      <input type="text" name="registration_counci" class="form-control" placeholder="Employee Registration Council" value="<?php print_r($employee_rs->registration_counci) ?>" readonly><br/>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Employee Date Of Up Gradation</label>
-                                                      <input type="date" name="date_of_up_gradation" value="<?php print_r($employee_rs->date_of_up_gradation) ?>" class="form-control" placeholder="Employee Registration No">
+                                                      <input type="date" name="date_of_up_gradation" value="<?php print_r($employee_rs->date_of_up_gradation) ?>" class="form-control" placeholder="Employee Registration No" readonly>
                                                    </div>
                                                 </div>
                                                 <!-- <div class="avatar-preview">
@@ -471,26 +467,30 @@
                                                          <th>Sl.No.</th>
                                                          <th>Document Type</th>
                                                          <th>Document Upload</th>
+                                                         <th></th>
+                                                         {{-- <th></th> --}}
                                                       </tr>
                                                    </thead>
                                                    <tbody id="marksheet">
+                                                      @foreach($EmployeePersonalRecord as $item)
                                                       <tr class="itemslot" id="0">
                                                          <td>1</td>
+                                                         <input type="hidden" name="perid[]" value="<?php print_r($item->id) ?>">
                                                          <td>
                                                             <select class="form-control" name="document_name[]">
                                                                <option></option>
-                                                               <option value="aadhar card">Aadhar Card</option>
-                                                               <option value="voter">Voter Id</option>
-                                                               <option value="Pan">Pan Card</option>
-                                                               <option value="driving licence">Driving Licence</option>
-                                                               <option value="passport">Passport</option>
+                                                               <option value="aadhar card" <?php if($item->document_name=='aadhar card'){?> selected="selected"<?php }?>>Aadhar Card</option>
+                                                               <option value="voter" <?php if($item->document_name=='voter'){?> selected="selected"<?php }?>>Voter Id</option>
+                                                               <option value="Pan" <?php if($item->document_name=='Pan'){?> selected="selected"<?php }?>>Pan Card</option>
+                                                               <option value="driving licence" <?php if($item->document_name=='driving licence'){?> selected="selected"<?php }?>>Driving Licence</option>
+                                                               <option value="passport" <?php if($item->document_name=='passport'){?> selected="selected"<?php }?>>Passport</option>
                                                             </select>
                                                          </td>
                                                          <td><input type="file" name="document_upload[]" class="form-control" id="docc"></td>
-                                                         <td>
-                                                            <button class="btn-success" type="button" id="add1" onClick="addnewrow(1)" data-id="1"> <i class="fas fa-plus"></i> </button>
-                                                         </td>
+                                                            <td><img src="{{asset('emp_pic/'.$item->document_upload)}}" alt="none" style="height: 50px; width:50px"/></td>
+                                                        
                                                       </tr>
+                                                      @endforeach
                                                    </tbody>
                                                 </table>
                                                 <legend>Academic & Experience Records</legend>
@@ -503,35 +503,42 @@
                                                          <th>Year of passing</th>
                                                          <th>Grade</th>
                                                          <th>Document Upload</th>
+                                                         <th></th>
+                                                        
                                                       </tr>
                                                    </thead>
                                                    <tbody id="marksheet1">
+                                                      @foreach($ExperienceRecords as $item)
                                                       <tr class="itemslot" id="0">
                                                          <td>1</td>
+                                                         <input type="hidden" name="erprec[]" value="<?php print_r($item->id)?>">
                                                          <td>
                                                             <select class="form-control" name="emp_document_name[]">
                                                                <option></option>
-                                                               <option value="10 th">10 th</option>
-                                                               <option value="11 th">11 th</option>
-                                                               <option value="12 th">12 th</option>
-                                                               <option value="BA">BA</option>
-                                                               <option value="ma">Ma</option>
+                                                               <option value="10 th" <?php if($item->emp_document_name=='10 th'){?> selected="selected"<?php }?>>10 th</option>
+                                                               <option value="11 th" <?php if($item->emp_document_name=='11 th'){?> selected="selected"<?php }?>>11 th</option>
+                                                               <option value="12 th" <?php if($item->emp_document_name=='12 th'){?> selected="selected"<?php }?>>12 th</option>
+                                                               <option value="BA" <?php if($item->emp_document_name=='BA'){?> selected="selected"<?php }?>>BA</option>
+                                                               <option value="ma" <?php if($item->emp_document_name=='ma'){?> selected="selected"<?php }?>>Ma</option>
                                                             </select>
                                                          </td>
                                                          <td>
-                                                            <input type="text" name="boardss[]" class="form-control">
+                                                            <input type="text" name="boardss[]" class="form-control" value="<?php print_r($item->boardss) ?>">
                                                          </td>
                                                          <td>
-                                                            <input type="date" name="yearofpassing[]" class="form-control">
+                                                            <input type="date" name="yearofpassing[]" class="form-control" value="<?php print_r($item->yearofpassing) ?>">
                                                          </td>
                                                          <td>
-                                                            <input type="text" name="emp_grade[]" class="form-control">
+                                                            <input type="text" name="emp_grade[]" class="form-control" value="<?php print_r($item->emp_grade) ?>">
                                                          </td>
                                                          <td>
                                                             <input type="file" name="emp_document_upload[]" class="form-control">
                                                          </td>
-                                                         <td><button class="btn-success" type="button" id="add1" onClick="accademinewrow(1)" data-id="1"> <i class="fas fa-plus"></i> </button></td>
+                                                         <td><img src="{{asset('emp_pic/'.$item->emp_document_upload)}}" alt="none" style="height: 50px; width:50px"/></td>
+                                                         
+                                                        
                                                       </tr>
+                                                      @endforeach
                                                    </tbody>
                                                 </table>
                                                 <legend>Professional Records</legend>
@@ -544,28 +551,35 @@
                                                          <th>From date</th>
                                                          <th>To date</th>
                                                          <th>Document Upload</th>
+                                                         <th></th>
+                                                
                                                       </tr>
                                                    </thead>
                                                    <tbody id="marksheet2">
+                                                      @foreach($ProfessionalRecords as $item)
                                                       <tr class="itemslot" id="0">
                                                          <td>1</td>
+                                                         <input type="hidden" value="<?php print_r($item->id) ?>" name="proId[]">
                                                          <td>
-                                                            <input type="text" name="Organization[]" class="form-control" placeholder="Organization">
+                                                            <input type="text" name="Organization[]" value="<?php print_r($item->Organization) ?>" class="form-control" placeholder="Organization">
                                                          </td>
                                                          <td>
-                                                            <input type="text" name="Desigination[]" class="form-control" placeholder="Desigination">
+                                                            <input type="text" name="Desigination[]" value="<?php print_r($item->Desigination) ?>" class="form-control" placeholder="Desigination">
                                                          </td>
                                                          <td>
-                                                            <input type="date" name="formdate[]" class="form-control">
+                                                            <input type="date" name="formdate[]" value="<?php print_r($item->formdate) ?>" class="form-control">
                                                          </td>
                                                          <td>
-                                                            <input type="date" name="todate[]" class="form-control">
+                                                            <input type="date" name="todate[]" value="<?php print_r($item->todate) ?>" class="form-control">
                                                          </td>
                                                          <td>
                                                             <input type="file" name="emp1_document_upload[]" class="form-control">
                                                          </td>
-                                                         <td><button class="btn-success" type="button" id="add1" onClick="proaddnewrow(1)" data-id="1"> <i class="fas fa-plus"></i> </button></td>
+                                                         <td><img src="{{asset('emp_pic/'.$item->emp1_document_upload)}}" alt="none" style="height: 50px; width:50px"/></td>
+
+                                                         
                                                       </tr>
+                                                      @endforeach
                                                    </tbody>
                                                 </table>
                                                 <legend>Misc. Documents </legend>
@@ -575,24 +589,31 @@
                                                          <th>Sl.No.</th>
                                                          <th>Category</th>
                                                          <th>Document Upload</th>
+                                                         <th></th>
+                                                        
                                                       </tr>
                                                    </thead>
                                                    <tbody id="marksheet3">
+                                                      @foreach($MiscDocuments as $item)
                                                       <tr class="itemslot" id="0">
                                                          <td>1</td>
+                                                         <input type="hidden" name="miscId[]" value="<?php print_r($item->id) ?>">
                                                          <td>
                                                             <select class="form-control" name="emp_traning[]">
                                                                <option>Select</option>
-                                                               <option value="traning">Traning</option>
-                                                               <option value="legal">Legal</option>
-                                                               <option value="other">other's</option>
+                                                               <option value="traning" <?php if($item->emp_traning=='traning'){?> selected="selected"<?php }?>>Traning</option>
+                                                               <option value="legal" <?php if($item->emp_traning=='legal'){?> selected="selected"<?php }?>>Legal</option>
+                                                               <option value="other" <?php if($item->emp_traning=='other'){?> selected="selected"<?php }?>>other's</option>
                                                             </select>
                                                          </td>
                                                          <td>
                                                             <input type="file" name="traning1_document_upload[]" class="form-control">
                                                          </td>
-                                                         <td><button class="btn-success" type="button" id="add1" onClick="Miscnewrow(1)" data-id="1"> <i class="fas fa-plus"></i> </button></td>
+                                                         <td><img src="{{asset('emp_pic/'.$item->traning1_document_upload)}}" alt="none" style="height: 50px; width:50px"/></td>
+                                                         
+                                                        
                                                       </tr>
+                                                      @endforeach
                                                    </tbody>
                                                 </table>
                                              </div>
@@ -606,28 +627,28 @@
                                                       <label>Blood Group</label>
                                                       <select class="form-control" name="emp_blood_grp" >
                                                          <option value="">Select</option>
-                                                         <option value="A +"  >A +</option>
-                                                         <option value="A -"  >A -</option>
-                                                         <option value="B +"  >B +</option>
-                                                         <option value="B -"  >B -</option>
-                                                         <option value="AB +"  >AB +</option>
-                                                         <option value="AB -"  >AB -</option>
-                                                         <option value="O +"  >O +</option>
-                                                         <option value="O -"  >O -</option>
-                                                         <option value="Unknown">Unknown</option>
+                                                         <option value="A +" <?php if($employee_rs->emp_blood_grp=='A +'){?> selected="selected"<?php }?> >A +</option>
+                                                         <option value="A -"  <?php if($employee_rs->emp_blood_grp=='A -'){?> selected="selected"<?php }?>>A -</option>
+                                                         <option value="B +"  <?php if($employee_rs->emp_blood_grp=='B +'){?> selected="selected"<?php }?>>B +</option>
+                                                         <option value="B -"  <?php if($employee_rs->emp_blood_grp=='B -'){?> selected="selected"<?php }?>>B -</option>
+                                                         <option value="AB +"  <?php if($employee_rs->emp_blood_grp=='AB +'){?> selected="selected"<?php }?>>AB +</option>
+                                                         <option value="AB -"  <?php if($employee_rs->emp_blood_grp=='AB -'){?> selected="selected"<?php }?>>AB -</option>
+                                                         <option value="O +" <?php if($employee_rs->emp_blood_grp=='o +'){?> selected="selected"<?php }?> >O +</option>
+                                                         <option value="O -" <?php if($employee_rs->emp_blood_grp=='o -'){?> selected="selected"<?php }?> >O -</option>
+                                                         <option value="Unknown" <?php if($employee_rs->emp_blood_grp=='Unknown'){?> selected="selected"<?php }?>>Unknown</option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Eye Sight (Left)</label>
-                                                      <input type="text" name="emp_eye_sight_left" class="form-control">
+                                                      <input type="text" name="emp_eye_sight_left" class="form-control" value="<?php print_r($employee_rs->emp_eye_sight_left) ?>">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Eye Sight (Right)</label>
-                                                      <input type="text" name="emp_eye_sight_right" value="" class="form-control" id="">
+                                                      <input type="text" name="emp_eye_sight_right" value="<?php print_r($employee_rs->emp_eye_sight_right) ?>" class="form-control" id="">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -635,47 +656,47 @@
                                                       <label class="">Family Plan Status</label>
                                                       <select class="form-control" name="emp_family_plan_status">
                                                          <option value="">Select</option>
-                                                         <option value="yes"  >yes</option>
-                                                         <option value="no"  >No</option>
+                                                         <option value="yes"  <?php if($employee_rs->emp_family_plan_status=='yes'){?> selected="selected"<?php }?>>yes</option>
+                                                         <option value="no"  <?php if($employee_rs->emp_family_plan_status=='no'){?> selected="selected"<?php }?>>No</option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Family Plan Date</span></label>
-                                                      <input type="date" name="emp_family_plan_date" value="" class="form-control" id="">
+                                                      <input type="date" name="emp_family_plan_date" value="<?php print_r($employee_rs->emp_family_plan_date) ?>" class="form-control" id="">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Height (in cm)</label>
-                                                      <input type="text" name="emp_height" value="" class="form-control" id="">
+                                                      <input type="text" name="emp_height" value="<?php print_r($employee_rs->emp_height) ?>" class="form-control" id="">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label class="">Weight (in Kgs)</label><br>
-                                                      <input type="text" name="emp_weight" value="" class="form-control">
+                                                      <input type="text" name="emp_weight" value="<?php print_r($employee_rs->emp_weight) ?>" class="form-control">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Identification Mark (1)</label><br>
-                                                      <input type="text" name="emp_identification_mark_one" value="" class="form-control">
+                                                      <input type="text" name="emp_identification_mark_one" value="<?php print_r($employee_rs->emp_identification_mark_one) ?>" class="form-control">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Identification Mark (2)</label><br>
-                                                      <input type="text" name="emp_identification_mark_two" value="" class="form-control">
+                                                      <input type="text" name="emp_identification_mark_two" value="<?php print_r($employee_rs->emp_identification_mark_two) ?>" class="form-control">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Physically Challenged</label>
                                                       <select class="form-control" name="emp_physical_status">
-                                                         <option value="no" >No</option>
-                                                         <option value="yes" >Yes</option>
+                                                         <option value="no" <?php if($employee_rs->emp_physical_status=='no'){?> selected="selected"<?php }?>>No</option>
+                                                         <option value="yes" <?php if($employee_rs->emp_physical_status=='yes'){?> selected="selected"<?php }?>>Yes</option>
                                                       </select>
                                                    </div>
                                                 </div>
@@ -684,43 +705,43 @@
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Street No. and Name</label>
-                                                         <input type="text" name="emp_pr_street_no" value="" id="parmenent_street_name" class="form-control">
+                                                         <input type="text" name="emp_pr_street_no" value="<?php print_r($employee_rs->emp_pr_street_no) ?>" id="parmenent_street_name" class="form-control">
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Village</label>
-                                                         <input  name="emp_per_village" id="village" value="" type="text" class="form-control">
+                                                         <input  name="emp_per_village" id="village" value="<?php print_r($employee_rs->emp_per_village) ?>" type="text" class="form-control">
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>City</label>
-                                                         <input type="text" name="emp_pr_city" value="" id="parmenent_city" class="form-control">
+                                                         <input type="text" name="emp_pr_city" value="<?php print_r($employee_rs->emp_pr_city) ?>" id="parmenent_city" class="form-control">
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Post Office</label>
-                                                         <input id="emp_per_post_office" name="emp_per_post_office" value="" type="text" class="form-control">
+                                                         <input id="emp_per_post_office" name="emp_per_post_office" value="<?php print_r($employee_rs->emp_per_post_office) ?>" type="text" class="form-control">
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Police Station</label>
-                                                         <input type="text" id="emp_per_policestation" name="emp_per_policestation" value="" class="form-control">
+                                                         <input type="text" id="emp_per_policestation" name="emp_per_policestation" value="<?php print_r($employee_rs->emp_per_policestation) ?>" class="form-control">
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Pin Code <span style="color:red">(*)</span> </label>
-                                                         <input id="parmenent_pincode" name="emp_pr_pincode" value="" type="text" class="form-control" required >
+                                                         <input id="parmenent_pincode" name="emp_pr_pincode" value="<?php print_r($employee_rs->emp_pr_pincode) ?>" type="text" class="form-control" required >
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>District</label>
-                                                         <input type="text" id="emp_per_dist" name="emp_per_dist" value="" class="form-control">
+                                                         <input type="text" id="emp_per_dist" name="emp_per_dist" value="<?php print_r($employee_rs->emp_per_dist)?>" class="form-control">
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
@@ -728,55 +749,55 @@
                                                          <label>State <span style="color:red">(*)</span></label>
                                                          <select name="emp_pr_state" id="parmenent_state" class="form-control" required>
                                                             <option value="" label="Select">Select</option>
-                                                            <option value="JAMMU AND KASHMIR" >JAMMU AND KASHMIR</option>
-                                                            <option value="HIMACHAL PRADESH" >HIMACHAL PRADESH</option>
-                                                            <option value="PUNJAB" >PUNJAB</option>
-                                                            <option value="CHANDIGARH" >CHANDIGARH</option>
-                                                            <option value="UTTARAKHAND" >UTTARAKHAND</option>
-                                                            <option value="HARYANA" >HARYANA</option>
-                                                            <option value="DELHI" >DELHI</option>
-                                                            <option value="RAJASTHAN" >RAJASTHAN</option>
-                                                            <option value="UTTAR PRADESH" >UTTAR PRADESH</option>
-                                                            <option value="BIHAR" >BIHAR</option>
-                                                            <option value="SIKKIM" >SIKKIM</option>
-                                                            <option value="ARUNACHAL PRADESH" >ARUNACHAL PRADESH</option>
-                                                            <option value="NAGALAND" >NAGALAND</option>
-                                                            <option value="MANIPUR" >MANIPUR</option>
-                                                            <option value="MIZORAM" >MIZORAM</option>
-                                                            <option value="TRIPURA" >TRIPURA</option>
-                                                            <option value="MEGHALAYA" >MEGHALAYA</option>
-                                                            <option value="ASSAM" >ASSAM</option>
-                                                            <option value="WEST BENGAL" >WEST BENGAL</option>
-                                                            <option value="JHARKHAND" >JHARKHAND</option>
-                                                            <option value="ODISHA" >ODISHA</option>
-                                                            <option value="CHHATTISGARH" >CHHATTISGARH</option>
-                                                            <option value="MADHYA PRADESH" >MADHYA PRADESH</option>
-                                                            <option value="GUJARAT" >GUJARAT</option>
-                                                            <option value="DAMAN AND DIU" >DAMAN AND DIU</option>
-                                                            <option value="DADRA AND NAGAR HAVELI" >DADRA AND NAGAR HAVELI</option>
-                                                            <option value="MAHARASHTRA" >MAHARASHTRA</option>
-                                                            <option value="ANDHRA PRADESH" >ANDHRA PRADESH</option>
-                                                            <option value="KARNATAKA" >KARNATAKA</option>
-                                                            <option value="GOA" >GOA</option>
-                                                            <option value="LAKSHADWEEP" >LAKSHADWEEP</option>
-                                                            <option value="KERALA" >KERALA</option>
-                                                            <option value="TAMIL NADU" >TAMIL NADU</option>
-                                                            <option value="PUDUCHERRY" >PUDUCHERRY</option>
-                                                            <option value="ANDAMAN AND NICOBAR ISLANDS" >ANDAMAN AND NICOBAR ISLANDS</option>
-                                                            <option value="TELANGANA" >TELANGANA</option>
+                                                            <option value="JAMMU AND KASHMIR" <?php if($employee_rs->emp_pr_state=='JAMMU AND KASHMIR'){?> selected="selected"<?php }?>>JAMMU AND KASHMIR</option>
+                                                            <option value="HIMACHAL PRADESH" <?php if($employee_rs->emp_pr_state=='HIMACHAL PRADESH'){?> selected="selected"<?php }?>>HIMACHAL PRADESH</option>
+                                                            <option value="PUNJAB" <?php if($employee_rs->emp_pr_state=='PUNJAB'){?> selected="selected"<?php }?>>PUNJAB</option>
+                                                            <option value="CHANDIGARH" <?php if($employee_rs->emp_pr_state=='CHANDIGARH'){?> selected="selected"<?php }?>>CHANDIGARH</option>
+                                                            <option value="UTTARAKHAND" <?php if($employee_rs->emp_pr_state=='UTTARAKHAND'){?> selected="selected"<?php }?>>UTTARAKHAND</option>
+                                                            <option value="HARYANA" <?php if($employee_rs->emp_pr_state=='HARYANA'){?> selected="selected"<?php }?>>HARYANA</option>
+                                                            <option value="DELHI" <?php if($employee_rs->emp_pr_state=='DELHI'){?> selected="selected"<?php }?>>DELHI</option>
+                                                            <option value="RAJASTHAN" <?php if($employee_rs->emp_pr_state=='RAJASTHAN'){?> selected="selected"<?php }?>>RAJASTHAN</option>
+                                                            <option value="UTTAR PRADESH" <?php if($employee_rs->emp_pr_state=='UTTAR PRADESH'){?> selected="selected"<?php }?>>UTTAR PRADESH</option>
+                                                            <option value="BIHAR" <?php if($employee_rs->emp_pr_state=='BIHAR'){?> selected="selected"<?php }?>>BIHAR</option>
+                                                            <option value="SIKKIM" <?php if($employee_rs->emp_pr_state=='SIKKIM'){?> selected="selected"<?php }?>>SIKKIM</option>
+                                                            <option value="ARUNACHAL PRADESH" <?php if($employee_rs->emp_pr_state=='ARUNACHAL PRADESH'){?> selected="selected"<?php }?>>ARUNACHAL PRADESH</option>
+                                                            <option value="NAGALAND" <?php if($employee_rs->emp_pr_state=='NAGALAND'){?> selected="selected"<?php }?>>NAGALAND</option>
+                                                            <option value="MANIPUR" <?php if($employee_rs->emp_pr_state=='MANIPUR'){?> selected="selected"<?php }?>>MANIPUR</option>
+                                                            <option value="MIZORAM" <?php if($employee_rs->emp_pr_state=='MIZORAM'){?> selected="selected"<?php }?>>MIZORAM</option>
+                                                            <option value="TRIPURA" <?php if($employee_rs->emp_pr_state=='TRIPURA'){?> selected="selected"<?php }?>>TRIPURA</option>
+                                                            <option value="MEGHALAYA" <?php if($employee_rs->emp_pr_state=='MEGHALAYA'){?> selected="selected"<?php }?>>MEGHALAYA</option>
+                                                            <option value="ASSAM" <?php if($employee_rs->emp_pr_state=='ASSAM'){?> selected="selected"<?php }?>>ASSAM</option>
+                                                            <option value="WEST BENGAL" <?php if($employee_rs->emp_pr_state=='WEST BENGAL'){?> selected="selected"<?php }?>>WEST BENGAL</option>
+                                                            <option value="JHARKHAND" <?php if($employee_rs->emp_pr_state=='JHARKHAND'){?> selected="selected"<?php }?>>JHARKHAND</option>
+                                                            <option value="ODISHA" <?php if($employee_rs->emp_pr_state=='ODISHA'){?> selected="selected"<?php }?>>ODISHA</option>
+                                                            <option value="CHHATTISGARH" <?php if($employee_rs->emp_pr_state=='CHHATTISGARH'){?> selected="selected"<?php }?>>CHHATTISGARH</option>
+                                                            <option value="MADHYA PRADESH" <?php if($employee_rs->emp_pr_state=='MADHYA PRADESH'){?> selected="selected"<?php }?>>MADHYA PRADESH</option>
+                                                            <option value="GUJARAT" <?php if($employee_rs->emp_pr_state=='GUJARAT'){?> selected="selected"<?php }?>>GUJARAT</option>
+                                                            <option value="DAMAN AND DIU" <?php if($employee_rs->emp_pr_state=='DAMAN AND DIU'){?> selected="selected"<?php }?>>DAMAN AND DIU</option>
+                                                            <option value="DADRA AND NAGAR HAVELI" <?php if($employee_rs->emp_pr_state=='DADRA AND NAGAR HAVELI'){?> selected="selected"<?php }?>>DADRA AND NAGAR HAVELI</option>
+                                                            <option value="MAHARASHTRA" <?php if($employee_rs->emp_pr_state=='MAHARASHTRA'){?> selected="selected"<?php }?>>MAHARASHTRA</option>
+                                                            <option value="ANDHRA PRADESH" <?php if($employee_rs->emp_pr_state=='ANDHRA PRADESH'){?> selected="selected"<?php }?>>ANDHRA PRADESH</option>
+                                                            <option value="KARNATAKA" <?php if($employee_rs->emp_pr_state=='KARNATAKA'){?> selected="selected"<?php }?>>KARNATAKA</option>
+                                                            <option value="GOA" <?php if($employee_rs->emp_pr_state=='GOA'){?> selected="selected"<?php }?>>GOA</option>
+                                                            <option value="LAKSHADWEEP" <?php if($employee_rs->emp_pr_state=='LAKSHADWEEP'){?> selected="selected"<?php }?>>LAKSHADWEEP</option>
+                                                            <option value="KERALA" <?php if($employee_rs->emp_pr_state=='KERALA'){?> selected="selected"<?php }?>>KERALA</option>
+                                                            <option value="TAMIL NADU" <?php if($employee_rs->emp_pr_state=='TAMIL NADU'){?> selected="selected"<?php }?>>TAMIL NADU</option>
+                                                            <option value="PUDUCHERRY" <?php if($employee_rs->emp_pr_state=='PUDUCHERRY'){?> selected="selected"<?php }?>>PUDUCHERRY</option>
+                                                            <option value="ANDAMAN AND NICOBAR ISLANDS" <?php if($employee_rs->emp_pr_state=='ANDAMAN AND NICOBAR ISLANDS'){?> selected="selected"<?php }?>>ANDAMAN AND NICOBAR ISLANDS</option>
+                                                            <option value="TELANGANA" <?php if($employee_rs->emp_pr_state=='TELANGANA'){?> selected="selected"<?php }?>>TELANGANA</option>
                                                          </select>
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Country</label>
-                                                         <input id="parmenent_country" name="emp_pr_country" value="" type="text" class="form-control">
+                                                         <input id="parmenent_country" name="emp_pr_country" value="<?php print_r($employee_rs->emp_pr_country) ?>" type="text" class="form-control">
                                                       </div>
                                                    </div>
                                                    <div class="col-md-3">
                                                       <div class="form-group">
                                                          <label>Mobile No.</label>
-                                                         <input type="text" id="parmenent_mobile" name="emp_pr_mobile" value="" class="form-control" >
+                                                         <input type="text" id="parmenent_mobile" name="emp_pr_mobile" value="<?php print_r($employee_rs->emp_pr_mobile) ?>" class="form-control" >
                                                       </div>
                                                    </div>
                                                 </div>
@@ -853,7 +874,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabelien" class="placeholder">Name</label>
-                                                      <input id="inputFloatingLabelien" type="text" class="form-control input-border-bottom" name="em_name" value="RABIA BIBI">
+                                                      <input id="inputFloatingLabelien" type="text" class="form-control input-border-bottom" name="em_name" value="<?php print_r($employee_rs->em_name) ?>">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -862,16 +883,16 @@
                                                       <!-- onchange="crinabi(this.value);" -->
                                                       <select class="form-control input-border-bottom" id="inputFloatingLabelier" name="em_relation" onclick="crinabi(this.value);" >
                                                          <option value="">&nbsp;</option>
-                                                         <option value="Father"  >Father</option>
-                                                         <option value="Mother"  >Mother </option>
-                                                         <option value="Wife"  selected>Wife</option>
-                                                         <option value="Relatives"  >Relatives</option>
-                                                         <option value="Husband"  >Husband</option>
-                                                         <option value="Partner"  >Partner</option>
-                                                         <option value="Son"  >Son</option>
-                                                         <option value="Daughter"  >Daughter</option>
-                                                         <option value="Friend"  >Friend</option>
-                                                         <option value="Others"  >Others</option>
+                                                         <option value="Father" <?php if($employee_rs->em_relation=='Father'){?> selected="selected"<?php }?> >Father</option>
+                                                         <option value="Mother"  <?php if($employee_rs->em_relation=='Mother'){?> selected="selected"<?php }?>>Mother </option>
+                                                         <option value="Wife"  <?php if($employee_rs->em_relation=='Wife'){?> selected="selected"<?php }?>>Wife</option>
+                                                         <option value="Relatives"  <?php if($employee_rs->em_relation=='Relatives'){?> selected="selected"<?php }?>>Relatives</option>
+                                                         <option value="Husband"  <?php if($employee_rs->em_relation=='Husband'){?> selected="selected"<?php }?>>Husband</option>
+                                                         <option value="Partner" <?php if($employee_rs->em_relation=='Partner'){?> selected="selected"<?php }?> >Partner</option>
+                                                         <option value="Son"  <?php if($employee_rs->em_relation=='Son'){?> selected="selected"<?php }?>>Son</option>
+                                                         <option value="Daughter" <?php if($employee_rs->em_relation=='Daughter'){?> selected="selected"<?php }?> >Daughter</option>
+                                                         <option value="Friend" <?php if($employee_rs->em_relation=='Friend'){?> selected="selected"<?php }?> >Friend</option>
+                                                         <option value="Others" <?php if($employee_rs->em_relation=='Others'){?> selected="selected"<?php }?> >Others</option>
                                                       </select>
                                                    </div>
                                                 </div>
@@ -885,19 +906,19 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabeliemail" class="placeholder">Email</label>
-                                                      <input id="inputFloatingLabeliemail" type="email" class="form-control input-border-bottom" name="hel_em_email" value="">
+                                                      <input id="inputFloatingLabeliemail" type="email" class="form-control input-border-bottom" name="hel_em_email" value="<?php print_r($employee_rs->hel_em_email) ?>">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabeliem" class="placeholder">Emergency Contact No.</label>
-                                                      <input id="inputFloatingLabeliem" type="text" class="form-control input-border-bottom" name="hel_em_phone" value="07863786953">
+                                                      <input id="inputFloatingLabeliem" type="text" class="form-control input-border-bottom" name="hel_em_phone" value="<?php print_r($employee_rs->hel_em_phone) ?>">
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabelienad" class="placeholder">Address</label>
-                                                      <input id="inputFloatingLabelienad" type="text" class="form-control input-border-bottom" name="em_address" value="2 Ashby Close BIRMINGHAM B8 2RB">
+                                                      <input id="inputFloatingLabelienad" type="text" class="form-control input-border-bottom" name="em_address" value="<?php print_r($employee_rs->em_address) ?>">
                                                    </div>
                                                 </div>
                                              </div>
@@ -909,185 +930,185 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabeldn" class="placeholder">Passport No.</label>
-                                                      <input id="inputFloatingLabeldn" type="text" class="form-control input-border-bottom" name="pass_doc_no" value="127743129">
+                                                      <input id="inputFloatingLabeldn" type="text" class="form-control input-border-bottom" name="pass_doc_no" value="<?php print_r($employee_rs->pass_doc_no) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="selectFloatingLabelntp" class="placeholder">Nationality</label>
-                                                      <select class="form-control input-border-bottom" id="selectFloatingLabelntp" name="pass_nat" >
+                                                      <select class="form-control input-border-bottom" id="selectFloatingLabelntp" name="pass_nat" readonly>
                                                          <option value="">&nbsp;</option>
-                                                         <option value="Afghanistan" >Afghanistan</option>
-                                                         <option value="Albania" >Albania</option>
-                                                         <option value="America" >America</option>
-                                                         <option value="Argentina" >Argentina</option>
-                                                         <option value="Aruba" >Aruba</option>
-                                                         <option value="Australia" >Australia</option>
-                                                         <option value="Azerbaijan" >Azerbaijan</option>
-                                                         <option value="Bahamas" >Bahamas</option>
-                                                         <option value="Bahrain" >Bahrain</option>
-                                                         <option value="Bangladesh" >Bangladesh</option>
-                                                         <option value="Barbados" >Barbados</option>
-                                                         <option value="Belarus" >Belarus</option>
-                                                         <option value="Belgium" >Belgium</option>
-                                                         <option value="Beliz" >Beliz</option>
-                                                         <option value="Bermuda" >Bermuda</option>
-                                                         <option value="Bolivia" >Bolivia</option>
-                                                         <option value="Bosnia and Herzegovina" >Bosnia and Herzegovina</option>
-                                                         <option value="Botswana" >Botswana</option>
-                                                         <option value="Brazil" >Brazil</option>
-                                                         <option value="Brunei Darussalam" >Brunei Darussalam</option>
-                                                         <option value="Bulgaria" >Bulgaria</option>
-                                                         <option value="Cambodia" >Cambodia</option>
-                                                         <option value="Canada" >Canada</option>
-                                                         <option value="Cayman Islands" >Cayman Islands</option>
-                                                         <option value="Chile" >Chile</option>
-                                                         <option value="China" >China</option>
-                                                         <option value="Colombia" >Colombia</option>
-                                                         <option value="Costa Rica" >Costa Rica</option>
-                                                         <option value="Croatia" >Croatia</option>
-                                                         <option value="Cuba" >Cuba</option>
-                                                         <option value="Cyprus" >Cyprus</option>
-                                                         <option value="Czech Republic" >Czech Republic</option>
-                                                         <option value="Denmark" >Denmark</option>
-                                                         <option value="Dominican Republic" >Dominican Republic</option>
-                                                         <option value="East Caribbean" >East Caribbean</option>
-                                                         <option value="Egypt" >Egypt</option>
-                                                         <option value="El Salvador" >El Salvador</option>
-                                                         <option value="Euro" >Euro</option>
-                                                         <option value="Falkland Islands" >Falkland Islands</option>
-                                                         <option value="Fiji" >Fiji</option>
-                                                         <option value="France" >France</option>
-                                                         <option value="Germany" >Germany</option>
-                                                         <option value="Ghana" >Ghana</option>
-                                                         <option value="Gibraltar" >Gibraltar</option>
-                                                         <option value="Greece" >Greece</option>
-                                                         <option value="Guatemala" >Guatemala</option>
-                                                         <option value="Guernsey" >Guernsey</option>
-                                                         <option value="Guyana" >Guyana</option>
-                                                         <option value="Holland (Netherlands)" >Holland (Netherlands)</option>
-                                                         <option value="Honduras" >Honduras</option>
-                                                         <option value="Hong Kong" >Hong Kong</option>
-                                                         <option value="Hungary" >Hungary</option>
-                                                         <option value="Iceland" >Iceland</option>
-                                                         <option value="India" >India</option>
-                                                         <option value="Indonesia" >Indonesia</option>
-                                                         <option value="Iran" >Iran</option>
-                                                         <option value="Ireland" >Ireland</option>
-                                                         <option value="Isle of Man" >Isle of Man</option>
-                                                         <option value="Israel" >Israel</option>
-                                                         <option value="Italy" >Italy</option>
-                                                         <option value="Jamaica" >Jamaica</option>
-                                                         <option value="Japan" >Japan</option>
-                                                         <option value="Jersey" >Jersey</option>
-                                                         <option value="Kazakhstan" >Kazakhstan</option>
-                                                         <option value="Korea (North)" >Korea (North)</option>
-                                                         <option value="Korea (South)" >Korea (South)</option>
-                                                         <option value="Kyrgyzstan" >Kyrgyzstan</option>
-                                                         <option value="Laos" >Laos</option>
-                                                         <option value="Latvia" >Latvia</option>
-                                                         <option value="Lebanon" >Lebanon</option>
-                                                         <option value="Liberia" >Liberia</option>
-                                                         <option value="Libya" >Libya</option>
-                                                         <option value="Liechtenstein" >Liechtenstein</option>
-                                                         <option value="Lithuania" >Lithuania</option>
-                                                         <option value="Luxembourg" >Luxembourg</option>
-                                                         <option value="Macedonia" >Macedonia</option>
-                                                         <option value="Malaysia" >Malaysia</option>
-                                                         <option value="Malta" >Malta</option>
-                                                         <option value="Mauritius" >Mauritius</option>
-                                                         <option value="Mexico" >Mexico</option>
-                                                         <option value="Mongolia" >Mongolia</option>
-                                                         <option value="Mozambique" >Mozambique</option>
-                                                         <option value="Myanmar" >Myanmar</option>
-                                                         <option value="Namibia" >Namibia</option>
-                                                         <option value="Nepal" >Nepal</option>
-                                                         <option value="Netherlands" >Netherlands</option>
-                                                         <option value="Netherlands Antilles" >Netherlands Antilles</option>
-                                                         <option value="New Zealand" >New Zealand</option>
-                                                         <option value="Nicaragua" >Nicaragua</option>
-                                                         <option value="Nigeria" >Nigeria</option>
-                                                         <option value="North Korea" >North Korea</option>
-                                                         <option value="Norway" >Norway</option>
-                                                         <option value="Oman" >Oman</option>
-                                                         <option value="Pakistan" >Pakistan</option>
-                                                         <option value="Panama" >Panama</option>
-                                                         <option value="Paraguay" >Paraguay</option>
-                                                         <option value="Peru" >Peru</option>
-                                                         <option value="Philippines" >Philippines</option>
-                                                         <option value="Poland" >Poland</option>
-                                                         <option value="Portugal" >Portugal</option>
-                                                         <option value="Qatar" >Qatar</option>
-                                                         <option value="Republic of Uganda" >Republic of Uganda</option>
-                                                         <option value="Romania" >Romania</option>
-                                                         <option value="Russia" >Russia</option>
-                                                         <option value="Saint Helena" >Saint Helena</option>
-                                                         <option value="Saudi Arabia" >Saudi Arabia</option>
-                                                         <option value="Serbia" >Serbia</option>
-                                                         <option value="Seychelles" >Seychelles</option>
-                                                         <option value="Singapore" >Singapore</option>
-                                                         <option value="Slovakia" >Slovakia</option>
-                                                         <option value="Slovenia" >Slovenia</option>
-                                                         <option value="Solomon Islands" >Solomon Islands</option>
-                                                         <option value="Somalia" >Somalia</option>
-                                                         <option value="South Africa" >South Africa</option>
-                                                         <option value="South Korea" >South Korea</option>
-                                                         <option value="Spain" >Spain</option>
-                                                         <option value="Sri Lanka" >Sri Lanka</option>
-                                                         <option value="State of Eritrea" >State of Eritrea</option>
-                                                         <option value="Sudan" >Sudan</option>
-                                                         <option value="Suriname" >Suriname</option>
-                                                         <option value="Sweden" >Sweden</option>
-                                                         <option value="Switzerland" >Switzerland</option>
-                                                         <option value="Syria" >Syria</option>
-                                                         <option value="Taiwan" >Taiwan</option>
-                                                         <option value="Thailand" >Thailand</option>
-                                                         <option value="Trinidad and Tobago" >Trinidad and Tobago</option>
-                                                         <option value="Turkey" >Turkey</option>
-                                                         <option value="Turkey" >Turkey</option>
-                                                         <option value="Tuvalu" >Tuvalu</option>
-                                                         <option value="Ukraine" >Ukraine</option>
-                                                         <option value="United Arab Emirates" >United Arab Emirates</option>
-                                                         <option value="United Kingdom" selected>United Kingdom</option>
-                                                         <option value="United States of America" >United States of America</option>
-                                                         <option value="Uruguay" >Uruguay</option>
-                                                         <option value="Uzbekistan" >Uzbekistan</option>
-                                                         <option value="Vatican City" >Vatican City</option>
-                                                         <option value="Venezuela" >Venezuela</option>
-                                                         <option value="Vietnam" >Vietnam</option>
-                                                         <option value="Yemen" >Yemen</option>
-                                                         <option value="Zimbabwe" >Zimbabwe</option>
+                                                         <option value="Afghanistan" <?php if($employee_rs->pass_nat=='Afghanistan'){?> selected="selected"<?php }?>>Afghanistan</option>
+                                                         <option value="Albania" <?php if($employee_rs->pass_nat=='Albania'){?> selected="selected"<?php }?>>Albania</option>
+                                                         <option value="America" <?php if($employee_rs->pass_nat=='America'){?> selected="selected"<?php }?>>America</option>
+                                                         <option value="Argentina" <?php if($employee_rs->pass_nat=='Argentina'){?> selected="selected"<?php }?>>Argentina</option>
+                                                         <option value="Aruba" <?php if($employee_rs->pass_nat=='Aruba'){?> selected="selected"<?php }?>>Aruba</option>
+                                                         <option value="Australia" <?php if($employee_rs->pass_nat=='Australia'){?> selected="selected"<?php }?>>Australia</option>
+                                                         <option value="Azerbaijan" <?php if($employee_rs->pass_nat=='Azerbaijan'){?> selected="selected"<?php }?>>Azerbaijan</option>
+                                                         <option value="Bahamas" <?php if($employee_rs->pass_nat=='Bahamas'){?> selected="selected"<?php }?>>Bahamas</option>
+                                                         <option value="Bahrain" <?php if($employee_rs->pass_nat=='Bahrain'){?> selected="selected"<?php }?>>Bahrain</option>
+                                                         <option value="Bangladesh" <?php if($employee_rs->pass_nat=='Bangladesh'){?> selected="selected"<?php }?>>Bangladesh</option>
+                                                         <option value="Barbados" <?php if($employee_rs->pass_nat=='Barbados'){?> selected="selected"<?php }?>>Barbados</option>
+                                                         <option value="Belarus" <?php if($employee_rs->pass_nat=='Belarus'){?> selected="selected"<?php }?>>Belarus</option>
+                                                         <option value="Belgium" <?php if($employee_rs->pass_nat=='Belgium'){?> selected="selected"<?php }?>>Belgium</option>
+                                                         <option value="Beliz" <?php if($employee_rs->pass_nat=='Beliz'){?> selected="selected"<?php }?>>Beliz</option>
+                                                         <option value="Bermuda" <?php if($employee_rs->pass_nat=='Bermuda'){?> selected="selected"<?php }?>>Bermuda</option>
+                                                         <option value="Bolivia" <?php if($employee_rs->pass_nat=='Bolivia'){?> selected="selected"<?php }?>>Bolivia</option>
+                                                         <option value="Bosnia and Herzegovina" <?php if($employee_rs->pass_nat=='Bosnia and Herzegovina'){?> selected="selected"<?php }?>>Bosnia and Herzegovina</option>
+                                                         <option value="Botswana" <?php if($employee_rs->pass_nat=='Botswana'){?> selected="selected"<?php }?>>Botswana</option>
+                                                         <option value="Brazil" <?php if($employee_rs->pass_nat=='Brazil'){?> selected="selected"<?php }?>>Brazil</option>
+                                                         <option value="Brunei Darussalam" <?php if($employee_rs->pass_nat=='Brunei Darussalam'){?> selected="selected"<?php }?>>Brunei Darussalam</option>
+                                                         <option value="Bulgaria" <?php if($employee_rs->pass_nat=='Bulgaria'){?> selected="selected"<?php }?>>Bulgaria</option>
+                                                         <option value="Cambodia" <?php if($employee_rs->pass_nat=='Cambodia'){?> selected="selected"<?php }?>>Cambodia</option>
+                                                         <option value="Canada" <?php if($employee_rs->pass_nat=='Canada'){?> selected="selected"<?php }?>>Canada</option>
+                                                         <option value="Cayman Islands" <?php if($employee_rs->pass_nat=='Cayman Islands'){?> selected="selected"<?php }?>>Cayman Islands</option>
+                                                         <option value="Chile" <?php if($employee_rs->pass_nat=='Chile'){?> selected="selected"<?php }?>>Chile</option>
+                                                         <option value="China" <?php if($employee_rs->pass_nat=='China'){?> selected="selected"<?php }?>>China</option>
+                                                         <option value="Colombia" <?php if($employee_rs->pass_nat=='Colombia'){?> selected="selected"<?php }?>>Colombia</option>
+                                                         <option value="Costa Rica" <?php if($employee_rs->pass_nat=='Costa Rica'){?> selected="selected"<?php }?>>Costa Rica</option>
+                                                         <option value="Croatia" <?php if($employee_rs->pass_nat=='Croatia'){?> selected="selected"<?php }?>>Croatia</option>
+                                                         <option value="Cuba" <?php if($employee_rs->pass_nat=='Cuba'){?> selected="selected"<?php }?>>Cuba</option>
+                                                         <option value="Cyprus" <?php if($employee_rs->pass_nat=='Cyprus'){?> selected="selected"<?php }?>>Cyprus</option>
+                                                         <option value="Czech Republic" <?php if($employee_rs->pass_nat=='Czech Republic'){?> selected="selected"<?php }?>>Czech Republic</option>
+                                                         <option value="Denmark" <?php if($employee_rs->pass_nat=='Denmark'){?> selected="selected"<?php }?>>Denmark</option>
+                                                         <option value="Dominican Republic" <?php if($employee_rs->pass_nat=='Dominican Republic'){?> selected="selected"<?php }?>>Dominican Republic</option>
+                                                         <option value="East Caribbean" <?php if($employee_rs->pass_nat=='East Caribbean'){?> selected="selected"<?php }?>>East Caribbean</option>
+                                                         <option value="Egypt" <?php if($employee_rs->pass_nat=='Egypt'){?> selected="selected"<?php }?>>Egypt</option>
+                                                         <option value="El Salvador" <?php if($employee_rs->pass_nat=='El Salvador'){?> selected="selected"<?php }?>>El Salvador</option>
+                                                         <option value="Euro" <?php if($employee_rs->pass_nat=='Euro'){?> selected="selected"<?php }?>>Euro</option>
+                                                         <option value="Falkland Islands" <?php if($employee_rs->pass_nat=='Falkland Islands'){?> selected="selected"<?php }?>>Falkland Islands</option>
+                                                         <option value="Fiji" <?php if($employee_rs->pass_nat=='Fiji'){?> selected="selected"<?php }?>>Fiji</option>
+                                                         <option value="France" <?php if($employee_rs->pass_nat=='France'){?> selected="selected"<?php }?>>France</option>
+                                                         <option value="Germany" <?php if($employee_rs->pass_nat=='Germany'){?> selected="selected"<?php }?>>Germany</option>
+                                                         <option value="Ghana" <?php if($employee_rs->pass_nat=='Ghana'){?> selected="selected"<?php }?>>Ghana</option>
+                                                         <option value="Gibraltar" <?php if($employee_rs->pass_nat=='Gibraltar'){?> selected="selected"<?php }?>>Gibraltar</option>
+                                                         <option value="Greece" <?php if($employee_rs->pass_nat=='Greece'){?> selected="selected"<?php }?>>Greece</option>
+                                                         <option value="Guatemala" <?php if($employee_rs->pass_nat=='Guatemala'){?> selected="selected"<?php }?>>Guatemala</option>
+                                                         <option value="Guernsey" <?php if($employee_rs->pass_nat=='Guernsey'){?> selected="selected"<?php }?>>Guernsey</option>
+                                                         <option value="Guyana" <?php if($employee_rs->pass_nat=='Guyana'){?> selected="selected"<?php }?>>Guyana</option>
+                                                         <option value="Holland (Netherlands)" <?php if($employee_rs->pass_nat=='Holland (Netherlands)'){?> selected="selected"<?php }?>>Holland (Netherlands)</option>
+                                                         <option value="Honduras" <?php if($employee_rs->pass_nat=='Honduras'){?> selected="selected"<?php }?>>Honduras</option>
+                                                         <option value="Hong Kong" <?php if($employee_rs->pass_nat=='Hong Kong'){?> selected="selected"<?php }?>>Hong Kong</option>
+                                                         <option value="Hungary" <?php if($employee_rs->pass_nat=='Hungary'){?> selected="selected"<?php }?>>Hungary</option>
+                                                         <option value="Iceland" <?php if($employee_rs->pass_nat=='Iceland'){?> selected="selected"<?php }?>>Iceland</option>
+                                                         <option value="India" <?php if($employee_rs->pass_nat=='India'){?> selected="selected"<?php }?>>India</option>
+                                                         <option value="Indonesia" <?php if($employee_rs->pass_nat=='Indonesia'){?> selected="selected"<?php }?>>Indonesia</option>
+                                                         <option value="Iran" <?php if($employee_rs->pass_nat=='Iran'){?> selected="selected"<?php }?>>Iran</option>
+                                                         <option value="Ireland" <?php if($employee_rs->pass_nat=='Ireland'){?> selected="selected"<?php }?>>Ireland</option>
+                                                         <option value="Isle of Man" <?php if($employee_rs->pass_nat=='Isle of Man'){?> selected="selected"<?php }?>>Isle of Man</option>
+                                                         <option value="Israel" <?php if($employee_rs->pass_nat=='Israel'){?> selected="selected"<?php }?>>Israel</option>
+                                                         <option value="Italy" <?php if($employee_rs->pass_nat=='Italy'){?> selected="selected"<?php }?>>Italy</option>
+                                                         <option value="Jamaica" <?php if($employee_rs->pass_nat=='Jamaica'){?> selected="selected"<?php }?>>Jamaica</option>
+                                                         <option value="Japan" <?php if($employee_rs->pass_nat=='Japan'){?> selected="selected"<?php }?>>Japan</option>
+                                                         <option value="Jersey" <?php if($employee_rs->pass_nat=='Jersey'){?> selected="selected"<?php }?>>Jersey</option>
+                                                         <option value="Kazakhstan" <?php if($employee_rs->pass_nat=='Kazakhstan'){?> selected="selected"<?php }?>>Kazakhstan</option>
+                                                         <option value="Korea (North)" <?php if($employee_rs->pass_nat=='Korea (North)'){?> selected="selected"<?php }?>>Korea (North)</option>
+                                                         <option value="Korea (South)" <?php if($employee_rs->pass_nat=='Korea (South)'){?> selected="selected"<?php }?>>Korea (South)</option>
+                                                         <option value="Kyrgyzstan" <?php if($employee_rs->pass_nat=='Kyrgyzstan'){?> selected="selected"<?php }?>>Kyrgyzstan</option>
+                                                         <option value="Laos" <?php if($employee_rs->pass_nat=='Laos'){?> selected="selected"<?php }?>>Laos</option>
+                                                         <option value="Latvia" <?php if($employee_rs->pass_nat=='Latvia'){?> selected="selected"<?php }?>>Latvia</option>
+                                                         <option value="Lebanon" <?php if($employee_rs->pass_nat=='Lebanon'){?> selected="selected"<?php }?>>Lebanon</option>
+                                                         <option value="Liberia" <?php if($employee_rs->pass_nat=='Liberia'){?> selected="selected"<?php }?>>Liberia</option>
+                                                         <option value="Libya" <?php if($employee_rs->pass_nat=='Libya'){?> selected="selected"<?php }?>>Libya</option>
+                                                         <option value="Liechtenstein" <?php if($employee_rs->pass_nat=='Liechtenstein'){?> selected="selected"<?php }?>>Liechtenstein</option>
+                                                         <option value="Lithuania" <?php if($employee_rs->pass_nat=='Lithuania'){?> selected="selected"<?php }?>>Lithuania</option>
+                                                         <option value="Luxembourg" <?php if($employee_rs->pass_nat=='Luxembourg'){?> selected="selected"<?php }?>>Luxembourg</option>
+                                                         <option value="Macedonia" <?php if($employee_rs->pass_nat=='Macedonia'){?> selected="selected"<?php }?>>Macedonia</option>
+                                                         <option value="Malaysia" <?php if($employee_rs->pass_nat=='Malaysia'){?> selected="selected"<?php }?>>Malaysia</option>
+                                                         <option value="Malta" <?php if($employee_rs->pass_nat=='Malta'){?> selected="selected"<?php }?>>Malta</option>
+                                                         <option value="Mauritius" <?php if($employee_rs->pass_nat=='Mauritius'){?> selected="selected"<?php }?>>Mauritius</option>
+                                                         <option value="Mexico" <?php if($employee_rs->pass_nat=='Mexico'){?> selected="selected"<?php }?>>Mexico</option>
+                                                         <option value="Mongolia" <?php if($employee_rs->pass_nat=='Mongolia'){?> selected="selected"<?php }?>>Mongolia</option>
+                                                         <option value="Mozambique" <?php if($employee_rs->pass_nat=='Mozambique'){?> selected="selected"<?php }?>>Mozambique</option>
+                                                         <option value="Myanmar" <?php if($employee_rs->pass_nat=='Myanmar'){?> selected="selected"<?php }?>>Myanmar</option>
+                                                         <option value="Namibia" <?php if($employee_rs->pass_nat=='Namibia'){?> selected="selected"<?php }?>>Namibia</option>
+                                                         <option value="Nepal" <?php if($employee_rs->pass_nat=='Nepal'){?> selected="selected"<?php }?>>Nepal</option>
+                                                         <option value="Netherlands" <?php if($employee_rs->pass_nat=='Netherlands'){?> selected="selected"<?php }?>>Netherlands</option>
+                                                         <option value="Netherlands Antilles" <?php if($employee_rs->pass_nat=='Netherlands Antilles'){?> selected="selected"<?php }?>>Netherlands Antilles</option>
+                                                         <option value="New Zealand" <?php if($employee_rs->pass_nat=='New Zealand'){?> selected="selected"<?php }?>>New Zealand</option>
+                                                         <option value="Nicaragua" <?php if($employee_rs->pass_nat=='Nicaragua'){?> selected="selected"<?php }?>>Nicaragua</option>
+                                                         <option value="Nigeria" <?php if($employee_rs->pass_nat=='Nigeria'){?> selected="selected"<?php }?>>Nigeria</option>
+                                                         <option value="North Korea" <?php if($employee_rs->pass_nat=='North Korea'){?> selected="selected"<?php }?>>North Korea</option>
+                                                         <option value="Norway" <?php if($employee_rs->pass_nat=='Norway'){?> selected="selected"<?php }?>>Norway</option>
+                                                         <option value="Oman" <?php if($employee_rs->pass_nat=='Oman'){?> selected="selected"<?php }?>>Oman</option>
+                                                         <option value="Pakistan" <?php if($employee_rs->pass_nat=='Pakistan'){?> selected="selected"<?php }?>>Pakistan</option>
+                                                         <option value="Panama" <?php if($employee_rs->pass_nat=='Panama'){?> selected="selected"<?php }?>>Panama</option>
+                                                         <option value="Paraguay" <?php if($employee_rs->pass_nat=='Paraguay'){?> selected="selected"<?php }?>>Paraguay</option>
+                                                         <option value="Peru" <?php if($employee_rs->pass_nat=='Peru'){?> selected="selected"<?php }?>>Peru</option>
+                                                         <option value="Philippines" <?php if($employee_rs->pass_nat=='Philippines'){?> selected="selected"<?php }?>>Philippines</option>
+                                                         <option value="Poland" <?php if($employee_rs->pass_nat=='Poland'){?> selected="selected"<?php }?>>Poland</option>
+                                                         <option value="Portugal" <?php if($employee_rs->pass_nat=='Portugal'){?> selected="selected"<?php }?>>Portugal</option>
+                                                         <option value="Qatar" <?php if($employee_rs->pass_nat=='Qatar'){?> selected="selected"<?php }?>>Qatar</option>
+                                                         <option value="Republic of Uganda" <?php if($employee_rs->pass_nat=='Republic of Uganda'){?> selected="selected"<?php }?>>Republic of Uganda</option>
+                                                         <option value="Romania" <?php if($employee_rs->pass_nat=='Romania'){?> selected="selected"<?php }?>>Romania</option>
+                                                         <option value="Russia" <?php if($employee_rs->pass_nat=='Russia'){?> selected="selected"<?php }?>>Russia</option>
+                                                         <option value="Saint Helena" <?php if($employee_rs->pass_nat=='Saint Helena'){?> selected="selected"<?php }?>>Saint Helena</option>
+                                                         <option value="Saudi Arabia" <?php if($employee_rs->pass_nat=='Saudi Arabia'){?> selected="selected"<?php }?>>Saudi Arabia</option>
+                                                         <option value="Serbia" <?php if($employee_rs->pass_nat=='Serbia'){?> selected="selected"<?php }?>>Serbia</option>
+                                                         <option value="Seychelles" <?php if($employee_rs->pass_nat=='Seychelles'){?> selected="selected"<?php }?>>Seychelles</option>
+                                                         <option value="Singapore" <?php if($employee_rs->pass_nat=='Singapore'){?> selected="selected"<?php }?>>Singapore</option>
+                                                         <option value="Slovakia" <?php if($employee_rs->pass_nat=='Slovenia'){?> selected="selected"<?php }?>>Slovakia</option>
+                                                         <option value="Slovenia" <?php if($employee_rs->pass_nat=='Slovenia'){?> selected="selected"<?php }?>>Slovenia</option>
+                                                         <option value="Solomon Islands" <?php if($employee_rs->pass_nat=='Solomon Islands'){?> selected="selected"<?php }?>>Solomon Islands</option>
+                                                         <option value="Somalia" <?php if($employee_rs->pass_nat=='Somalia'){?> selected="selected"<?php }?>>Somalia</option>
+                                                         <option value="South Africa" <?php if($employee_rs->pass_nat=='South Africa'){?> selected="selected"<?php }?>>South Africa</option>
+                                                         <option value="South Korea" <?php if($employee_rs->pass_nat=='South Korea'){?> selected="selected"<?php }?>>South Korea</option>
+                                                         <option value="Spain" <?php if($employee_rs->pass_nat=='Spain'){?> selected="selected"<?php }?>>Spain</option>
+                                                         <option value="Sri Lanka" <?php if($employee_rs->pass_nat=='Sri Lanka'){?> selected="selected"<?php }?>>Sri Lanka</option>
+                                                         <option value="State of Eritrea" <?php if($employee_rs->pass_nat=='State of Eritrea'){?> selected="selected"<?php }?>>State of Eritrea</option>
+                                                         <option value="Sudan" <?php if($employee_rs->pass_nat=='Sudan'){?> selected="selected"<?php }?>>Sudan</option>
+                                                         <option value="Suriname" <?php if($employee_rs->pass_nat=='Suriname'){?> selected="selected"<?php }?>>Suriname</option>
+                                                         <option value="Sweden" <?php if($employee_rs->pass_nat=='Sweden'){?> selected="selected"<?php }?>>Sweden</option>
+                                                         <option value="Switzerland" <?php if($employee_rs->pass_nat=='Switzerland'){?> selected="selected"<?php }?>>Switzerland</option>
+                                                         <option value="Syria" <?php if($employee_rs->pass_nat=='Syria'){?> selected="selected"<?php }?>>Syria</option>
+                                                         <option value="Taiwan" <?php if($employee_rs->pass_nat=='Taiwan'){?> selected="selected"<?php }?>>Taiwan</option>
+                                                         <option value="Thailand" <?php if($employee_rs->pass_nat=='Thailand'){?> selected="selected"<?php }?>>Thailand</option>
+                                                         <option value="Trinidad and Tobago" <?php if($employee_rs->pass_nat=='Trinidad and Tobago'){?> selected="selected"<?php }?>>Trinidad and Tobago</option>
+                                                         <option value="Turkey" <?php if($employee_rs->pass_nat=='Turkey'){?> selected="selected"<?php }?>>Turkey</option>
+                                                         <option value="Turkey" <?php if($employee_rs->pass_nat=='Turkey'){?> selected="selected"<?php }?>>Turkey</option>
+                                                         <option value="Tuvalu" <?php if($employee_rs->pass_nat=='Tuvalu'){?> selected="selected"<?php }?>>Tuvalu</option>
+                                                         <option value="Ukraine" <?php if($employee_rs->pass_nat=='Ukraine'){?> selected="selected"<?php }?>>Ukraine</option>
+                                                         <option value="United Arab Emirates" <?php if($employee_rs->pass_nat=='United Arab Emirates'){?> selected="selected"<?php }?>>United Arab Emirates</option>
+                                                         <option value="United Kingdom" <?php if($employee_rs->pass_nat=='United Kingdom'){?> selected="selected"<?php }?>>United Kingdom</option>
+                                                         <option value="United States of America" <?php if($employee_rs->pass_nat=='United States of America'){?> selected="selected"<?php }?>>United States of America</option>
+                                                         <option value="Uruguay" <?php if($employee_rs->pass_nat=='Uruguay'){?> selected="selected"<?php }?>>Uruguay</option>
+                                                         <option value="Uzbekistan" <?php if($employee_rs->pass_nat=='Uzbekistan'){?> selected="selected"<?php }?>>Uzbekistan</option>
+                                                         <option value="Vatican City" <?php if($employee_rs->pass_nat=='Vatican City'){?> selected="selected"<?php }?>>Vatican City</option>
+                                                         <option value="Venezuela" <?php if($employee_rs->pass_nat=='Venezuela'){?> selected="selected"<?php }?>>Venezuela</option>
+                                                         <option value="Vietnam" <?php if($employee_rs->pass_nat=='Vietnam'){?> selected="selected"<?php }?>>Vietnam</option>
+                                                         <option value="Yemen" <?php if($employee_rs->pass_nat=='Yemen'){?> selected="selected"<?php }?>>Yemen</option>
+                                                         <option value="Zimbabwe" <?php if($employee_rs->pass_nat=='Zimbabwe'){?> selected="selected"<?php }?>>Zimbabwe</option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabelpb" class="placeholder">Place of Birth</label>
-                                                      <input id="inputFloatingLabelpb" type="text" class="form-control input-border-bottom" name="place_birth" value="SYLHET">
+                                                      <input id="inputFloatingLabelpb" type="text" class="form-control input-border-bottom" name="place_birth" value="<?php print_r($employee_rs->place_birth) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabelib" class="placeholder">Issued By</label>
-                                                      <input id="inputFloatingLabelib" type="text" class="form-control input-border-bottom"  name="issue_by" value="HMPO">
+                                                      <input id="inputFloatingLabelib" type="text" class="form-control input-border-bottom"  name="issue_by" value="<?php print_r($employee_rs->issue_by) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group" >
                                                       <label for="inputFloatingLabelid" class="placeholder">Issued Date</label>
-                                                      <input id="inputFloatingLabelid" type="date" class="form-control input-border-bottom" name="pas_iss_date" value="2021-07-03" >
+                                                      <input id="inputFloatingLabelid" type="date" class="form-control input-border-bottom" name="pas_iss_date" value="<?php print_r($employee_rs->pas_iss_date) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="pass_exp_date" class="placeholder">Expiry Date</label>
-                                                      <input id="pass_exp_date" type="date" class="form-control input-border-bottom" onchange="getreviewdate();" name="pass_exp_date" value="2031-07-03">
+                                                      <input id="pass_exp_date" type="date" class="form-control input-border-bottom" onchange="getreviewdate();" name="pass_exp_date" value="<?php print_r($employee_rs->pass_exp_date) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="pass_review_date" class="placeholder"  style="margin-top:-12px;">Eligible Review Date</label>
-                                                      <input id="pass_review_date" type="text" class="form-control input-border-bottom" readonly name="pass_review_date"  value="2031-06-03">
+                                                      <input id="pass_review_date" type="text" class="form-control input-border-bottom" readonly name="pass_review_date"  value="<?php print_r($employee_rs->pass_review_date) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -1095,7 +1116,7 @@
                                                       <label>Upload Document</label>
                                                       <a href="https://climbr.co.in/public/employee_doc/jbfH0cM2hcjMHEseG1LGtARb0CJGnKB6jj6EHPra.jpg" target="_blank" download />download</a>
                                                       </br>
-                                                      <input type="file" class="form-control"  name="pass_docu"  id="pass_docu" onchange="Filevalidationdopassdocu()">
+                                                      <input type="file" class="form-control"  name="pass_docu"  id="pass_docu" onchange="Filevalidationdopassdocu()" readonly>
                                                       <small> Please select  file which size up to 2mb</small>
                                                    </div>
                                                 </div>
@@ -1115,7 +1136,7 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabelrm" class="placeholder">Remarks</label>
-                                                      <input id="inputFloatingLabelrm" type="text" class="form-control input-border-bottom" name="remarks" value="">
+                                                      <input id="inputFloatingLabelrm" type="text" class="form-control input-border-bottom" name="remarks" value="<?php print_r($employee_rs->remarks) ?>" readonly>
                                                    </div>
                                                 </div>
                                              </div>
@@ -1127,24 +1148,24 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Class Name <span style="color:red">(*)</span></label>
-                                                      <select data-placeholder="Choose a Groupe..." name="emp_group" class="form-control" id="emp_group" required>
+                                                      <select data-placeholder="Choose a Groupe..." name="emp_group" class="form-control" id="emp_group" required readonly>
                                                          <option value="" label="Select">Select</option>
-                                                         <option value="1">1  PERMANENT OUT GRADED</option>
-                                                         <option value="2">2-PERMANENT GRADED STAFF</option>
-                                                         <option value="4">3-PERMANENT GRADED SUB STAFF</option>
-                                                         <option value="5">4- CONTRACT STAFF</option>
-                                                         <option value="6">5   PERMANENT NEW GRADED</option>
-                                                         <option value="7">6- NEW NURSING STAFF</option>
-                                                         <option value="8">7- DURWAN</option>
-                                                         <option value="9">8- PBIN STAFF</option>
-                                                         <option value="10">9 NEW GRADED SUB STAFF</option>
+                                                         <option value="1" <?php if($EmployeePayStructure->emp_group=='1'){?> selected="selected"<?php }?>>1  PERMANENT OUT GRADED</option>
+                                                         <option value="2" <?php if($EmployeePayStructure->emp_group=='2'){?> selected="selected"<?php }?>>2-PERMANENT GRADED STAFF</option>
+                                                         <option value="4" <?php if($EmployeePayStructure->emp_group=='4'){?> selected="selected"<?php }?>>3-PERMANENT GRADED SUB STAFF</option>
+                                                         <option value="5" <?php if($EmployeePayStructure->emp_group=='5'){?> selected="selected"<?php }?>>4- CONTRACT STAFF</option>
+                                                         <option value="6" <?php if($EmployeePayStructure->emp_group=='6'){?> selected="selected"<?php }?>>5   PERMANENT NEW GRADED</option>
+                                                         <option value="7" <?php if($EmployeePayStructure->emp_group=='7'){?> selected="selected"<?php }?>>6- NEW NURSING STAFF</option>
+                                                         <option value="8" <?php if($EmployeePayStructure->emp_group=='8'){?> selected="selected"<?php }?>>7- DURWAN</option>
+                                                         <option value="9" <?php if($EmployeePayStructure->emp_group=='9'){?> selected="selected"<?php }?>>8- PBIN STAFF</option>
+                                                         <option value="10" <?php if($EmployeePayStructure->emp_group=='10'){?> selected="selected"<?php }?>>9 NEW GRADED SUB STAFF</option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Basic Pay <span style="color:red">(*)</span></label>
-                                                      <input type="number" step="any" id="emp_basic_pay" name="emp_basic_pay" value="" class="form-control"  oninput="basicpay()" required>
+                                                      <input type="number" step="any" id="emp_basic_pay" name="emp_basic_pay" value="<?php print_r($EmployeePayStructure->basic_pay) ?>" class="form-control"  oninput="basicpay()" required readonly>
                                                       <!-- <select class="form-control" name="emp_basic_pay" id="emp_basic_pay" required>
                                                          </select> -->
                                                    </div>
@@ -1152,25 +1173,25 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>APF Deduction Rate (%) <span style="color:red">(*)</span></label>
-                                                      <input type="number" step="any" id="emp_apf_percent" name="emp_apf_percent" value="" class="form-control" required>
+                                                      <input type="number" step="any" id="emp_apf_percent" name="emp_apf_percent" value="<?php print_r($EmployeePayStructure->apf_percent) ?>" class="form-control" required readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>PF Type <span style="color:red">(*)</span></label>
-                                                      <select data-placeholder="Choose a PF..." name="emp_pf_type" id="emp_pf_type" class="form-control" required>
+                                                      <select data-placeholder="Choose a PF..." name="emp_pf_type" id="emp_pf_type" class="form-control" required readonly>
                                                          <option value="" label="Select">Select</option>
-                                                         <option value="nps"  >NPS</option>
-                                                         <option value="gpf"  >PF</option>
-                                                         <option value="cpf"  >CPF </option>
-                                                         <option value="na"  >NA </option>
+                                                         <option value="nps"  <?php if($EmployeePayStructure->pf_type=='nps'){?> selected="selected"<?php }?>>NPS</option>
+                                                         <option value="gpf"  <?php if($EmployeePayStructure->pf_type=='gpf'){?> selected="selected"<?php }?>>PF</option>
+                                                         <option value="cpf"  <?php if($EmployeePayStructure->pf_type=='cpf'){?> selected="selected"<?php }?>>CPF </option>
+                                                         <option value="na"  <?php if($EmployeePayStructure->pf_type=='na'){?> selected="selected"<?php }?>>NA </option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Passport No.</label>
-                                                      <input type="text" name="emp_passport_no" value="" class="form-control">
+                                                      <input type="text" name="emp_passport_no" value="<?php print_r($EmployeePayStructure->emp_passport_no) ?>" class="form-control" readonly>
                                                    </div>
                                                 </div>
                                                 <!-- <div class="col-md-3">
@@ -1182,37 +1203,34 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>PF No. </label>
-                                                      <input type="text" name="emp_pf_no" value="" class="form-control">
+                                                      <input type="text" name="emp_pf_no" value="<?php print_r($EmployeePayStructure->emp_pf_no) ?>" class="form-control" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>UAN No. </label>
-                                                      <input type="text" name="emp_uan_no" value="" class="form-control">
+                                                      <input type="text" name="emp_uan_no" value="<?php print_r($EmployeePayStructure->emp_uan_no) ?>" class="form-control" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>PAN No.</label>
-                                                      <input type="text" name="emp_pan_no" value="" class="form-control">
+                                                      <input type="text" name="emp_pan_no" value="<?php print_r($EmployeePayStructure->emp_pan_no) ?>" class="form-control" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Bank Name <span style="color:red">(*)</span></label>
-                                                      <select class="form-control" name="emp_bank_name" id="emp_bank_name" required onclick="populateBranch()">
-                                                         <option value="" label="Select">Select</option>
-                                                         {{-- @foreach($MastersbankName as $item)
-                                                         <option value="{{$item->id}}">{{$item->master_bank_name}}</option>
-                                                         @endforeach --}}
+                                                      <select class="form-control" name="emp_bank_name" id="emp_bank_name" required onclick="populateBranch()" readonly>
+                                                         <option value="{{$EmployeePayStructure->emp_bank_name}}">{{$EmployeePayStructure->emp_bank_name}}</option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Branch <span style="color:red">(*)</span></label>
-                                                      <select class="form-control" id="bank_branch_ids" name="bank_branch_id" onclick="branchfunc()" required>
-                                                         <option value="" selected disabled required>Select</option>
+                                                      <select class="form-control" id="bank_branch_ids" name="bank_branch_id" onclick="branchfunc()" required readonly>
+                                                         <option value="{{$EmployeePayStructure->bank_branch_id}}">{{$EmployeePayStructure->bank_branch_id}}</option>
                                                       </select>
                                                    </div>
                                                 </div>
@@ -1220,63 +1238,47 @@
                                                    <div class="form-group">
                                                       <label>IFSC Code <span style="color:red">(*)</span></label>
                                                       <!-- <input type="text" name="emp_ifsc_code" value="" id="emp_ifsc_code" class="form-control"  required> -->
-                                                      <select class="form-control" id="emp_ifsc_code" name="emp_ifsc_code" required>
-                                                         <option value="" selected disabled required>Select</option>
+                                                      <select class="form-control" id="emp_ifsc_code" name="emp_ifsc_code" required readonly>
+                                                         <option value="{{$EmployeePayStructure->emp_ifsc_code}}">{{$EmployeePayStructure->emp_ifsc_code}}</option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Account No. <span style="color:red">(*)</span></label>
-                                                      <input type="text" name="emp_account_no" id="emp_account_no" value="" class="form-control" required>
+                                                      <input type="text" name="emp_account_no" id="emp_account_no" value="<?php print_r($EmployeePayStructure->emp_account_no) ?>" class="form-control" required readonly>
                                                    </div>
                                                 </div>
-                                                <!-- <input type="hidden" name="emp_gradess" value=""> -->
-                                                <!-- <div class="col-md-3">
-                                                   <label style="color:#C0C0C0">Pay Level </label>
-                                                               <select class="form-control" name="emp_grade">
-                                                   <option value="" label="Select">Select</option>
-                                                                              <option value="LEVEL II" >LEVEL II</option>
-                                                               <option value="LEVEL III" >LEVEL III</option>
-                                                               <option value="LEVEL IV" >LEVEL IV</option>
-                                                               <option value="LEVEL I" >LEVEL I</option>
-                                                               <option value="LEVEL V" >LEVEL V</option>
-                                                           </select>
-                                                   </div> -->
+         
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Aadhaar No. </label>
-                                                      <input type="text" name="emp_aadhar_no" value="" class="form-control">
+                                                      <input type="text" name="emp_aadhar_no" value="<?php print_r($EmployeePayStructure->emp_aadhar_no) ?>" class="form-control" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Eligible For Pension </label>
-                                                      <!-- <select class="form-control" name="emp_pension" id="emp_pension" required >
-                                                         <option value="">Select</option>
-                                                         <option value="Y" >Yes</option>
-                                                         <option value="N" >No</option>
-                                                         </select> -->
-                                                      <input type="text" class="form-control" name="emp_pension" id="emp_pension" readonly>
+                                                      <input type="text" class="form-control" name="emp_pension" id="emp_pension" value="<?php print_r($EmployeePayStructure->emp_pension) ?>" readonly>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Basic above 15K @ 12% PF </label>
-                                                      <select class="form-control" name="emp_pf_inactuals" id="emp_pf_inactuals" required >
+                                                      <select class="form-control" name="emp_pf_inactuals" id="emp_pf_inactuals" required readonly>
                                                          <option value="">Select</option>
-                                                         <option value="Y" >Yes</option>
-                                                         <option value="N" >No</option>
+                                                         <option value="Y" <?php if($EmployeePayStructure->emp_pf_inactuals=='Y'){?> selected="selected"<?php }?>>Yes</option>
+                                                         <option value="N" <?php if($EmployeePayStructure->emp_pf_inactuals=='N'){?> selected="selected"<?php }?>>No</option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Eligible For Bonus </label>
-                                                      <select class="form-control" name="emp_bonus" id="emp_bonus" required >
+                                                      <select class="form-control" name="emp_bonus" id="emp_bonus" required readonly>
                                                          <option value="">Select</option>
-                                                         <option value="Y" >Yes</option>
-                                                         <option value="N" >No</option>
+                                                         <option value="Y" <?php if($EmployeePayStructure->emp_bonus=='Y'){?> selected="selected"<?php }?>>Yes</option>
+                                                         <option value="N" <?php if($EmployeePayStructure->emp_bonus=='N'){?> selected="selected"<?php }?>>No</option>
                                                       </select>
                                                    </div>
                                                 </div>
@@ -1288,102 +1290,354 @@
                                                 <legend>Pay Structure</legend>
                                                 <h3 class="ad">Earning</h3>
                                                 <!-- <div class="addi"> -->
-                                                <table border="1" class="table table-bordered table-responsove" style="border-collapse:collapse;overflow-x:scroll;">
-                                                   <thead>
-                                                      <tr>
-                                                         <th>Sl.No.</th>
-                                                         <th>Head Name</th>
-                                                         <th>Head Type</th>
-                                                         <th>Value</th>
-                                                      </tr>
-                                                   </thead>
-                                                   <tbody id="marksheetearn">
-                                                      <tr class="itemslotpayearn" id="0">
-                                                         <td>1</td>
-                                                         <td>
-                                                            {{-- <select class="form-control earninigcls" name="name_earn[]" id="name_earn0">
-                                                               <option value='' selected>Select</option>
-                                                               <?php
-                                                                  $name = '';
-                                                                  ?>
-                                                               @foreach($EARNING as $value)
-                                                               <?php
-                                                                  if ($value->id == '1') {
-                                                                     $name = 'da';
-                                                                  } else if ($value->id == '2') {
-                                                                     $name = 'vda';
-                                                                  } else if ($value->id == '3') {
-                                                                     $name = 'hra';
-                                                                  } else if ($value->id == '4') {
-                                                                     $name = 'prof_tax';
-                                                                  } else if ($value->id == '5') {
-                                                                     $name = 'others_alw';
-                                                                  } else if ($value->id == '6') {
-                                                                     $name = 'tiff_alw';
-                                                                  } else if ($value->id == '7') {
-                                                                     $name = 'conv';
-                                                                  } else if ($value->id == '8') {
-                                                                     $name = 'medical';
-                                                                  } else if ($value->id == '9') {
-                                                                     $name = 'misc_alw';
-                                                                  } else if ($value->id == '10') {
-                                                                     $name = 'over_time';
-                                                                  } else if ($value->id == '11') {
-                                                                     $name = 'bouns';
-                                                                  } else if ($value->id == '12') {
-                                                                     $name = 'leave_inc';
-                                                                  } else if ($value->id == '13') {
-                                                                     $name = 'hta';
-                                                                  } else if ($value->id == '14') {
-                                                                     $name = 'tot_inc';
-                                                                  } else if ($value->id == '15') {
-                                                                     $name = 'pf';
-                                                                  } else if ($value->id == '16') {
-                                                                     $name = 'pf_int';
-                                                                  } else if ($value->id == '17') {
-                                                                     $name = 'apf';
-                                                                  } else if ($value->id == '18') {
-                                                                     $name = 'i_tax';
-                                                                  } else if ($value->id == '19') {
-                                                                     $name = 'insu_prem';
-                                                                  } else if ($value->id == '20') {
-                                                                     $name = 'pf_loan';
-                                                                  } else if ($value->id == '21') {
-                                                                     $name = 'esi';
-                                                                  } else if ($value->id == '22') {
-                                                                     $name = 'adv';
-                                                                  } else if ($value->id == '23') {
-                                                                     $name = 'hrd';
-                                                                  } else if ($value->id == '24') {
-                                                                     $name = 'co_op';
-                                                                  } else if ($value->id == '25') {
-                                                                     $name = 'furniture';
-                                                                  } else if ($value->id == '26') {
-                                                                     $name = 'misc_ded';
-                                                                  } else if ($value->id == '27') {
-                                                                     $name = 'tot_ded';
-                                                                  }
-                                                                  ?>
-                                                               @if($value->head_type == 'earning')
-                                                               <option value='{{$name}}'>{{ $value->head_name}}</option>
-                                                               @endif
-                                                               @endforeach
-                                                            </select> --}}
-                                                         </td>
-                                                         <td>
-                                                            <select class="form-control" name="head_type[]" id="head_type0" onchange="checkearnvalue(this.value,0);">
-                                                               <option value='' selected>Select</option>
-                                                               <option value='F'>Fixed</option>
-                                                               <option value='V'>Variable</option>
-                                                            </select>
-                                                         </td>
-                                                         <td><input type="text" name="value_emp[]"  id="value0" class="form-control"></td>
-                                                         <td>
-                                                            <button class="btn-success" type="button" id="addearn1" onClick="addnewrowearn(1)" data-id="earn1"> <i class="fas fa-plus"></i> </button>
-                                                         </td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
+                                                   <table border="1" class="table table-bordered table-responsove" style="border-collapse:collapse;overflow-x:scroll;">
+                                                      <thead>
+                                                         <tr>
+                                                            <th>Sl.No.</th>
+                                                            <th>Head Name</th>
+                                                            <th>Head Type</th>
+                                                            <th>Value</th>
+                                                             <th></th>
+                                          
+                                                         </tr>
+                                                      </thead>
+                                                      <?php
+                                          $arr_name = array();
+                                          $arr_type = array();
+                                          $arr_value = array();
+                                          $arr_name_deduct = array();
+                                          $arr_type_deduct = array();
+                                          $arr_value_deduct = array();
+                                          // print_r($emp_pay_st->pf);die;
+                                          if ($emp_pay_st->da != '') {
+                                          
+                                         
+                                              $arr_name[] = 'da';
+                                              $arr_value['da'] = $emp_pay_st->da;
+                                              $arr_type['da_type'] = $emp_pay_st->da_type;
+                                          
+                                          }if ($emp_pay_st->vda != '') {
+                                              $arr_name[] = 'vda';
+                                              $arr_value['vda'] = $emp_pay_st->vda;
+                                              $arr_type['vda_type'] = $emp_pay_st->vda_type;
+                                          }if ($emp_pay_st->hra != '') {
+                                              $arr_name[] = 'hra';
+                                              $arr_value['hra'] = $emp_pay_st->hra;
+                                              $arr_type['hra_type'] = $emp_pay_st->hra_type;
+                                          
+                                          }if ($emp_pay_st->others_alw != '') {
+                                              $arr_name[] = 'others_alw';
+                                              $arr_value['others_alw'] = $emp_pay_st->others_alw;
+                                              $arr_type['others_alw_type'] = $emp_pay_st->others_alw_type;
+                                          }if ($emp_pay_st->tiff_alw != '') {
+                                              $arr_name[] = 'tiff_alw';
+                                              $arr_value['tiff_alw'] = $emp_pay_st->tiff_alw;
+                                              $arr_type['tiff_alw_type'] = $emp_pay_st->tiff_alw_type;
+                                          }if ($emp_pay_st->conv != '') {
+                                              $arr_name[] = 'conv';
+                                              $arr_value['conv'] = $emp_pay_st->conv;
+                                              $arr_type['conv_type'] = $emp_pay_st->conv_type;
+                                          }if ($emp_pay_st->medical != '') {
+                                              $arr_name[] = 'medical';
+                                              $arr_value['medical'] = $emp_pay_st->medical;
+                                              $arr_type['medical_type'] = $emp_pay_st->medical_type;
+                                          }if ($emp_pay_st->misc_alw != '') {
+                                              $arr_name[] = 'misc_alw';
+                                              $arr_value['misc_alw'] = $emp_pay_st->misc_alw;
+                                              $arr_type['misc_alw_type'] = $emp_pay_st->misc_alw_type;
+                                          }if ($emp_pay_st->over_time != '') {
+                                              $arr_name[] = 'over_time';
+                                              $arr_value['over_time'] = $emp_pay_st->over_time;
+                                              $arr_type['over_time_type'] = $emp_pay_st->over_time_type;
+                                          }if ($emp_pay_st->bouns != '') {
+                                              $arr_name[] = 'bouns';
+                                              $arr_value['bouns'] = $emp_pay_st->bouns;
+                                              $arr_type['bouns_type'] = $emp_pay_st->bouns_type;
+                                          }if ($emp_pay_st->leave_inc != '') {
+                                              $arr_name[] = 'leave_inc';
+                                              $arr_value['leave_inc'] = $emp_pay_st->leave_inc;
+                                              $arr_type['leave_inc_type'] = $emp_pay_st->leave_inc_type;
+                                          
+                                          }if ($emp_pay_st->hta != '') {
+                                              $arr_name[] = 'hta';
+                                              $arr_value['hta'] = $emp_pay_st->hta;
+                                              $arr_type['hta_type'] = $emp_pay_st->hta_type;
+                                          
+                                          }if ($emp_pay_st->prof_tax != '') {
+                                              $arr_name_deduct[] = 'prof_tax';
+                                              $arr_value_deduct['prof_tax'] = $emp_pay_st->prof_tax;
+                                              $arr_type_deduct['prof_tax_type'] = $emp_pay_st->prof_tax_type;
+                                          
+                                          }if ($emp_pay_st->pf != '') {
+                                              $arr_name_deduct[] = 'pf';
+                                              $arr_value_deduct['pf'] = $emp_pay_st->pf;
+                                              $arr_type_deduct['pf_type'] = $emp_pay_st->pf_type;
+                                          
+                                          }if ($emp_pay_st->pf_int != '') {
+                                              $arr_name_deduct[] = 'pf_int';
+                                              $arr_value_deduct['pf_int'] = $emp_pay_st->pf_int;
+                                              $arr_type_deduct['pf_int_type'] = $emp_pay_st->pf_int_type;
+                                          
+                                          }if ($emp_pay_st->apf != '') {
+                                              $arr_name_deduct[] = 'apf';
+                                              $arr_value_deduct['apf'] = $emp_pay_st->apf;
+                                              $arr_type_deduct['apf_type'] = $emp_pay_st->apf_type;
+                                          
+                                          }if ($emp_pay_st->i_tax != '') {
+                                              $arr_name_deduct[] = 'i_tax';
+                                              $arr_value_deduct['i_tax'] = $emp_pay_st->i_tax;
+                                              $arr_type_deduct['i_tax_type'] = $emp_pay_st->i_tax_type;
+                                          
+                                          }if ($emp_pay_st->insu_prem != '') {
+                                              $arr_name_deduct[] = 'insu_prem';
+                                              $arr_value_deduct['insu_prem'] = $emp_pay_st->insu_prem;
+                                              $arr_type_deduct['insu_prem_type'] = $emp_pay_st->insu_prem_type;
+                                          
+                                          }if ($emp_pay_st->pf_loan != '') {
+                                              $arr_name_deduct[] = 'pf_loan';
+                                              $arr_value_deduct['pf_loan'] = $emp_pay_st->pf_loan;
+                                              $arr_type_deduct['pf_loan_type'] = $emp_pay_st->pf_loan_type;
+                                          
+                                          }if ($emp_pay_st->esi != '') {
+                                              $arr_name_deduct[] = 'esi';
+                                              $arr_value_deduct['esi'] = $emp_pay_st->esi;
+                                              $arr_type_deduct['esi_type'] = $emp_pay_st->esi_type;
+                                          
+                                          }if ($emp_pay_st->adv != '') {
+                                              $arr_name_deduct[] = 'adv';
+                                              $arr_value_deduct['adv'] = $emp_pay_st->adv;
+                                              $arr_type_deduct['adv_type'] = $emp_pay_st->adv_type;
+                                          
+                                          }if ($emp_pay_st->hrd != '') {
+                                              $arr_name_deduct[] = 'hrd';
+                                              $arr_value_deduct['hrd'] = $emp_pay_st->hrd;
+                                              $arr_type_deduct['hrd_type'] = $emp_pay_st->hrd_type;
+                                          
+                                          }if ($emp_pay_st->co_op != '') {
+                                              $arr_name_deduct[] = 'co_op';
+                                              $arr_value_deduct['co_op'] = $emp_pay_st->co_op;
+                                              $arr_type_deduct['co_op_type'] = $emp_pay_st->co_op_type;
+                                          
+                                          }
+                                          if ($emp_pay_st->furniture != '') {
+                                              $arr_name_deduct[] = 'furniture';
+                                              $arr_value_deduct['furniture'] = $emp_pay_st->furniture;
+                                              $arr_type_deduct['furniture_type'] = $emp_pay_st->furniture_type;
+                                          
+                                          }
+                                          if ($emp_pay_st->pf_employerc != '') {
+                                              $arr_name_deduct[] = 'pf_employerc';
+                                              $arr_value_deduct['pf_employerc'] = $emp_pay_st->pf_employerc;
+                                              $arr_type_deduct['pf_employerc_type'] = $emp_pay_st->pf_employerc_type;
+                                          
+                                          }
+                                          if ($emp_pay_st->misc_ded != '') {
+                                              $arr_name_deduct[] = 'misc_ded';
+                                              $arr_value_deduct['misc_ded'] = $emp_pay_st->misc_ded;
+                                              $arr_type_deduct['misc_ded_type'] = $emp_pay_st->misc_ded_type;
+                                          
+                                          }
+                                          
+                                          ?>
+                                          
+                                                        <tbody id="marksheetearn">
+                                                        <?php $tr_id = 0;?>
+                                                        
+                                                        @if(count($arr_name)!=0)
+                                                           @foreach($arr_name as $valearn)
+                                                          <tr class="itemslotpayearn" id="<?php echo $tr_id; ?>">
+                                                                              <td><?php echo ($tr_id + 1); ?></td>
+                                                                              <td>
+                                          
+                                                                     <select class="form-control earninigcls" name="name_earn[]" id="name_earn<?php echo $tr_id; ?>" onchange="checkearntype(this.value,<?php echo $tr_id; ?>);">
+                                          
+                                                                     <option value='' selected>Select</option>
+                                                                     <?php
+                                          $name = '';
+                                          ?>
+                                          @foreach($rate_master as $value)
+                                          <?php
+                                          if ($value->id == '1') {
+                                              $name = 'da';
+                                          } else if ($value->id == '2') {
+                                              $name = 'vda';
+                                          } else if ($value->id == '3') {
+                                              $name = 'hra';
+                                          } else if ($value->id == '4') {
+                                              $name = 'prof_tax';
+                                          } else if ($value->id == '5') {
+                                              $name = 'others_alw';
+                                          } else if ($value->id == '6') {
+                                              $name = 'tiff_alw';
+                                          } else if ($value->id == '7') {
+                                              $name = 'conv';
+                                          } else if ($value->id == '8') {
+                                              $name = 'medical';
+                                          } else if ($value->id == '9') {
+                                              $name = 'misc_alw';
+                                          } else if ($value->id == '10') {
+                                              $name = 'over_time';
+                                          } else if ($value->id == '11') {
+                                              $name = 'bouns';
+                                          } else if ($value->id == '12') {
+                                              $name = 'leave_inc';
+                                          } else if ($value->id == '13') {
+                                              $name = 'hta';
+                                          } else if ($value->id == '14') {
+                                              $name = 'tot_inc';
+                                          } else if ($value->id == '15') {
+                                              $name = 'pf';
+                                          } else if ($value->id == '16') {
+                                              $name = 'pf_int';
+                                          } else if ($value->id == '17') {
+                                              $name = 'apf';
+                                          } else if ($value->id == '18') {
+                                              $name = 'i_tax';
+                                          } else if ($value->id == '19') {
+                                              $name = 'insu_prem';
+                                          } else if ($value->id == '20') {
+                                              $name = 'pf_loan';
+                                          } else if ($value->id == '21') {
+                                              $name = 'esi';
+                                          } else if ($value->id == '22') {
+                                              $name = 'adv';
+                                          } else if ($value->id == '23') {
+                                              $name = 'hrd';
+                                          } else if ($value->id == '24') {
+                                              $name = 'co_op';
+                                          } else if ($value->id == '25') {
+                                              $name = 'furniture';
+                                          } else if ($value->id == '26') {
+                                              $name = 'misc_ded';
+                                          } else if ($value->id == '27') {
+                                              $name = 'tot_ded';
+                                          
+                                          } else if ($value->id == '29') {
+                                              $name = 'pf_employerc';
+                                          }
+                                          ?>
+                                                   @if($value->head_type == 'earning')
+                                                                     <option value='{{$name}}' @if($name== $valearn) selected @endif>{{ $value->head_name }}</option>
+                                                                     @endif
+                                                                     @endforeach
+                                                                     </select>
+                                          
+                                                                  </td>
+                                                                              <td><select class="form-control" name="head_type[]" id="head_type<?php echo $tr_id; ?>" onchange="checkearnvalue(this.value,<?php echo $tr_id; ?>);">
+                                          
+                                                                     <option value='' selected>Select</option>
+                                                                     <option value='F' @if( $arr_type[$valearn.'_type']== 'F') selected @endif>Fixed</option>
+                                                                     <option value='V' @if( $arr_type[$valearn.'_type']== 'V') selected @endif>Variable</option>
+                                                                     </select>
+                                                                     </td>
+                                                                              <td><input type="text" name="value[]" @if( $arr_type[$valearn.'_type']== 'F') readonly @endif  id="value<?php echo $tr_id; ?>" value="{{$arr_value[$valearn]}}" class="form-control"></td>
+                                          
+                                                                     <td>
+                                                                     @if(($tr_id+1)==count($arr_name))
+                                                                     <button class="btn-success" type="button" id="addearn<?php echo ($tr_id + 1); ?>" onClick="addnewrowearn(<?php echo ($tr_id + 1); ?>)" data-id="earn<?php echo ($tr_id + 1); ?>"> <i class="ti-plus"></i> </button>
+                                                                  @endif
+                                                                    <button class="btn-danger deleteButtonearnedit" style="background-color:#E70B0E; border-color:#E70B0E;" type="button" id="delearnedit<?php echo $tr_id; ?>"  onClick="delRowearnedit(<?php echo $tr_id; ?>)"> <i class="ti-minus"></i> </button></td>
+                                          
+                                                                  </td>
+                                                                          </tr>
+                                                                  <?php $tr_id++;?>
+                                                                  @endforeach
+                                          
+                                                        @else
+                                          
+                                                                          <tr class="itemslotpayearn" id="<?php echo $tr_id; ?>">
+                                                                              <td>1</td>
+                                                                              <td>
+                                          
+                                                                     <select class="form-control earninigcls" name="name_earn[]" id="name_earn<?php echo $tr_id; ?>" onchange="checkearntype(this.value,<?php echo $tr_id; ?>);">
+                                          
+                                                                     <option value='' selected>Select</option>
+                                                                     <?php
+                                          $name = '';
+                                          ?>
+                                          @foreach($rate_master as $value)
+                                          <?php
+                                          if ($value->id == '1') {
+                                              $name = 'da';
+                                          } else if ($value->id == '2') {
+                                              $name = 'vda';
+                                          } else if ($value->id == '3') {
+                                              $name = 'hra';
+                                          } else if ($value->id == '4') {
+                                              $name = 'prof_tax';
+                                          } else if ($value->id == '5') {
+                                              $name = 'others_alw';
+                                          } else if ($value->id == '6') {
+                                              $name = 'tiff_alw';
+                                          } else if ($value->id == '7') {
+                                              $name = 'conv';
+                                          } else if ($value->id == '8') {
+                                              $name = 'medical';
+                                          } else if ($value->id == '9') {
+                                              $name = 'misc_alw';
+                                          } else if ($value->id == '10') {
+                                              $name = 'over_time';
+                                          } else if ($value->id == '11') {
+                                              $name = 'bouns';
+                                          } else if ($value->id == '12') {
+                                              $name = 'leave_inc';
+                                          } else if ($value->id == '13') {
+                                              $name = 'hta';
+                                          } else if ($value->id == '14') {
+                                              $name = 'tot_inc';
+                                          } else if ($value->id == '15') {
+                                              $name = 'pf';
+                                          } else if ($value->id == '16') {
+                                              $name = 'pf_int';
+                                          } else if ($value->id == '17') {
+                                              $name = 'apf';
+                                          } else if ($value->id == '18') {
+                                              $name = 'i_tax';
+                                          } else if ($value->id == '19') {
+                                              $name = 'insu_prem';
+                                          } else if ($value->id == '20') {
+                                              $name = 'pf_loan';
+                                          } else if ($value->id == '21') {
+                                              $name = 'esi';
+                                          } else if ($value->id == '22') {
+                                              $name = 'adv';
+                                          } else if ($value->id == '23') {
+                                              $name = 'hrd';
+                                          } else if ($value->id == '24') {
+                                              $name = 'co_op';
+                                          } else if ($value->id == '25') {
+                                              $name = 'furniture';
+                                          } else if ($value->id == '26') {
+                                              $name = 'misc_ded';
+                                          } else if ($value->id == '27') {
+                                              $name = 'tot_ded';
+                                          
+                                          } else if ($value->id == '29') {
+                                              $name = 'pf_employerc';
+                                          }
+                                          ?>
+                                                   @if($value->head_type == 'earning')
+                                                                     <option value='{{$name}}'>{{ $value->head_name }}</option>
+                                                                     @endif
+                                                                     @endforeach
+                                                                     </select>
+                                          
+                                                                  </td>
+                                                                              <td><select class="form-control" name="head_type[]" id="head_type<?php echo $tr_id; ?>" onchange="checkearnvalue(this.value,<?php echo $tr_id; ?>);">
+                                          
+                                                                     <option value='' selected>Select</option>
+                                                                     <option value='F'>Fixed</option>
+                                                                     <option value='V'>Variable</option>
+                                                                     </select>
+                                                                     </td>
+                                                                              <td><input type="text" name="value[]"  id="value<?php echo $tr_id; ?>" class="form-control"></td>
+                                          
+                                                                     <td><button class="btn-success" type="button" id="addearn<?php echo ($tr_id + 1); ?>" onClick="addnewrowearn(<?php echo ($tr_id + 1); ?>)" data-id="earn<?php echo ($tr_id + 1); ?>"> <i class="ti-plus"></i> </button></td>
+                                                                          </tr>
+                                                        @endif
+                                          
+                                                                  </tbody>
+                                                                  </table>
                                              </div>
                                              <!-- </div> -->
                                              <h3 class="ad">Deduction</h3>
@@ -1395,93 +1649,208 @@
                                                          <th>Head Name</th>
                                                          <th>Head Type</th>
                                                          <th>Value</th>
+                                       
+                                       
                                                       </tr>
                                                    </thead>
-                                                   <tbody id="marksheetdeduct">
-                                                      <tr class="itemslotpaydeduct" id="0">
-                                                         <td>1</td>
-                                                         <td>
-                                                            {{-- <select class="form-control deductcls" name="name_deduct[]" id="name_deduct0" onchange="checkdeducttype(this.value,0);">
-                                                               <option value='' selected>Select</option>
-                                                               <?php
-                                                                  $name = '';
-                                                                  ?>
-                                                               @foreach($DEDUCATION as $value)
-                                                               <?php
-                                                                  if ($value->id == '1') {
-                                                                     $name = 'da';
-                                                                  } else if ($value->id == '2') {
-                                                                     $name = 'vda';
-                                                                  } else if ($value->id == '3') {
-                                                                     $name = 'hra';
-                                                                  } else if ($value->id == '4') {
-                                                                     $name = 'prof_tax';
-                                                                  } else if ($value->id == '5') {
-                                                                     $name = 'others_alw';
-                                                                  } else if ($value->id == '6') {
-                                                                     $name = 'tiff_alw';
-                                                                  } else if ($value->id == '7') {
-                                                                     $name = 'conv';
-                                                                  } else if ($value->id == '8') {
-                                                                     $name = 'medical';
-                                                                  } else if ($value->id == '9') {
-                                                                     $name = 'misc_alw';
-                                                                  } else if ($value->id == '10') {
-                                                                     $name = 'over_time';
-                                                                  } else if ($value->id == '11') {
-                                                                     $name = 'bouns';
-                                                                  } else if ($value->id == '12') {
-                                                                     $name = 'leave_inc';
-                                                                  } else if ($value->id == '13') {
-                                                                     $name = 'hta';
-                                                                  } else if ($value->id == '14') {
-                                                                     $name = 'tot_inc';
-                                                                  } else if ($value->id == '15') {
-                                                                     $name = 'pf';
-                                                                  } else if ($value->id == '16') {
-                                                                     $name = 'pf_int';
-                                                                  } else if ($value->id == '17') {
-                                                                     $name = 'apf';
-                                                                  } else if ($value->id == '18') {
-                                                                     $name = 'i_tax';
-                                                                  } else if ($value->id == '19') {
-                                                                     $name = 'insu_prem';
-                                                                  } else if ($value->id == '20') {
-                                                                     $name = 'pf_loan';
-                                                                  } else if ($value->id == '21') {
-                                                                     $name = 'esi';
-                                                                  } else if ($value->id == '22') {
-                                                                     $name = 'adv';
-                                                                  } else if ($value->id == '23') {
-                                                                     $name = 'hrd';
-                                                                  } else if ($value->id == '24') {
-                                                                     $name = 'co_op';
-                                                                  } else if ($value->id == '25') {
-                                                                     $name = 'furniture';
-                                                                  } else if ($value->id == '26') {
-                                                                     $name = 'misc_ded';
-                                                                  } else if ($value->id == '27') {
-                                                                     $name = 'tot_ded';
-                                                                  }
-                                                                  ?>
-                                                               @if($value->head_type == 'deduction')
-                                                               <option value='{{$name}}'>{{ $value->head_name }}</option>
+                                                     <tbody id="marksheetdeduct">
+                                                     <?php $tr_id = 0;?>
+                                                      @if(count($arr_name_deduct)!=0)
+                                                        @foreach($arr_name_deduct as $valdeduct)
+                                                       <tr class="itemslotpaydeduct" id="<?php echo $tr_id; ?>">
+                                                                           <td><?php echo ($tr_id + 1); ?></td>
+                                                                           <td>
+                                       
+                                                                  <select class="form-control deductcls" name="name_deduct[]" id="name_deduct<?php echo $tr_id; ?>" onchange="checkdeducttype(this.value,<?php echo $tr_id; ?>);">
+                                       
+                                                                  <option value='' selected>Select</option>
+                                                                  <?php
+                                       $name = '';
+                                       ?>
+                                       @foreach($rate_master as $value)
+                                       <?php
+                                       if ($value->id == '1') {
+                                           $name = 'da';
+                                       } else if ($value->id == '2') {
+                                           $name = 'vda';
+                                       } else if ($value->id == '3') {
+                                           $name = 'hra';
+                                       } else if ($value->id == '4') {
+                                           $name = 'prof_tax';
+                                       } else if ($value->id == '5') {
+                                           $name = 'others_alw';
+                                       } else if ($value->id == '6') {
+                                           $name = 'tiff_alw';
+                                       } else if ($value->id == '7') {
+                                           $name = 'conv';
+                                       } else if ($value->id == '8') {
+                                           $name = 'medical';
+                                       } else if ($value->id == '9') {
+                                           $name = 'misc_alw';
+                                       } else if ($value->id == '10') {
+                                           $name = 'over_time';
+                                       } else if ($value->id == '11') {
+                                           $name = 'bouns';
+                                       } else if ($value->id == '12') {
+                                           $name = 'leave_inc';
+                                       } else if ($value->id == '13') {
+                                           $name = 'hta';
+                                       } else if ($value->id == '14') {
+                                           $name = 'tot_inc';
+                                       } else if ($value->id == '15') {
+                                           $name = 'pf';
+                                       } else if ($value->id == '16') {
+                                           $name = 'pf_int';
+                                       } else if ($value->id == '17') {
+                                           $name = 'apf';
+                                       } else if ($value->id == '18') {
+                                           $name = 'i_tax';
+                                       } else if ($value->id == '19') {
+                                           $name = 'insu_prem';
+                                       } else if ($value->id == '20') {
+                                           $name = 'pf_loan';
+                                       } else if ($value->id == '21') {
+                                           $name = 'esi';
+                                       } else if ($value->id == '22') {
+                                           $name = 'adv';
+                                       } else if ($value->id == '23') {
+                                           $name = 'hrd';
+                                       } else if ($value->id == '24') {
+                                           $name = 'co_op';
+                                       } else if ($value->id == '25') {
+                                           $name = 'furniture';
+                                       } else if ($value->id == '26') {
+                                           $name = 'misc_ded';
+                                       } else if ($value->id == '27') {
+                                           $name = 'tot_ded';
+                                       
+                                       } else if ($value->id == '29') {
+                                           $name = 'pf_employerc';
+                                       }
+                                       ?>
+                                                @if($value->head_type == 'deduction')
+                                                                  <option value='{{$name}}' @if($name== $valdeduct) selected @endif>{{ $value->head_name }}</option>
+                                                                  @endif
+                                                                  @endforeach
+                                                                  </select>
+                                       
+                                                               </td>
+                                                                           <td><select class="form-control " name="head_typededuct[]" id="head_typededuct<?php echo $tr_id; ?>" onchange="checkdeductvalue(this.value,<?php echo $tr_id; ?>);">
+                                       
+                                                                  <option value='' selected>Select</option>
+                                                                  <option value='F'  @if( $arr_type_deduct[$valdeduct.'_type']== 'F') selected @endif>Fixed</option>
+                                                                  <option value='V' @if( $arr_type_deduct[$valdeduct.'_type']== 'V') selected @endif>Variable</option>
+                                                                  </select>
+                                                                  </td>
+                                                                           <td><input type="text" name="valuededuct[]" value="{{$arr_value_deduct[$valdeduct]}}" @if( $arr_type_deduct[$valdeduct.'_type']== 'F') readonly @endif  id="valuededuct<?php echo $tr_id; ?>" class="form-control"></td>
+                                       
+                                                                  <td>
+                                                                  @if(($tr_id+1)==count($arr_name_deduct))
+                                                                  <button class="btn-success" type="button" id="adddeduct<?php echo ($tr_id + 1); ?>" onClick="addnewrowdeduct(<?php echo ($tr_id + 1); ?>)" data-id="deduct<?php echo ($tr_id + 1); ?>"> <i class="ti-plus"></i> </button>
                                                                @endif
-                                                               @endforeach
-                                                            </select> --}}
-                                                         </td>
-                                                         <td>
-                                                            <select class="form-control" name="head_typededuct[]" id="head_typededuct0" onchange="checkdeductvalue(this.value,0);">
-                                                               <option value='' selected>Select</option>
-                                                               <option value='F'>Fixed</option>
-                                                               <option value='V'>Variable</option>
-                                                            </select>
-                                                         </td>
-                                                         <td><input type="text" name="valuededuct[]"  id="valuededuct0" class="form-control"></td>
-                                                         <td><button class="btn-success" type="button" id="adddeduct1" onClick="addnewrowdeduct(1)" data-id="deduct1"> <i class="fas fa-plus"></i> </button></td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
+                                                                <button class="btn-danger deleteButtondeductedit" style="background-color:#E70B0E; border-color:#E70B0E;" type="button" id="deldeductedit<?php echo $tr_id; ?>"  onClick="delRowdeductedit(<?php echo $tr_id; ?>)"> <i class="ti-minus"></i> </button></td>
+                                       
+                                                               </td>
+                                                               <?php $tr_id++;?>
+                                                                       </tr>
+                                       
+                                                     @endforeach
+                                                     @else
+                                                                       <tr class="itemslotpaydeduct" id="<?php echo $tr_id; ?>">
+                                                                           <td>1</td>
+                                                                           <td>
+                                       
+                                                                  <select class="form-control deductcls" name="name_deduct[]" id="name_deduct<?php echo $tr_id; ?>" onchange="checkdeducttype(this.value,<?php echo $tr_id; ?>);">
+                                       
+                                                                  <option value='' selected>Select</option>
+                                                                  <?php
+                                       $name = '';
+                                       ?>
+                                      
+                                       @foreach($rate_masterss as $value)
+                                       <?php
+                                       if ($value->id == '1') {
+                                           $name = 'da';
+                                       } else if ($value->id == '2') {
+                                           $name = 'vda';
+                                       } else if ($value->id == '3') {
+                                           $name = 'hra';
+                                       } else if ($value->id == '4') {
+                                           $name = 'prof_tax';
+                                       } else if ($value->id == '5') {
+                                           $name = 'others_alw';
+                                       } else if ($value->id == '6') {
+                                           $name = 'tiff_alw';
+                                       } else if ($value->id == '7') {
+                                           $name = 'conv';
+                                       } else if ($value->id == '8') {
+                                           $name = 'medical';
+                                       } else if ($value->id == '9') {
+                                           $name = 'misc_alw';
+                                       } else if ($value->id == '10') {
+                                           $name = 'over_time';
+                                       } else if ($value->id == '11') {
+                                           $name = 'bouns';
+                                       } else if ($value->id == '12') {
+                                           $name = 'leave_inc';
+                                       } else if ($value->id == '13') {
+                                           $name = 'hta';
+                                       } else if ($value->id == '14') {
+                                           $name = 'tot_inc';
+                                       } else if ($value->id == '15') {
+                                           $name = 'pf';
+                                       } else if ($value->id == '16') {
+                                           $name = 'pf_int';
+                                       } else if ($value->id == '17') {
+                                           $name = 'apf';
+                                       } else if ($value->id == '18') {
+                                           $name = 'i_tax';
+                                       } else if ($value->id == '19') {
+                                           $name = 'insu_prem';
+                                       } else if ($value->id == '20') {
+                                           $name = 'pf_loan';
+                                       } else if ($value->id == '21') {
+                                           $name = 'esi';
+                                       } else if ($value->id == '22') {
+                                           $name = 'adv';
+                                       } else if ($value->id == '23') {
+                                           $name = 'hrd';
+                                       } else if ($value->id == '24') {
+                                           $name = 'co_op';
+                                       } else if ($value->id == '25') {
+                                           $name = 'furniture';
+                                       } else if ($value->id == '26') {
+                                           $name = 'misc_ded';
+                                       } else if ($value->id == '27') {
+                                           $name = 'tot_ded';
+                                       
+                                       } else if ($value->id == '29') {
+                                           $name = 'pf_employerc';
+                                       }
+                                       ?>
+                                   
+                                                @if($value->head_type == 'deduction')
+                                               
+                                                                  <option value='{{$name}}'>{{ $value->head_name }}</option>
+                                                                  @endif
+                                                                  @endforeach
+                                                                  </select>
+                                       
+                                                               </td>
+                                                                           <td><select class="form-control" name="head_typededuct[]" id="head_typededuct<?php echo $tr_id; ?>" onchange="checkdeductvalue(this.value,<?php echo $tr_id; ?>);">
+                                       
+                                                                  <option value='' selected>Select</option>
+                                                                  <option value='F'>Fixed</option>
+                                                                  <option value='V'>Variable</option>
+                                                                  </select>
+                                                                  </td>
+                                                                           <td><input type="text" name="valuededuct[]"  id="valuededuct<?php echo $tr_id; ?>" class="form-control"></td>
+                                       
+                                                                  <td><button class="btn-success" type="button" id="adddeduct<?php echo ($tr_id + 1); ?>" onClick="addnewrowdeduct(<?php echo ($tr_id + 1); ?>)" data-id="deduct<?php echo ($tr_id + 1); ?>"> <i class="ti-plus"></i> </button></td>
+                                                                       </tr>
+                                                               @endif
+                                                               </tbody>
+                                                               </table>
                                              </div>
                                             
                                           </div>
