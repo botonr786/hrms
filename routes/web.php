@@ -2653,7 +2653,7 @@ Route::get('leaveapprovedashboard', 'App\Http\Controllers\LeaveApproverControlle
 
 Route::get('leave-approver/leave-request', 'App\Http\Controllers\LeaveApproverController@viewLeaveApproved');
 
-Route::get('leave-approver/leave-approved-right', 'App\Http\Controllers\LeaveApproverController@ViewLeavePermission');
+Route::get('leave-approver/leave-approved-right/{id}', 'App\Http\Controllers\LeaveApproverController@ViewLeavePermission');
 Route::post('leave-approver/leave-approved-right', 'App\Http\Controllers\LeaveApproverController@SaveLeavePermission');
 
 Route::get('settings/get-add-row-item/{row}', function ($row) {
@@ -4076,18 +4076,11 @@ Route::get('pis/getEmployeedailyattandeaneshightById/{empid}', function ($empid)
         ->where('email', '=', $email)
         ->first();
 
-    $employee_desigrs = DB::table('designation')
-        ->where('id', '=', $empid)
-        ->where('emid', '=', $Roledata->reg)
-        ->first();
-    $employee_depers = DB::table('department')
-        ->where('id', '=', $employee_desigrs->department_code)
-        ->where('emid', '=', $Roledata->reg)
-        ->first();
+   
     $employee_rs = DB::table('employee')
 
-        ->where('emp_designation', '=', $employee_desigrs->designation_name)
-        ->where('emp_department', '=', $employee_depers->department_name)
+        ->where('designation', '=', $empid)
+       
         ->where('emid', '=', $Roledata->reg)
         ->where(function ($query) {
 
@@ -4095,6 +4088,7 @@ Route::get('pis/getEmployeedailyattandeaneshightById/{empid}', function ($empid)
                 ->orWhere('employee.emp_status', '!=', 'LEFT');
         })
         ->get();
+       
     $result = '';
     $result_status1 = "  <option value=''>Select</option>
 	<option value=''>All</option>";
@@ -4304,12 +4298,14 @@ Route::get('rotadashboard', 'App\Http\Controllers\RotaController@viewdash');
 Route::get('rota/shift-management', 'App\Http\Controllers\RotaController@viewshift');
 Route::get('rota/add-shift-management', 'App\Http\Controllers\RotaController@viewAddNewShift');
 Route::post('rota/add-shift-management', 'App\Http\Controllers\RotaController@saveShiftData');
+Route::get('rota/add-shift-management-desi/{designition}', 'App\Http\Controllers\RotaController@saveShiftData');
+
 Route::get('rota/visitor-link', 'App\Http\Controllers\RotaController@viewvisitorlink');
 Route::get('rota/visitor-regis', 'App\Http\Controllers\RotaController@viewvisitorregis');
 
 Route::get('rota/late-policy', 'App\Http\Controllers\RotaController@viewlate');
 Route::get('rota/add-late-policy', 'App\Http\Controllers\RotaController@viewAddNewlate');
-Route::post('rota/add-late-policy', 'RotaController@savelateData');
+Route::post('rota/add-late-policy', 'App\Http\Controllers\RotaController@savelateData');
 
 Route::get('visitor/{career_id}', 'App\Http\Controllers\RotaController@viewvis');
 
@@ -4348,14 +4344,16 @@ Route::get('pis/getEmployeedailyattandeaneshightdutyById/{empid}', function ($em
         ->where('id', '=', $empid)
         ->where('emid', '=', $Roledata->reg)
         ->first();
+        $designation_name=$employee_desigrs->designation_name;
     $employee_depers = DB::table('department')
         ->where('id', '=', $employee_desigrs->department_code)
         ->where('emid', '=', $Roledata->reg)
         ->first();
+       
     $employee_rs = DB::table('employee')
 
-        ->where('emp_designation', '=', $employee_desigrs->designation_name)
-        ->where('emp_department', '=', $employee_depers->department_name)
+        ->where('designation', '=',$designation_name)
+        ->where('department', '=', $employee_depers->department_name)
         ->where('emid', '=', $Roledata->reg)
         ->get();
     $result = '';
@@ -4370,6 +4368,7 @@ Route::get('pis/getEmployeedailyattandeaneshightdutyById/{empid}', function ($em
 });
 
 Route::get('pis/getEmployeedesigBydutytshiftId/{empid}', function ($empid) {
+   
     $email = Session::get('emp_email');
     $Roledata = DB::table('registration')
 
@@ -4381,10 +4380,12 @@ Route::get('pis/getEmployeedesigBydutytshiftId/{empid}', function ($empid) {
         ->where('designation', '=', $empid)
         ->where('emid', '=', $Roledata->reg)
         ->get();
+       
     $result = '';
     $result_status1 = "";
     $du = 1;
     foreach ($employee_rs as $bank) {
+        
         if ($du == '1') {
             $chedu = 'checked';
         } else {
@@ -4397,11 +4398,8 @@ Route::get('pis/getEmployeedesigBydutytshiftId/{empid}', function ($empid) {
 										 </div>	';
         $du++;
     }
-
     echo $result_status1;
-
 });
-
 Route::get('role/get-employee-all-details-shift/{empid}', function ($empid) {
     $email = Session::get('emp_email');
     $Roledata = DB::table('registration')

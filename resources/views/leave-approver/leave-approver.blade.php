@@ -137,7 +137,7 @@ $pemail = Session::get('emp_email');
 												
                                                 <tr>
                                                     <td class="serial" style="text-align:center;">{{$loop->iteration}}</td>
-													   <td style="text-align:center;">{{isset($job_details->emp_status)?$job_details->emp_status:''}}</td>
+													   <td style="text-align:center;">{{$lvapply->employeetype}}</td>
                                                     <td style="text-align:center;">{{$lvapply->employee_id}}</td>
                                                     <td style="text-align:center;"><span class="name">{{$job_details->emp_fname}} {{$job_details->emp_mname}} {{$job_details->emp_lname}}</span></td>
                                                     <td style="text-align:center;"><span class="product">{{$lvapply->leave_type_name}}</span></td>
@@ -183,7 +183,7 @@ $pemail = Session::get('emp_email');
                                                       @if(Session::get('user_type')=='employee')
 														   <td>
 														   @if($lvapply->status=='RECOMMENDED' || $lvapply->status=='NOT APPROVED')
-                                                        <a href="{{url('leave-approver/leave-approved-right')}}?id={{base64_encode($lvapply->id)}}&empid={{base64_encode($lvapply->employee_id)}}"><img  style="width: 30px;" src="{{ asset('assets/img/edit.png')}}"></a>
+                                                        <a href="{{url('leave-approver/leave-approved-right/'.$lvapply->id)}}"><img  style="width: 30px;" src="{{ asset('assets/img/edit.png')}}"></a>
                                                         @endif
 														</td>
 														  @endif

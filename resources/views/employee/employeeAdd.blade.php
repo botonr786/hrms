@@ -1763,16 +1763,13 @@
          
          function deptFunc($id){
            var deiId= $('#deptid option:selected').text();
-           console.log(deiId)
+         
            $.ajax({
               url:"{{url('employee/department-name')}}"+'/'+deiId,
          		type: "GET",
          
          		success: function(response) {
                   document.getElementById("rate_id").innerHTML = response;
-         			// console.log(response);
-                  // $("#des").append(response)
-                 
          		}
          	});
          }

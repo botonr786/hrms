@@ -45,24 +45,23 @@
                         <a href="#">
                            @if(Session::get('admin_userp_user_type')=='user')
                            <?php
-                              $email = Session::get('emp_email'); 
-                              $Roledata = DB::table('registration')      
-                                         ->where('status', '=', 'active')
-                                          ->where('email','=',$email) 
-                                          ->first();
-                                          ?>
+                           $email = Session::get("emp_email");
+                           $Roledata = DB::table("registration")
+                               ->where("status", "=", "active")
+                               ->where("email", "=", $email)
+                               ->first();
+                           ?>
                            <h3>{{$Roledata->f_name }} {{$Roledata->l_name }}</h3>
                            <p>{{$email }}</p>
                            <p>{{$Roledata->p_no }}</p>
                            @elseif(Session::get('user_type')=='employer')
                            <?php
-                              $email = Session::get('emp_email'); 
-                              $Roledata = DB::table('registration')      
-                                          ->where('status', '=', 'active')
-                                           ->where('email','=',$email) 
-                                           ->first();
-                              
-                                           ?>
+                           $email = Session::get("emp_email");
+                           $Roledata = DB::table("registration")
+                               ->where("status", "=", "active")
+                               ->where("email", "=", $email)
+                               ->first();
+                           ?>
                            <h3>{{$Roledata->f_name }} {{$Roledata->l_name }}</h3>
                            <p>{{$email }}</p>
                            <p>{{$Roledata->p_no }}</p>
@@ -86,57 +85,52 @@
       <div class="dash-body">
          <div class="container-fluid">
             <div class="row">
-               <?php //dd(Session::get('user_type')); ?>
+               <?php
+//dd(Session::get('user_type'));
+?>
                @if(Session::get('user_type')=='employee')
                <?php
-                  $member_id = Session::get('user_email'); 
-                  $member = Session::get('admin_userpp_member');
-                  
-                  //  dd($member);Session::put("employee_id", $request->employee_id);
-                         $Roles_auth=DB::table('role_authorization_admin_emp')->where('member_id','=',$member)->get();
-                  
-                  	$arrrole=array();
-                  	foreach($Roles_auth as $valrol){
-                  		$arrrole[]=$valrol->module_name;
-                  	}
-                  
-                  
-                  	$Roles_auth_employee=DB::table('role_authorization')->where('member_id','=', $member_id)->get();
-                  	// dd($Roles_auth_employee);
-                  	$arrrole_emp=array();
-                  	foreach($Roles_auth_employee as $valrol){
-                  		$arrrole_emp[]=$valrol->module_name;
-                  	}
-                  
-                  
-                  
-                  
-                  $emaiggl = Session::get('emp_email'); 
-                  
-                  		 $Roledataemil = DB::table('registration')      
-                                 
-                                  ->where('email','=',$emaiggl) 
-                                  ->where('status','=','active') 
-                                  ->first();
-                  
-                  		//   dd($Roledataemil);
-                  ?>
+               $member_id = Session::get("user_email");
+               $member = Session::get("admin_userpp_member");
+
+               //  dd($member);Session::put("employee_id", $request->employee_id);
+               $Roles_auth = DB::table("role_authorization_admin_emp")
+                   ->where("member_id", "=", $member)
+                   ->get();
+
+               $arrrole = [];
+               foreach ($Roles_auth as $valrol) {
+                   $arrrole[] = $valrol->module_name;
+               }
+
+               $Roles_auth_employee = DB::table("role_authorization")
+                   ->where("member_id", "=", $member_id)
+                   ->get();
+               // dd($Roles_auth_employee);
+               $arrrole_emp = [];
+               foreach ($Roles_auth_employee as $valrol) {
+                   $arrrole_emp[] = $valrol->module_name;
+               }
+               // dd($arrrole_emp);die;
+
+               $emaiggl = Session::get("emp_email");
+
+               $Roledataemil = DB::table("registration")
+
+                   ->where("email", "=", $emaiggl)
+                   ->where("status", "=", "active")
+                   ->first();
+
+//   dd($Roledataemil);
+?>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('8',$arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("8", $arrrole)) { ?>
                   <a href="{{url('companydashboard')}}">
-                  <?php
-                     }elseif(in_array('8',$arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("8", $arrrole_emp)) { ?>
                   <a href="{{url('companydashboard')}}">
-                  <?php } else{ ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/company.png')}}" alt="" style="width:50px;">
@@ -146,24 +140,22 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved"){ 
-                     if(in_array('7', $arrrole))
-                     {  ?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if ($Roledataemil->verify == "approved") {
+                          if (in_array("7", $arrrole)) { ?>
                   <a href="{{url('settingdashboard')}}">
-                  <?php
-                     }elseif(in_array('7', $arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("7", $arrrole_emp)) { ?>
                   <a href="{{url('settingdashboard')}}">
-                  <?php }else {?>
+                  <?php } else { ?>
                   <a href="#">
+                  <?php } ?>
                   <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                      } else {
+                           ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php
+                      }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/settings.png')}}" alt="" style="width:50px;">
@@ -173,24 +165,19 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved"){ ?>
-                  <?php 
-                     if(in_array('2', $arrrole))
-                     { ?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if ($Roledataemil->verify == "approved") { ?>
+                  <?php if (in_array("2", $arrrole)) { ?>
                   <a href="{{url('recruitmentdashboard')}}">
-                  <?php
-                     }elseif(in_array('2',$arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("2", $arrrole_emp)) { ?>
                   <a href="{{url('recruitmentdashboard')}}">
                   <?php } else { ?>
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/recruitment.png')}}" alt="" width="50">
@@ -200,26 +187,19 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved"){ ?>
-                  <?php 
-                     if(in_array('1',$arrrole_emp))
-                     {
-                     	
-                     	?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if ($Roledataemil->verify == "approved") { ?>
+                  <?php if (in_array("1", $arrrole_emp)) { ?>
                   <a href="{{url('employee/dashboard')}}">
-                  <?php
-                     }elseif(in_array('1',$arrrole)){
-                     	?>
+                  <?php } elseif (in_array("1", $arrrole)) { ?>
                   <a href="{{url('employee/dashboard')}}">
                   <?php } else { ?>  
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/employee.png')}}" alt="" style="width:50px;">
@@ -229,22 +209,19 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved"){ ?>
-                  <?php 
-                     if(in_array('10', $arrrole))
-                     { ?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if ($Roledataemil->verify == "approved") { ?>
+                  <?php if (in_array("10", $arrrole)) { ?>
                   <a href="{{url('useraccessdashboard')}}">
-                  <?php
-                     }elseif(in_array('10', $arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("10", $arrrole_emp)) { ?>
                   <a href="{{url('useraccessdashboard')}}">
-                  <?php }else{ ?>
+                  <?php } else { ?>
                   <a href="#">
                   <?php } ?>
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/user-access.png')}}" alt="" style="width:50px;">
@@ -254,26 +231,22 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved" && $Roledataemil->licence == "yes"){ ?>
-                  <?php 
-                     if(in_array('11', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if (
+                          $Roledataemil->verify == "approved" &&
+                          $Roledataemil->licence == "yes"
+                      ) { ?>
+                  <?php if (in_array("11", $arrrole)) { ?>
                   <a href="{{url('organogramdashboard')}}">
-                  <?php
-                     }elseif(in_array('11', $arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("11", $arrrole_emp)) { ?>
                   <a href="{{url('organogramdashboard')}}">
                   <?php } else { ?>
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/chart.png')}}" alt="" style="width:50px;">
@@ -283,27 +256,24 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php //if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved" && $Roledataemil->licence == "yes"){ ?>
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved"){ ?>
-                  <?php 
-                     if(in_array('4', $arrrole))
-                     {
-                     	
-                     	?>
-                  <a href="{{url('holidaydashboard')}}">
                   <?php
-                     }elseif(in_array('4', $arrrole_emp)){
-                     	?>
+//if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved" && $Roledataemil->licence == "yes"){
+?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if ($Roledataemil->verify == "approved") { ?>
+                  <?php if (in_array("4", $arrrole)) { ?>
                   <a href="{{url('holidaydashboard')}}">
-                  <?php }else ?>
+                  <?php } elseif (in_array("4", $arrrole_emp)) { ?>
+                  <a href="{{url('holidaydashboard')}}">
+                  <?php } ?>
                   <a href="#">
+                  <?php } ?>
                   <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  } else {
+                       ?>
                   <a href="{{url('holidaydashboard')}}">
-                     <?php }  ?>
+                     <?php
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/holiday.png')}}" style="width:50px;">
@@ -313,25 +283,21 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved" && $Roledataemil->licence == "yes"){ ?>
-                  <?php 
-                     if(in_array('3', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if (
+                          $Roledataemil->verify == "approved" &&
+                          $Roledataemil->licence == "yes"
+                      ) { ?>
+                  <?php if (in_array("3", $arrrole)) { ?>
                   <a href="{{url('leavedashboard')}}">
-                  <?php
-                     }elseif(in_array('3', $arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("3", $arrrole_emp)) { ?>
                   <?php } else { ?>
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/leave.png')}}" style="width:50px;">
@@ -341,26 +307,22 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved" && $Roledataemil->licence == "yes"){ ?>
-                  <?php 
-                     if(in_array('9', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if (
+                          $Roledataemil->verify == "approved" &&
+                          $Roledataemil->licence == "yes"
+                      ) { ?>
+                  <?php if (in_array("9", $arrrole)) { ?>
                   <a href="{{url('rotadashboard')}}">
-                  <?php
-                     }elseif(in_array('9', $arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("9", $arrrole_emp)) { ?>
                   <a href="{{url('rotadashboard')}}">
-                  <?php } else {?>
+                  <?php } else { ?>
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/rota.png')}}" alt="" style="width:50px;">
@@ -370,26 +332,22 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved" && $Roledataemil->licence == "yes"){ ?>
-                  <?php 
-                     if(in_array('6', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if (
+                          $Roledataemil->verify == "approved" &&
+                          $Roledataemil->licence == "yes"
+                      ) { ?>
+                  <?php if (in_array("6", $arrrole)) { ?>
                   <a href="{{url('attendancedashboard')}}">
-                  <?php
-                     }elseif(in_array('6', $arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("6", $arrrole_emp)) { ?>
                   <a href="{{url('attendancedashboard')}}">
-                  <?php } else{ ?>
+                  <?php } else { ?>
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/attendance.png')}}" alt="" style="width:50px;">
@@ -399,31 +357,26 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved" && $Roledataemil->licence == "yes"){ ?>
-                  <?php 
-                     if(in_array('5', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if (
+                          $Roledataemil->verify == "approved"
+                      ) { ?>
+                  <?php if (in_array("5", $arrrole)) { ?>
                   <a href="{{url('leaveapprovedashboard')}}">
-                  <?php
-                     }elseif(in_array('5', $arrrole_emp)){
-                     	?>
+                  <?php } else if (in_array("5", $arrrole_emp)) { ?>
                   <a href="{{url('leaveapprovedashboard')}}">
-                  <?php }else{ ?>
+                  <?php } else { ?>
+                  <a href="index.php">
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
-                  <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/approver.png')}}" alt="" style="width:50px;">
                         </div>
-                        <div class="dash-name">Leave Approver</div>
+                        <div class="dash-name">Leave Approver us</div>
                      </div>
                   </a>
                </div>
@@ -439,26 +392,28 @@
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
                   <?php
-                     $email = Session::get('emp_email'); 
-                     $ggRoledata = DB::table('registration')      
-                                   
-                                    ->where('email','=',$email) 
-                     	  ->where('status','=','active') 
-                                    ->first();
-                     $member = Session::get('admin_userpp_member'); 
-                     
-                           $Roles_hhauth=DB::table('tareq_app')->where('ref_id','=',$member)->where('emid','=',$ggRoledata->reg)->first();
-                         
-                           if(!empty($Roles_hhauth->invoice) && $Roles_hhauth->invoice=='Yes'){
-                           ?>
+                  $email = Session::get("emp_email");
+                  $ggRoledata = DB::table("registration")
+
+                      ->where("email", "=", $email)
+                      ->where("status", "=", "active")
+                      ->first();
+                  $member = Session::get("admin_userpp_member");
+
+                  $Roles_hhauth = DB::table("tareq_app")
+                      ->where("ref_id", "=", $member)
+                      ->where("emid", "=", $ggRoledata->reg)
+                      ->first();
+
+                  if (
+                      !empty($Roles_hhauth->invoice) &&
+                      $Roles_hhauth->invoice == "Yes"
+                  ) { ?>
                   <a href="{{url('billingdashboard')}}">
-                  <?php
-                     }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php }
+                  ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/money.png')}}" alt="" style="width:50px;">
@@ -468,26 +423,19 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved"){ ?>
-                  <?php 
-                     if(in_array('12', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if ($Roledataemil->verify == "approved") { ?>
+                  <?php if (in_array("12", $arrrole)) { ?>
                   <a href="{{url('documentsdashboard')}}">
-                  <?php
-                     }elseif(in_array('12', $arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("12", $arrrole_emp)) { ?>
                   <a href="{{url('documentsdashboard')}}">
                   <?php } else { ?>
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/document.png')}}" alt="" style="width:50px;">
@@ -497,26 +445,19 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledataemil->verify)){  if($Roledataemil->verify == "approved"){ ?>
-                  <?php 
-                     if(in_array('13', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (!empty($Roledataemil->verify)) {
+                      if ($Roledataemil->verify == "approved") { ?>
+                  <?php if (in_array("13", $arrrole)) { ?>
                   <a href="{{url('dashboarddetails')}}">
-                  <?php
-                     }elseif(in_array('13', $arrrole_emp)){
-                     	?>
+                  <?php } elseif (in_array("13", $arrrole_emp)) { ?>
                   <a href="{{url('dashboarddetails')}}">
                   <?php } else { ?>
                   <a href="#">
-                  <?php
-                     }
-                     ?>
-                  <?php }else{
-                     ?>
+                  <?php } ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/document.png')}}" alt="" style="width:50px;">
@@ -586,7 +527,9 @@
                   </a>
                </div>
                @else
-               @if(Session::get('user_type')=='employer')<?php //dd($Roledata);?>
+               @if(Session::get('user_type')=='employer')<?php
+//dd($Roledata);
+?>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
                   <a href="{{url('companydashboard')}}">
                      <div class="dash-inr">
@@ -598,12 +541,13 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('settingdashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/settings.png')}}" alt="" style="width:50px;">
@@ -613,13 +557,16 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php //if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){ ?>
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php
+//if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){
+?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('recruitmentdashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/recruitment.png')}}" alt="" width="50">
@@ -629,12 +576,13 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('employee/dashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/employee.png')}}" alt="" style="width:50px;">
@@ -644,12 +592,13 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('useraccessdashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/user-access.png')}}" alt="" style="width:50px;">
@@ -659,13 +608,16 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php //if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){ ?>
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php
+//if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){
+?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('organogramdashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/chart.png')}}" alt="" style="width:50px;">
@@ -675,13 +627,16 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php // if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){ ?>
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php
+// if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){
+?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('holidaydashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/holiday.png')}}" style="width:50px;">
@@ -691,13 +646,16 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php //if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){ ?>
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php
+//if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){
+?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('leavedashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/leave.png')}}" style="width:50px;">
@@ -707,13 +665,16 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php //if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){ ?>
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php
+//if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){
+?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('rotadashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/rota.png')}}" alt="" style="width:50px;">
@@ -723,13 +684,16 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php //if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){ ?>
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php
+//if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){
+?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('attendancedashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/attendance.png')}}" alt="" style="width:50px;">
@@ -739,13 +703,16 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php //if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){ ?>
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php
+//if(!empty($Roledata->verify)){  if($Roledata->verify == "approved" && $Roledata->licence == "yes"){
+?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('leaveapprovedashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/approver.png')}}" alt="" style="width:50px;">
@@ -765,12 +732,13 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('billingorganizationdashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/money.png')}}" alt="" style="width:50px;">
@@ -780,12 +748,13 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('documentsdashboard')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/document.png')}}" alt="" style="width:50px;">
@@ -795,12 +764,13 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php if(!empty($Roledata->verify)){  if($Roledata->verify == "approved"){ ?>
+                  <?php if (!empty($Roledata->verify)) {
+                      if ($Roledata->verify == "approved") { ?>
                   <a href="{{url('dashboarddetails')}}">
-                  <?php }else{
-                     ?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php } } ?>
+                     <?php }
+                  } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/document.png')}}" alt="" style="width:50px;">
@@ -831,27 +801,19 @@
                </div>
                @else
                <?php
-                  $arrrole=array();
-                  foreach($Roles_auth as $valrol){
-                  	$arrrole[]=$valrol->module_name;
-                  }
-                  ;
-                  ?>
-               <?php if(!empty($Roledata->verify_status)){  if($Roledata->verify_status == "approved"){ ?>			
+               $arrrole = [];
+               foreach ($Roles_auth as $valrol) {
+                   $arrrole[] = $valrol->module_name;
+               }
+               ?>
+               <?php if (!empty($Roledata->verify_status)) {
+                   if ($Roledata->verify_status == "approved") { ?>			
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('8', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("8", $arrrole)) { ?>
                   <a href="{{url('companydashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/company.png')}}" alt="" style="width:50px;">
@@ -861,19 +823,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('7', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("7", $arrrole)) { ?>
                   <a href="{{url('settingdashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/settings.png')}}" alt="" style="width:50px;">
@@ -883,19 +837,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('2', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("2", $arrrole)) { ?>
                   <a href="{{url('recruitmentdashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/recruitment.png')}}" alt="" width="50">
@@ -905,19 +851,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('1', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("1", $arrrole)) { ?>
                   <a href="{{url('employee/dashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/employee.png')}}" alt="" style="width:50px;">
@@ -927,19 +865,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('10', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("10", $arrrole)) { ?>
                   <a href="{{url('useraccessdashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/user-access.png')}}" alt="" style="width:50px;">
@@ -949,19 +879,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('11', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("11", $arrrole)) { ?>
                   <a href="{{url('organogramdashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/chart.png')}}" alt="" style="width:50px;">
@@ -971,19 +893,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('4', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("4", $arrrole)) { ?>
                   <a href="{{url('holidaydashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="{{url('holidaydashboard')}}">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/holiday.png')}}" style="width:50px;">
@@ -993,19 +907,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('3', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("3", $arrrole)) { ?>
                   <a href="{{url('leavedashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/leave.png')}}" style="width:50px;">
@@ -1015,19 +921,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('9', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("9", $arrrole)) { ?>
                   <a href="{{url('rotadashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/rota.png')}}" alt="" style="width:50px;">
@@ -1037,19 +935,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('6', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("6", $arrrole)) { ?>
                   <a href="{{url('attendancedashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/attendance.png')}}" alt="" style="width:50px;">
@@ -1059,19 +949,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('5', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("5", $arrrole)) { ?>
                   <a href="{{url('leaveapprovedashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/approver.png')}}" alt="" style="width:50px;">
@@ -1101,19 +983,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('12', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("12", $arrrole)) { ?>
                   <a href="{{url('documentsdashboard')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/document.png')}}" alt="" style="width:50px;">
@@ -1123,19 +997,11 @@
                   </a>
                </div>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
-                  <?php 
-                     if(in_array('13', $arrrole))
-                     {
-                     	
-                     	?>
+                  <?php if (in_array("13", $arrrole)) { ?>
                   <a href="{{url('dashboarddetails')}}">
-                  <?php
-                     }else{
-                     	?>
+                  <?php } else { ?>
                   <a href="#">
-                     <?php
-                        }
-                        ?>
+                     <?php } ?>
                      <div class="dash-inr">
                         <div class="dash-icon">
                            <img src="{{ asset('img/document.png')}}" alt="" style="width:50px;">
@@ -1144,7 +1010,8 @@
                      </div>
                   </a>
                </div>
-               <?php } } ?>
+               <?php }
+               } ?>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
                   <a href="{{url('employeecornerdashboard')}}">
                      <div class="dash-inr">
@@ -1155,7 +1022,8 @@
                      </div>
                   </a>
                </div>
-               <?php if(!empty($Roledata->verify_status)){  if($Roledata->verify_status == "approved"){ ?>
+               <?php if (!empty($Roledata->verify_status)) {
+                   if ($Roledata->verify_status == "approved") { ?>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
                   <a href="{{url('taskdashboard')}}">
                      <div class="dash-inr">
@@ -1166,7 +1034,8 @@
                      </div>
                   </a>
                </div>
-               <?php } } ?>
+               <?php }
+               } ?>
                @endif
                @endif
             </div>
