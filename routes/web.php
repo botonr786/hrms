@@ -2624,7 +2624,9 @@ Route::post('migrant-addemployee', 'App\Http\Controllers\EmployeeController@save
 Route::get('employee/contract-word/{agreement_id}', 'App\Http\Controllers\EmployeeController@msword');
 //employee
 Route::get('employeeslist', 'App\Http\Controllers\EmployeeController@employeeblade');
+Route::get('employee-edit-view/{id}', 'App\Http\Controllers\EmployeeController@employeeeditview');
 Route::get('settings/employee-update-get/{id}', 'App\Http\Controllers\EmployeeController@employeeupdatepage');
+Route::post('employee/update-profile', 'App\Http\Controllers\EmployeeController@saveEmployeecoedit');
 
 // employee ajax department phase
 Route::get('employee/department-name/{emp_department}', 'App\Http\Controllers\EmployeeController@EmpDepartment');

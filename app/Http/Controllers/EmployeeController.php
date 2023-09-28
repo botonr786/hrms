@@ -31,6 +31,7 @@ use App\Models\RateDetail;
 use App\Models\Rate_master;
 use App\Models\EmployeePayStructure;
 use App\Models\EmployeeType;
+use App\Models\UserModel;
 
 class EmployeeController extends Controller
 {
@@ -258,121 +259,359 @@ class EmployeeController extends Controller
         echo $result_status1;
     }
     //employee update
-    public function employeeupdatepage($id)
+    public function employeeeditview($id)
     {
-        $shares = DB::table("employee")
-            ->join(
-                "employee_personal_record",
-                "employee_personal_record.empid",
-                "=",
-                "employee.id"
-            )
-            ->join(
-                "professionalrecords",
-                "professionalrecords.empid",
-                "=",
-                "employee.id"
-            )
-            ->join("miscdocuments", "miscdocuments.empid", "=", "employee.id")
-            ->join("paystructure", "paystructure.empid", "=", "employee.id")
-            ->join("Deduction", "Deduction.empid", "=", "employee.id")
-            ->select(
-                "employee.id",
-                "employee.emp_code",
-                "employee.salutation",
-                "employee.emp_fname",
-                "employee.emp_mname",
-                "employee.emp_lname",
-                "employee.emp_father_name",
-                "employee.spousename",
-                "employee.emp_caste",
-                "employee.emp_sub_caste",
-                "employee.emp_religion",
-                "employee.maritalstatus",
-                "employee.mariddate",
-                "employee.department",
-                "employee.designation",
-                "employee.dateofbirth",
-                "employee.dateofretirement",
-                "employee.dateofretirementbvc",
-                "employee.dateofJoining",
-                "employee.confirmationdate",
-                "employee.nextincrementdate",
-                "employee.eligibleforpromotion",
-                "employee.employeetype",
-                "employee.renewdate",
-                "employee.profileimage",
-                "employee.reportingauthority",
-                "employee.leaveauthority",
-                "employee.grade",
-                "employee.registration_no",
-                "employee.registration_date",
-                "employee.registration_counci",
-                "employee.date_of_up_gradation",
-                "employee.emp_blood_grp",
-                "employee.emp_eye_sight_left",
-                "employee.emp_eye_sight_right",
-                "employee.emp_family_plan_status",
-                "employee.emp_family_plan_date",
-                "employee.emp_height",
-                "employee.emp_weight",
-                "employee.emp_identification_mark_one",
-                "employee.emp_identification_mark_two",
-                "employee.emp_physical_status",
-                "employee.emp_pr_street_no",
-                "employee.emp_per_village",
-                "employee.emp_pr_city",
-                "employee.emp_per_post_office",
-                "employee.emp_per_policestation",
-                "employee.emp_pr_pincode",
-                "employee.emp_per_dist",
-                "employee.emp_pr_state",
-                "employee.emp_pr_country",
-                "employee.emp_pr_mobile",
-                "employee.em_name",
-                "employee.em_relation",
-                "employee.relation_others",
-                "employee.em_email",
-                "employee.em_phone",
-                "employee.em_address",
-                "employee.pass_doc_no",
-                "employee.pass_nat",
-                "employee.place_birth",
-                "employee.issue_by",
-                "employee.pas_iss_date",
-                "employee.pass_exp_date",
-                "employee.pass_review_date",
-                "employee.pass_docu",
-                "employee.cur_pass",
-                "employee.cur_passss",
-                "employee.remarks",
-                "employee.emp_group",
-                "employee.emp_basic_pay",
-                "employee.emp_apf_percent",
-                "employee.emp_pf_type",
-                "employee.emp_passport_no",
-                "employee.emp_pf_no",
-                "employee.emp_uan_no",
-                "employee.emp_pan_no",
-                "employee.emp_bank_name",
-                "employee.bank_branch_id",
-                "employee.emp_ifsc_code",
-                "employee.emp_account_no",
-                "employee.emp_gradess",
-                "employee.emp_aadhar_no",
-                "employee_personal_record.document_name",
-                "professionalrecords.Organization",
-                "miscdocuments.emp_traning",
-                "paystructure.name_earn",
-                "Deduction.name_deduct"
-            )
-            ->where("employee.id", "=", $id)
-            ->get();
+       
+        if (!empty(Session::get("emp_email"))) {
+            $email = Session::get("emp_email");
+            $userId = Session::get("users_id_new");
+            $Roledata = DB::table("registration")
+                ->where("email", "=", $email)
+                ->first();
 
-        dd($shares);
+            $data["Roledata"] = DB::table("registration")
+                ->where("email", "=", $email)
+                ->first();
+          
+          
+            $data["employee_rs"] = Employee::where(
+                "id",
+                $id
+            )->first();
+            $current_emp_id = $data["employee_rs"]->id;
+            $data["cast"] = Cast::where(
+                "cast_status",
+                "=",
+                "active"
+            )->get();
+            $data["sub_cast"] = Sub_cast::where(
+                "sub_cast_status",
+                "=",
+                "active"
+            )->get();
+            $data["religion"] = DB::table("religion_master")->get();
+            $data["department"] = DB::table("department")->get();
+            $data["designation"] = DB::table("designation")->get();
+            $data["EmployeePersonalRecord"] = EmployeePersonalRecord::where(
+                "empid",
+                $current_emp_id
+            )->get();
+            $data["ExperienceRecords"] = ExperienceRecords::where(
+                "empid",
+                $current_emp_id
+            )->get();
+            $data["ProfessionalRecords"] = ProfessionalRecords::where(
+                "empid",
+                $current_emp_id
+            )->get();
+            $data["MiscDocuments"] = MiscDocuments::where(
+                "empid",
+                $current_emp_id
+            )->get();
+            $data["EmployeePayStructure"] = EmployeePayStructure::where(
+                "empid",
+                $current_emp_id
+            )->first();
+            $data["emp_pay_st"] = EmployeePayStructure::where(
+                "empid",
+                "=",
+                $current_emp_id
+            )->first();
+            $data["rate_master"] = DB::table("rate_masters")
+                ->where("head_type", "earning")
+                ->get();
+            $data["rate_masterss"] = DB::table("rate_masters")
+                ->where("head_type", "deduction")
+                ->get();
+            return view("employee/edit-employee-new", $data);
+        }
     }
 
-   
+    public function saveEmployeecoedit(Request $request)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $email = Session::get("emp_email");
+            // $Roledata = Registration::where("email", "=", $email)
+            //     ->first();
+
+            // $data["Roledata"] = Registration::where("email", "=", $email)
+            //     ->first();
+                $employee_data=Employee::where('id',$request->employyeId)->first();
+                $employee_id=$request->employyeId;
+                $updateData = [];
+
+                //employee update
+                $updateData = [
+                    // "emid" => $userObj->employee_id,
+                    // "emp_code" => $employeeId,
+                    "emp_old_code"=> $request->emp_old_code,
+                    "salutation" => $request->salutation,
+                    "emp_fname" => $request->emp_fname,
+                    "emp_mname" => $request->emp_mname,
+                    "emp_lname" => $request->emp_lname,
+                    "emp_father_name" => $request->emp_father_name,
+                    "spousename" => $request->spousename,
+                    "emp_caste" => $request->emp_caste,
+                    "emp_sub_caste" => $request->emp_sub_caste,
+                    "emp_religion" => $request->emp_religion,
+                    "maritalstatus" => $request->maritalstatus,
+                    "mariddate" => $request->mariddate,
+                    "department" => $request->department,
+                    "designation" => $request->designation,
+                    "dateofbirth" => $request->dateofbirth,
+                    "dateofretirement" => $request->dateofretirement,
+                    "dateofretirementbvc" => $request->dateofretirementbvc,
+                    "dateofJoining" => $request->dateofJoining,
+                    "confirmationdate" => $request->confirmationdate,
+                    "nextincrementdate" => $request->nextincrementdate,
+                    "eligibleforpromotion" => $request->eligibleforpromotion,
+                    "employeetype" => $request->employeetype,
+                    "renewdate" => $request->renewdate,
+                    "profileimage" => $request->profileimage,
+                    "reportingauthority" => $request->reportingauthority,
+                    "leaveauthority" => $request->leaveauthority,
+                    "grade" => $request->grade,
+                    "registration_no" => $request->registration_no,
+                    "registration_date" => $request->registration_date,
+                    "registration_counci" => $request->registration_counci,
+                    "date_of_up_gradation" => $request->date_of_up_gradation,
+                    "emp_blood_grp" => $request->emp_blood_grp,
+                    "emp_eye_sight_left" => $request->emp_eye_sight_left,
+                    "emp_eye_sight_right" => $request->emp_eye_sight_right,
+                    "emp_family_plan_status" => $request->emp_family_plan_status,
+        
+                    "emp_family_plan_date" => $request->emp_family_plan_date,
+                    "emp_height" => $request->emp_height,
+        
+                    "emp_identification_mark_one" =>
+                        $request->emp_identification_mark_one,
+                    "emp_identification_mark_two" =>
+                        $request->emp_identification_mark_two,
+                    "emp_physical_status" => $request->emp_physical_status,
+                    "emp_pr_street_no" => $request->emp_pr_street_no,
+                    "emp_per_village" => $request->emp_per_village,
+                    "emp_pr_city" => $request->emp_pr_city,
+                    "emp_per_post_office" => $request->emp_per_post_office,
+                    "emp_per_policestation" => $request->emp_per_policestation,
+                    "emp_pr_pincode" => $request->emp_pr_pincode,
+                    "emp_per_dist" => $request->emp_per_dist,
+                    "emp_pr_state" => $request->emp_pr_state,
+                    "emp_pr_country" => $request->emp_pr_country,
+                    "emp_pr_mobile" => $request->emp_pr_mobile,
+                    "em_name" => $request->em_name,
+                    "em_relation" => $request->em_relation,
+                    "relation_others" => $request->relation_others,
+                    "em_email" => $request->em_email,
+                    "em_phone" => $request->em_phone,
+                    "hel_em_email" => $request->hel_em_email,
+                    "hel_em_phone" => $request->hel_em_phone,
+                    "em_address" => $request->em_address,
+                    "pass_doc_no" => $request->pass_doc_no,
+                    "pass_nat" => $request->pass_nat,
+                    "place_birth" => $request->place_birth,
+                    "issue_by" => $request->issue_by,
+                    "pas_iss_date" => $request->pas_iss_date,
+                    "pass_exp_date" => $request->pass_exp_date,
+                    "pass_review_date" => $request->pass_review_date,
+                    "pass_docu" => $request->pass_docu,
+                    "cur_pass" => $request->cur_pass,
+                    "cur_passss" => $request->cur_passss,
+                    "remarks" => $request->remarks,
+                    "emp_group" => $request->emp_group,
+                    "emp_basic_pay" => $request->emp_basic_pay,
+                    "emp_apf_percent" => $request->emp_apf_percent,
+                    "emp_pf_type" => $request->emp_pf_type,
+                    "emp_passport_no" => $request->emp_passport_no,
+                    "emp_pf_no" => $request->emp_pf_no,
+                    "emp_uan_no" => $request->emp_uan_no,
+                    "emp_pan_no" => $request->emp_pan_no,
+                    "emp_bank_name" => $request->emp_bank_name,
+                    "bank_branch_id" => $request->bank_branch_id,
+                    "emp_ifsc_code" => $request->emp_ifsc_code,
+                    "emp_account_no" => $request->emp_account_no,
+        
+                    "emp_gradess" => $request->emp_gradess,
+        
+                    "emp_aadhar_no" => $request->emp_aadhar_no,
+                    "emp_pension" => $request->emp_pension,
+                    "emp_pf_inactuals" => $request->emp_pf_inactuals,
+                    "emp_bonus" => $request->emp_bonus,
+                ];
+                DB::table('employee')->where('id',$employee_id)->update($updateData);
+                //end employee update
+
+        $documentNames = $request->input("document_name");
+        $employeeId = $request->input("empid");
+        $perId=$request->input("perid");
+        if ($request->hasFile("document_upload")) {
+            $documents = $request->file("document_upload");
+            foreach ($documents as $key => $document) {
+                $documentName =
+                    time() . "_" . $document->getClientOriginalName();
+                $document->move(public_path("/emp_pic"), $documentName);
+                $documentModel = new EmployeePersonalRecord();
+                $documentModel->emp_code=$employeeId;
+                $documentModel->document_name = $documentNames[$key];
+                $documentModel->document_upload = $documentName;
+               
+                $documentModel->where('id',$perId[$key])->update([
+                    "document_name"=>$documentNames[$key],
+                    "document_upload"=>$documentName,
+                ]);
+            } 
+        }
+     
+        $emp_document_names = $request->input("emp_document_name");
+      
+        $boardsss = $request->input("boardss");
+        $yearofpassings = $request->input("yearofpassing");
+        $emp_grades = $request->input("emp_grade");
+        $erprec=$request->input("erprec");
+        if ($request->hasFile("emp_document_upload")) {
+            
+            $documents = $request->file("emp_document_upload");
+           
+            foreach ($documents as $key => $document) {
+                $documentName =
+                    time() . "_" . $document->getClientOriginalName();
+                $document->move(public_path("/emp_pic"), $documentName);
+                $documentModel = new ExperienceRecords();
+                ExperienceRecords::where('id',$erprec[$key])->update([
+                    'emp_document_name'=>$emp_document_names[$key],
+                    'boardss'=>$boardsss[$key],
+                    'yearofpassing'=>$yearofpassings[$key],
+                    'emp_grade'=>$emp_grades[$key],
+                    'emp_document_upload'=>$documentName
+                ]);
+            }
+          
+        }
+
+        $Organization = $request->input("Organization");
+        $Desigination = $request->input("Desigination");
+        $formdate = $request->input("formdate");
+        $todate = $request->input("todate");
+        $proId=$request->input("proId");
+        if ($request->hasFile("emp1_document_upload")) {
+            $documentss = $request->file("emp1_document_upload");
+            foreach ($documentss as $key => $document) {
+                $documentName =
+                    time() . "_" . $document->getClientOriginalName();
+                $document->move(public_path("/emp_pic"), $documentName);
+                $documentModel = new ProfessionalRecords();
+                $documentModel::where('id',$proId[$key])->update([
+                    'Organization'=>$Organization[$key],
+                    'Desigination'=>$Desigination[$key],
+                    'formdate'=>$formdate[$key],
+                    'todate'=>$todate[$key],
+                    'emp1_document_upload'=>$documentName
+                ]);
+            }
+        }
+
+        $emp_tranings = $request->input("emp_traning");
+        $traning1_document_upload=$request->input('traning1_document_upload');
+        $miscId=$request->input('miscId');
+        if ($request->hasFile("traning1_document_upload")) {
+            $documentss = $request->file("traning1_document_upload");
+            foreach ($documentss as $key => $document) {
+                $documentName =
+                    time() . "_" . $document->getClientOriginalName();
+                $document->move(public_path("/emp_pic"), $documentName);
+                $documentModel = new MiscDocuments();
+                $documentModel::where('id',$miscId)->update([
+                    'emp_traning'=>$emp_tranings[$key],
+                    'traning1_document_upload'=>$documentName
+                ]); 
+            }
+        }
+
+
+            // //pay structure
+
+            $pay = [];
+            // $pay["employee_code"] =$employeeId;
+            $pay["basic_pay"] = $request->emp_basic_pay;
+            $pay["apf_percent"] = $request->emp_apf_percent;
+            $pay["pf_type"] = $request->emp_pf_type;
+            // $pay["empid"] = $service_details_id;
+           
+            $pay["emp_passport_no"] = $request->emp_passport_no;
+            $pay["emp_group"] = $request->emp_group;
+            $pay["emp_pan_no"] = $request->emp_pan_no;
+            $pay["emp_uan_no"] = $request->emp_uan_no;
+    
+            $pay["emp_pf_no"] = $request->emp_pf_no;
+            $pay["emp_bank_name"] = $request->emp_bank_name;
+            $pay["bank_branch_id"] = $request->bank_branch_id;
+            $pay["emp_ifsc_code"] = $request->emp_ifsc_code;
+    
+            $pay["emp_pension"] = $request->emp_pension;
+            $pay["emp_aadhar_no"] = $request->emp_aadhar_no;
+            $pay["emp_account_no"] = $request->emp_account_no;
+            $pay["emp_pf_inactuals"] = $request->emp_pf_inactuals;
+            $pay["emp_bonus"] = $request->emp_bonus;
+    
+    
+            $pay["created_at"] = date("Y-m-d h:i:s");
+            $pay["updated_at"] = date("Y-m-d h:i:s");
+    
+            if ($request->name_earn && count($request->name_earn) != 0) {
+                $arr_un = count(array_unique($request->name_earn));
+                if (count($request->name_earn) != $arr_un) {
+                    Session::flash(
+                        "error",
+                        "Pay Structure Earning Head Must be unique"
+                    );
+    
+                    return redirect("employees");
+                }
+                // dd($request->value_emp);
+                for ($i = 0; $i < count($request->name_earn); $i++) {
+                    if ($request->name_earn[$i] != "") {
+                        $pay[$request->name_earn[$i]] = $request->value_emp[$i];
+                        $pay[$request->name_earn[$i] . "_type"] =
+                            $request->head_type[$i];
+                    }
+                }
+            }
+    
+            if ($request->name_deduct && count($request->name_deduct) != 0) {
+                $arr_un = count(array_unique($request->name_deduct));
+                if (count($request->name_deduct) != $arr_un) {
+                    Session::flash(
+                        "error",
+                        "Pay Structure Deduction Head Must be unique"
+                    );
+    
+                    return redirect("employees");
+                }
+                for ($i = 0; $i < count($request->name_deduct); $i++) {
+                    if ($request->name_deduct[$i] != "") {
+                        $pay[$request->name_deduct[$i]] = $request->valuededuct[$i];
+                        $pay[$request->name_deduct[$i] . "_type"] =
+                            $request->head_typededuct[$i];
+                    }
+                }
+            }
+            // dd($pay);
+            DB::table('employee_pay_structures')->where('empid', $employee_id)->update($pay);
+            
+            // EmployeePayStructure::insert($pay);
+    
+            //end pay structure
+       
+
+        Session::flash(
+            "message",
+            "Employee Information Successfully Saved."
+        );
+
+                return redirect("employeeslist");
+            }else{
+            return redirect("/");
+        }
+    }
 
     //employee add
     public function saveEmployeeaa(Request $request)
