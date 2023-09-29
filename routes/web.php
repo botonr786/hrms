@@ -4655,8 +4655,8 @@ Route::post('recruitment/edit-interview', 'App\Http\Controllers\RecruitmentContr
 
 Route::get('recruitment/hired', 'App\Http\Controllers\RecruitmentController@viewhiredcandidate');
 Route::get('recruitment/edit-hired/{hired_id}', 'App\Http\Controllers\RecruitmentController@viewhiredcandidatedetails');
-
 Route::post('recruitment/edit-hired', 'App\Http\Controllers\RecruitmentController@savehiredcandidatedetails');
+
 Route::get('recruitment/apply-letter/{send_id}', 'App\Http\Controllers\RecruitmentController@viewapplysendcandidatedetails');
 Route::get('recruitment/interview-letter/{send_id}', 'App\Http\Controllers\RecruitmentController@viewinterviewsendcandidatedetails');
 Route::get('recruitment/offer-down-letter/{send_id}', 'App\Http\Controllers\RecruitmentController@viewofferdownsendcandidatedetails');
