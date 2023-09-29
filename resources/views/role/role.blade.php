@@ -116,12 +116,13 @@
 										<div class="col-md-3">
 									
 												
-												<label >Select User ID</label>
+												<label >Select User</label>
 												<select class="selectpicker" multiple data-live-search="true" name="member_id[]" required>
                             <option value="" label="default"></option>
+							
 	                           @foreach($users as $user)
 	                          
-								<option value="{{$user->email}}">{{$user->email}}</option>
+								<option value="{{$user->email}}">{{$user->name}}</option>
 	                           @endforeach
                         </select>
 										

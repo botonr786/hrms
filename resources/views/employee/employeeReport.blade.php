@@ -104,7 +104,7 @@
                                         <td>{{ $ratedtl->designation }}</td>
                                         <td>{{ $ratedtl->em_phone }}</td>
                                         
-    									<td><a href='#' data-toggle="tooltip"data-placement="bottom" title="Edit"><img  style="width: 19px;" src="{{ asset('assets/img/edit.png')}}"></a></td>
+    									<td><a href='{{url("employee-edit-view/$ratedtl->id")}}' data-toggle="tooltip"data-placement="bottom" title="Edit"><img  style="width: 19px;" src="{{ asset('assets/img/edit.png')}}"></a></td>
                                     </tr>
 									{{-- {{url("settings/employee-update-get/$ratedtl->id")}} --}}
                                      @endforeach

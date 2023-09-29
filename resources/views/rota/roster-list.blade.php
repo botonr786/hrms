@@ -101,7 +101,7 @@
 										 <div class="col-md-4">
 			<div class="form-group">
 			    <label for="designation" class="placeholder"> Select Designation </label>
-				<select class="form-control input-border-bottom" id="designation"  name="designation" required="" onchange="chngdepartmentshift(this.value);">
+				<select class="form-control input-border-bottom" id="designation"  name="designation" required="" onchange="chngdepartmentshift();">
 					<option value="">&nbsp;</option>
 					
 				</select>
@@ -313,13 +313,13 @@ if(isset($result) && $result!=''  ){
 
 			});
 		});
-		  function chngdepartmentshift(empid){
+		  function chngdepartmentshift(){
 	  
-	 	
+			var degId= $('#designation option:selected').text();
 	
 			   	$.ajax({
 		type:'GET',
-		url:'{{url('pis/getEmployeedailyattandeaneshightById')}}/'+empid,
+		url:'{{url('pis/getEmployeedailyattandeaneshightById')}}/'+degId,
         cache: false,
 		success: function(response){
 			

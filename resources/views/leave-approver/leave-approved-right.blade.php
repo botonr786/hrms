@@ -68,7 +68,7 @@
   			
 			?>
 								<div class="card-body">
-								  <form action="" method="post" enctype="multipart/form-data" >
+								  <form action="{{url('leave-approver/leave-approved-right')}}" method="post" enctype="multipart/form-data" >
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								  <input type="hidden" name="apply_id" value="{{ $LeaveApply[0]->id }}">
 								<input type="hidden" name="employee_id" value="{{ $LeaveApply[0]->employee_id }}">

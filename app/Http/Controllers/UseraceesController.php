@@ -427,7 +427,7 @@ class UseraceesController extends Controller
                 $data["Roledata"] = Registration::where("status", "=", "active")
                     ->where("email", "=", $email)
                     ->first();
-
+          
                 foreach ($request["member_id"] as $valuemenm) {
                     foreach ($request["menu_name"] as $key => $value) {
                         $ins_data["menu"] = $request["menu_name"][$key];
@@ -477,19 +477,19 @@ class UseraceesController extends Controller
                                                 $employeusereRoledata->password,
                                         ];
                                          $toemail = $valuemenm;
-                                        Mail::send("mail", $data, function (
-                                            $message
-                                        ) use ($toemail) {
-                                            $message
-                                                ->to($toemail, "Workpermitcloud")
-                                                ->subject(
-                                                    "Employee Login  Details"
-                                                );
-                                            $message->from(
-                                                "noreply@workpermitcloud.co.uk",
-                                                "Workpermitcloud"
-                                            );
-                                         });
+                                        // Mail::send("mail", $data, function (
+                                        //     $message
+                                        // ) use ($toemail) {
+                                        //     $message
+                                        //         ->to($toemail, "Workpermitcloud")
+                                        //         ->subject(
+                                        //             "Employee Login  Details"
+                                        //         );
+                                        //     $message->from(
+                                        //         "noreply@workpermitcloud.co.uk",
+                                        //         "Workpermitcloud"
+                                        //     );
+                                        //  });
                                         
                                 }
                                 // dd($ins_data);

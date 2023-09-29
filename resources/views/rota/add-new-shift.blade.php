@@ -91,41 +91,53 @@
 										  </div>
 										  </div>
 										 <div class="col-md-4">
-			<div class="form-group">
-			    <label for="designation" class="placeholder"> Select Designation </label>
-				<select class="form-control input-border-bottom" id="designation"  name="designation" required="">
-					<option value="">&nbsp;</option>
-					@if(app('request')->input('id'))
-					 @foreach($desig as $desig)
-                     <option value="{{$desig->id}}" <?php  if(app('request')->input('id')){  if($shift_management->designation==$desig->id){ echo 'selected';} } ?>>{{$desig->designation_name}}</option>
-                       @endforeach
-                       @endif
-				</select>
-				
-			</div>
-		</div> 	
-										 
+											<div class="form-group">
+												<label for="designation" class="placeholder"> Select Designation </label>
+												<select class="form-control input-border-bottom" id="designation"  name="designation" onchange="employeeList()" required="">
+													<option value="">&nbsp;</option>
+													@if(app('request')->input('id'))
+													@foreach($desig as $desig)
+													<option value="{{$desig->id}}" <?php  if(app('request')->input('id')){  if($shift_management->designation==$desig->id){ echo 'selected';} } ?>>{{$desig->designation_name}}</option>
+													@endforeach
+													@endif
+												</select>
+												
+											</div>
+										</div> 	
+										<?php  if(app('request')->input('id')){ ?>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label for="designation" class="placeholder"> Select Employee </label>
+													<input type="text" value="<?php print_r($shift_management->employee_name)?>" name="employee_name" class="form-control" readonly>
+												</div>
+											</div>
+											<?php }else{?>
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="designation" class="placeholder"> Select Employee </label>
+												<select class="form-control input-border-bottom" id="empId"  name="employee_name" required="">
+													<option value="" selected disabled required>Select</option>
+							
+												</select>
+											</div>
+										</div>
+                                         <?php } ?>
 										
-										 <div class="col-md-4">
-										    <div class=" form-group">	
- 	<label for="inputFloatingLabel-shift-in-time" class="placeholder">Work In Time</label>
-										     <input id="inputFloatingLabel-shift-in-time" type="time" class="form-control input-border-bottom"  required="" name="time_in" value="<?php  if(app('request')->input('id')){ echo $shift_management->time_in; } ?>"  placeholder="" style="">
-
-										      
-
-										    </div>
-										   </div>
-										 
 										</div>
 
 
 										<div class="row form-group">
-										
+											<div class="col-md-4">
+												<div class=" form-group">	
+												 <label for="inputFloatingLabel-shift-in-time" class="placeholder">Work In Time</label>
+												 <input id="inputFloatingLabel-shift-in-time" type="time" class="form-control input-border-bottom"  required="" name="time_in" value="<?php  if(app('request')->input('id')){ echo $shift_management->time_in; } ?>"  placeholder="" style="">
+												</div>
+											   </div>
 										  
 										  	
 										  <div class="col-md-4">
 										  	<div class=" form-group">	
-	<label for="inputFloatingLabel-shift-out-time" class="placeholder">Work Out Time</label>
+												<label for="inputFloatingLabel-shift-out-time" class="placeholder">Work Out Time</label>
 										     <input id="inputFloatingLabel-shift-out-time"  name="time_out" value="<?php  if(app('request')->input('id')){ echo $shift_management->time_out; } ?>"  type="time" class="form-control input-border-bottom" required=""  placeholder="">
 
 										      
@@ -135,33 +147,26 @@
 										
 										  <div class="col-md-4">
 										  	<div class=" form-group">	
-	<label for="inputFloatingLabel-recess-from-time" class="placeholder">Break Time From </label>
+											<label for="inputFloatingLabel-recess-from-time" class="placeholder">Break Time From </label>
 										     <input id="inputFloatingLabel-recess-from-time" name="rec_time_in" value="<?php  if(app('request')->input('id')){ echo $shift_management->rec_time_in; } ?>" type="time" class="form-control input-border-bottom" required=""  placeholder="">
-
-										      
-
-										    </div>
-										  </div>
-
-										   	<div class="col-md-4">
-										  	<div class=" form-group">	
-
-										      	<label for="inputFloatingLabel-recess-to-time" class="placeholder">Break Time To </label>
-										     <input id="inputFloatingLabel-recess-to-time" name="rec_time_out" value="<?php  if(app('request')->input('id')){ echo $shift_management->rec_time_out; } ?>" type="time" class="form-control input-border-bottom" required=""  placeholder="">
-
-
 										    </div>
 										  </div>
 
 										</div>
 
 											<div class="row form-group">
-										
+												<div class="col-md-4">
+													<div class=" form-group">	
+												  <label for="inputFloatingLabel-recess-to-time" class="placeholder">Break Time To </label>
+												   <input id="inputFloatingLabel-recess-to-time" name="rec_time_out" value="<?php  if(app('request')->input('id')){ echo $shift_management->rec_time_out; } ?>" type="time" class="form-control input-border-bottom" required=""  placeholder="">
+												  </div>
+												</div>
+
 										    <div class="col-md-6">
 										  	<div class=" form-group">	
- <label for="inputFloatingLabel-shift-description" class="placeholder">Shift Description</label>
-										  
-<textarea rows="5" class="form-control"  name="shift_des"  style=""><?php  if(app('request')->input('id')){ echo $shift_management->shift_des; } ?></textarea>
+												<label for="inputFloatingLabel-shift-description" class="placeholder">Shift Description</label>
+																						
+												<textarea rows="5" class="form-control"  name="shift_des"  style=""><?php  if(app('request')->input('id')){ echo $shift_management->shift_des; } ?></textarea>
 										    
 
 										    </div>
@@ -271,6 +276,17 @@
 			document.getElementById("designation").innerHTML = response;
 		}
 		});
+   }
+
+   function employeeList(){
+	var degId= $('#designation option:selected').text();
+	$.ajax({
+              url:"{{url('rota/add-shift-management-desi')}}"+'/'+degId,
+         		type: "GET",
+         		success: function(response) {
+                  document.getElementById("empId").innerHTML = response;
+         		}
+         	});
    }
    
 	</script>
