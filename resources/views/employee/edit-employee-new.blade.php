@@ -1151,15 +1151,15 @@
                                                       <label>Class Name <span style="color:red">(*)</span></label>
                                                       <select data-placeholder="Choose a Groupe..." name="emp_group" class="form-control" id="emp_group" required >
                                                          <option value="" label="Select">Select</option>
-                                                         <option value="1" <?php if($EmployeePayStructure->emp_group=='1'){?> selected="selected"<?php }?>>1  PERMANENT OUT GRADED</option>
-                                                         <option value="2" <?php if($EmployeePayStructure->emp_group=='2'){?> selected="selected"<?php }?>>2-PERMANENT GRADED STAFF</option>
-                                                         <option value="4" <?php if($EmployeePayStructure->emp_group=='4'){?> selected="selected"<?php }?>>3-PERMANENT GRADED SUB STAFF</option>
-                                                         <option value="5" <?php if($EmployeePayStructure->emp_group=='5'){?> selected="selected"<?php }?>>4- CONTRACT STAFF</option>
-                                                         <option value="6" <?php if($EmployeePayStructure->emp_group=='6'){?> selected="selected"<?php }?>>5   PERMANENT NEW GRADED</option>
-                                                         <option value="7" <?php if($EmployeePayStructure->emp_group=='7'){?> selected="selected"<?php }?>>6- NEW NURSING STAFF</option>
-                                                         <option value="8" <?php if($EmployeePayStructure->emp_group=='8'){?> selected="selected"<?php }?>>7- DURWAN</option>
-                                                         <option value="9" <?php if($EmployeePayStructure->emp_group=='9'){?> selected="selected"<?php }?>>8- PBIN STAFF</option>
-                                                         <option value="10" <?php if($EmployeePayStructure->emp_group=='10'){?> selected="selected"<?php }?>>9 NEW GRADED SUB STAFF</option>
+                                                         <option value="1" <?php if($employee_rs->emp_group=='1'){?> selected="selected"<?php }?>>1  PERMANENT OUT GRADED</option>
+                                                         <option value="2" <?php if($employee_rs->emp_group=='2'){?> selected="selected"<?php }?>>2-PERMANENT GRADED STAFF</option>
+                                                         <option value="4" <?php if($employee_rs->emp_group=='4'){?> selected="selected"<?php }?>>3-PERMANENT GRADED SUB STAFF</option>
+                                                         <option value="5" <?php if($employee_rs->emp_group=='5'){?> selected="selected"<?php }?>>4- CONTRACT STAFF</option>
+                                                         <option value="6" <?php if($employee_rs->emp_group=='6'){?> selected="selected"<?php }?>>5   PERMANENT NEW GRADED</option>
+                                                         <option value="7" <?php if($employee_rs->emp_group=='7'){?> selected="selected"<?php }?>>6- NEW NURSING STAFF</option>
+                                                         <option value="8" <?php if($employee_rs->emp_group=='8'){?> selected="selected"<?php }?>>7- DURWAN</option>
+                                                         <option value="9" <?php if($employee_rs->emp_group=='9'){?> selected="selected"<?php }?>>8- PBIN STAFF</option>
+                                                         <option value="10" <?php if($employee_rs->emp_group=='10'){?> selected="selected"<?php }?>>9 NEW GRADED SUB STAFF</option>
                                                       </select>
                                                    </div>
                                                 </div>
@@ -1182,17 +1182,17 @@
                                                       <label>PF Type <span style="color:red">(*)</span></label>
                                                       <select data-placeholder="Choose a PF..." name="emp_pf_type" id="emp_pf_type" class="form-control" required >
                                                          <option value="" label="Select">Select</option>
-                                                         <option value="nps"  <?php if($EmployeePayStructure->pf_type=='nps'){?> selected="selected"<?php }?>>NPS</option>
-                                                         <option value="gpf"  <?php if($EmployeePayStructure->pf_type=='gpf'){?> selected="selected"<?php }?>>PF</option>
-                                                         <option value="cpf"  <?php if($EmployeePayStructure->pf_type=='cpf'){?> selected="selected"<?php }?>>CPF </option>
-                                                         <option value="na"  <?php if($EmployeePayStructure->pf_type=='na'){?> selected="selected"<?php }?>>NA </option>
+                                                         <option value="nps"  <?php if($employee_rs->pf_type=='nps'){?> selected="selected"<?php }?>>NPS</option>
+                                                         <option value="gpf"  <?php if($employee_rs->pf_type=='gpf'){?> selected="selected"<?php }?>>PF</option>
+                                                         <option value="cpf"  <?php if($employee_rs->pf_type=='cpf'){?> selected="selected"<?php }?>>CPF </option>
+                                                         <option value="na"  <?php if($employee_rs->pf_type=='na'){?> selected="selected"<?php }?>>NA </option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Passport No.</label>
-                                                      <input type="text" name="emp_passport_no" value="<?php print_r($EmployeePayStructure->emp_passport_no) ?>" class="form-control" >
+                                                      <input type="text" name="emp_passport_no" value="<?php print_r($employee_rs->emp_passport_no) ?>" class="form-control" >
                                                    </div>
                                                 </div>
                                                 <!-- <div class="col-md-3">
@@ -1204,26 +1204,26 @@
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>PF No. </label>
-                                                      <input type="text" name="emp_pf_no" value="<?php print_r($EmployeePayStructure->emp_pf_no) ?>" class="form-control" >
+                                                      <input type="text" name="emp_pf_no" value="<?php print_r($employee_rs->emp_pf_no) ?>" class="form-control" >
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>UAN No. </label>
-                                                      <input type="text" name="emp_uan_no" value="<?php print_r($EmployeePayStructure->emp_uan_no) ?>" class="form-control" >
+                                                      <input type="text" name="emp_uan_no" value="<?php print_r($employee_rs->emp_uan_no) ?>" class="form-control" >
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>PAN No.</label>
-                                                      <input type="text" name="emp_pan_no" value="<?php print_r($EmployeePayStructure->emp_pan_no) ?>" class="form-control" >
+                                                      <input type="text" name="emp_pan_no" value="<?php print_r($employee_rs->emp_pan_no) ?>" class="form-control" >
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Bank Name <span style="color:red">(*)</span></label>
                                                       <select class="form-control" name="emp_bank_name" id="emp_bank_name" required onclick="populateBranch()" >
-                                                         <option value="{{$EmployeePayStructure->emp_bank_name}}">{{$EmployeePayStructure->emp_bank_name}}</option>
+                                                         <option value="{{$employee_rs->emp_bank_name}}">{{$employee_rs->emp_bank_name}}</option>
                                                       </select>
                                                    </div>
                                                 </div>
@@ -1231,7 +1231,7 @@
                                                    <div class="form-group">
                                                       <label>Branch <span style="color:red">(*)</span></label>
                                                       <select class="form-control" id="bank_branch_ids" name="bank_branch_id" onclick="branchfunc()" required >
-                                                         <option value="{{$EmployeePayStructure->bank_branch_id}}">{{$EmployeePayStructure->bank_branch_id}}</option>
+                                                         <option value="{{$employee_rs->bank_branch_id}}">{{$employee_rs->bank_branch_id}}</option>
                                                       </select>
                                                    </div>
                                                 </div>
@@ -1240,27 +1240,27 @@
                                                       <label>IFSC Code <span style="color:red">(*)</span></label>
                                                       <!-- <input type="text" name="emp_ifsc_code" value="" id="emp_ifsc_code" class="form-control"  required> -->
                                                       <select class="form-control" id="emp_ifsc_code" name="emp_ifsc_code" required >
-                                                         <option value="{{$EmployeePayStructure->emp_ifsc_code}}">{{$EmployeePayStructure->emp_ifsc_code}}</option>
+                                                         <option value="{{$employee_rs->emp_ifsc_code}}">{{$employee_rs->emp_ifsc_code}}</option>
                                                       </select>
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Account No. <span style="color:red">(*)</span></label>
-                                                      <input type="text" name="emp_account_no" id="emp_account_no" value="<?php print_r($EmployeePayStructure->emp_account_no) ?>" class="form-control" required >
+                                                      <input type="text" name="emp_account_no" id="emp_account_no" value="<?php print_r($employee_rs->emp_account_no) ?>" class="form-control" required >
                                                    </div>
                                                 </div>
          
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Aadhaar No. </label>
-                                                      <input type="text" name="emp_aadhar_no" value="<?php print_r($EmployeePayStructure->emp_aadhar_no) ?>" class="form-control" >
+                                                      <input type="text" name="emp_aadhar_no" value="<?php print_r($employee_rs->emp_aadhar_no) ?>" class="form-control" >
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                    <div class="form-group">
                                                       <label>Eligible For Pension </label>
-                                                      <input type="text" class="form-control" name="emp_pension" id="emp_pension" value="<?php print_r($EmployeePayStructure->emp_pension) ?>" >
+                                                      <input type="text" class="form-control" name="emp_pension" id="emp_pension" value="<?php print_r($employee_rs->emp_pension) ?>" >
                                                    </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -1268,8 +1268,8 @@
                                                       <label>Basic above 15K @ 12% PF </label>
                                                       <select class="form-control" name="emp_pf_inactuals" id="emp_pf_inactuals" required >
                                                          <option value="">Select</option>
-                                                         <option value="Y" <?php if($EmployeePayStructure->emp_pf_inactuals=='Y'){?> selected="selected"<?php }?>>Yes</option>
-                                                         <option value="N" <?php if($EmployeePayStructure->emp_pf_inactuals=='N'){?> selected="selected"<?php }?>>No</option>
+                                                         <option value="Y" <?php if($employee_rs->emp_pf_inactuals=='Y'){?> selected="selected"<?php }?>>Yes</option>
+                                                         <option value="N" <?php if($employee_rs->emp_pf_inactuals=='N'){?> selected="selected"<?php }?>>No</option>
                                                       </select>
                                                    </div>
                                                 </div>
@@ -1278,8 +1278,8 @@
                                                       <label>Eligible For Bonus </label>
                                                       <select class="form-control" name="emp_bonus" id="emp_bonus" required >
                                                          <option value="">Select</option>
-                                                         <option value="Y" <?php if($EmployeePayStructure->emp_bonus=='Y'){?> selected="selected"<?php }?>>Yes</option>
-                                                         <option value="N" <?php if($EmployeePayStructure->emp_bonus=='N'){?> selected="selected"<?php }?>>No</option>
+                                                         <option value="Y" <?php if($employee_rs->emp_bonus=='Y'){?> selected="selected"<?php }?>>Yes</option>
+                                                         <option value="N" <?php if($employee_rs->emp_bonus=='N'){?> selected="selected"<?php }?>>No</option>
                                                       </select>
                                                    </div>
                                                 </div>
