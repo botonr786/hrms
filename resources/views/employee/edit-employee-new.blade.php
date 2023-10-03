@@ -120,9 +120,9 @@
    </head>
    <body>
       <div class="wrapper">
-         @include('employee-corner.include.header')
+         @include('employee.include.header')
          <!-- Sidebar -->
-         @include('employee-corner-organisation.include.sidebar')
+         @include('employee.include.sidebar')
          <!-- End Sidebar -->
          <div class="main-panel">
             <div class="page-header">

@@ -697,7 +697,20 @@ class SettingController extends Controller
         $data['enteries'] = DB::table('ifsc_master')->get();
         return view('settings/ifsc', $data);
     }
-
+   public function editviewAddNewIfsc($id){
+    $data['enteries'] = DB::table('ifsc_master')->where('ifsc_no',$id)->first();
+    return view('settings/edit-ifsc', $data);
+   }
+   public function updatesaveIfscData(Request $request){
+    $arrayValue=array(
+        "ifsc_no"=>$request->ifsc_no,
+        "bank_name"=>$request->bank_name,
+        "bank_name"=>$request->bank_address,
+    );
+ DB::table('ifsc_master')->where('ifsc_no',$request->ifsc_id)->update($arrayValue);
+ Session::flash('message', 'Ifsc Details Update Successfully saved.');
+ return redirect('settings/vw-ifsc');
+   }
     public function viewAddNewIfsc(Request $request)
     {
         try {
@@ -978,7 +991,18 @@ public function updateCast(Request $request)
         $data['enteries'] = DB::table('religion_master')->get();
         return view('settings/religion', $data);
     }
-
+  public function editViewsaveReligionData($id){
+    $data['enteries'] = DB::table('religion_master')->where('idreligion_master',$id)->first();
+    return view('settings/religion-edit', $data);
+  }
+  public function updateViewsaveReligionData(Request $request){
+    $arrayValue=array(
+        "religion_name"=>$request->religion_name,
+    );
+     DB::table('religion_master')->where('idreligion_master',$request->rel_id)->update($arrayValue);
+     Session::flash('message', 'Religion Information Successfully Updated.');
+     return redirect('settings/vw-religion');
+  }
     public function viewAddNewReligion(Request $request)
     {
         try {
@@ -1029,7 +1053,19 @@ public function updateCast(Request $request)
         $data['enteries'] = DB::table('education_master')->get();
         return view('settings/education', $data);
     }
+public function editViewEducationData($id){
+    $data['education'] = DB::table('education_master')->where('ideducation_master',$id)->first();
+    return view('settings/edit-education', $data);
+}
+public function editEducationData(Request $request){
+ $arrayValue=array(
+    "education_name"=>$request->education_name,
+ );
+ DB::table('education_master')->where('ideducation_master',$request->edu_id)->update($arrayValue);
+ Session::flash('message', 'Education Update Success.');
+ return redirect('settings/vw-education');
 
+}
     public function viewAddNewEducation(Request $request)
     {
         try {
@@ -1773,7 +1809,7 @@ public function updateCast(Request $request)
     }
     }
 
-    public function viewAddBank()
+    public function viewAddBank(Request $request)
     {try {
         if (!empty(Session::get('emp_email'))) {
             if ($request->id) {
@@ -1895,8 +1931,9 @@ public function updateCast(Request $request)
         throw new \App\Exceptions\FrontException($e->getMessage());
     }
     }
-    public function viewAddPayscale()
-    {try {
+    public function viewAddPayscale(Request $request)
+    {
+        try {
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
@@ -1910,8 +1947,6 @@ public function updateCast(Request $request)
                 ->first();
             if ($request->id) {
                 $data['paygroup_rs'] = DB::Table('grade')
-                    ->where('grade_status', '=', 'active')
-                    ->where('emid', '=', $Roledata->reg)
                     ->get();
 
                 $data['getPayscale'] = DB::table('pay_scale_master')->where('id', '=', $request->id)->get();
@@ -1920,8 +1955,6 @@ public function updateCast(Request $request)
                 return view('settings/add-new-payscale', $data);
             } else {
                 $data['paygroup_rs'] = DB::Table('grade')
-                    ->where('grade_status', '=', 'active')
-                    ->where('emid', '=', $Roledata->reg)
                     ->get();
                 return view('settings/add-new-payscale', $data);
             }
@@ -2181,7 +2214,7 @@ public function updateCast(Request $request)
         throw new \App\Exceptions\FrontException($e->getMessage());
     }
     }
-    public function viewAddPaytypemaster()
+    public function viewAddPaytypemaster(Request $request)
     {try {
         if (!empty(Session::get('emp_email'))) {
 

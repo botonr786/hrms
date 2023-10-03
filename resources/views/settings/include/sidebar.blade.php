@@ -70,14 +70,7 @@
 							</span>
 							
 						</li>
-						<!--<li class="nav-item">
-							<a href="company.php">
-								<i class="fas fa-layer-group"></i>
-								<p>Company</p>
-								
-							</a>
-							
-						</li>-->
+						
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#sidebarLayouts1">
 								<i class="fas fa-th-list"></i>
@@ -109,8 +102,8 @@
 							<div class="collapse" id="sidebarLayouts">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="{{url('settings/vw-cast')}}">
-											<span class="sub-item">Grade Master</span>
+										<a href="{{url('settings/vw-caste')}}">
+											<span class="sub-item">Caste Master</span>
 										</a>
 									</li>
 									<li>
@@ -143,11 +136,7 @@
 											<span class="sub-item">IFSC Master</span>
 										</a>
 									</li>
-									<li>
-										<a href="{{url('settings/vw-caste')}}">
-											<span class="sub-item">Caste Master</span>
-										</a>
-									</li>
+									
 									<li>
 										<a href="{{url('settings/vw-religion')}}">
 											<span class="sub-item">Religion Master</span>
@@ -259,37 +248,6 @@ if(in_array('57', $arrrole))
 ?>
 
 
-<?php 
-									
-									if( $usetype=='employee'){
-if(in_array('58', $arrrole))
-{
-	
-	?>		<li>
-										<a href="{{url('settings/vw-paygroup')}}">
-											<span class="sub-item">Pay Group</span>
-										</a>
-									</li>
-									
-				<?php
-}else{
-	?>
-				
-				<?php
-}
-									}else{
-									?>
-		<li>
-										<a href="{{url('settings/vw-paygroup')}}">
-											<span class="sub-item">Pay Group</span>
-										</a>
-									</li>
-									
-						
-				<?php	
-									}
-									
-?>
 
 									
 				
@@ -324,36 +282,7 @@ if(in_array('59', $arrrole))
 									
 ?>
 
-	<?php 
-									
-									if( $usetype=='employee'){
-if(in_array('60', $arrrole))
-{
-	
-	?>				<li>
-																				<a href="{{url('settings/vw-bank')}}">
-											<span class="sub-item">Bank Master </span>
-										</a>
-									</li>
-									
-				<?php
-}else{
-	?>
-				
-				<?php
-}
-									}else{
-									?>
-			<li>
-																				<a href="{{url('settings/vw-bank')}}">
-											<span class="sub-item">Bank Master </span>
-										</a>
-									</li>
-						
-				<?php	
-									}
-									
-?>							
+					
 		
 
 <?php 
@@ -389,39 +318,7 @@ if(in_array('60', $arrrole))
 
 
 			
-<?php 
-									
-									if( $usetype=='employee'){
-if(in_array('61', $arrrole))
-{
-	
-	?>				<li>
-									<a href="{{url('settings/vw-tax')}}">
-											<span class="sub-item">Tax Master</span>
-										</a>
-									</li>
-									
-				<?php
-}else{
-	?>
-				
-				<?php
-}
-									}else{
-									?>
-			<li>
-									<a href="{{url('settings/vw-tax')}}">
-											<span class="sub-item">Tax Master</span>
-										</a>
-									</li>
-						
-				<?php	
-									}
-									
-?>
-	
-									
-				
+
 
 <?php 
 									

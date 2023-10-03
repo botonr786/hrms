@@ -244,7 +244,7 @@ class CompanyController extends Controller
                     ->where('emid', '=', $data['Roledata']->reg)
                     ->first();
 
-                $data['cuurenci_master'] = DB::table('currencies')->get();
+                $data['cuurenci_master'] = DB::table('location_countries')->get();
                 $data['nat_or_master'] = DB::table('nat_or')->get();
                 $data['type_or_master'] = DB::table('type_or')->get();
                 $data['employee_upload_rs'] = DB::table('company_upload')

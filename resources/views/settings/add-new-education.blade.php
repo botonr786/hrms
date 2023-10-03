@@ -79,7 +79,7 @@
 
 										
 										<div class="form-group">
-											<label for="inputFloatingLabel" class="placeholder">education Name</label>
+											<label for="inputFloatingLabel" class="placeholder">Education Name</label>
 												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="education_name" />
 										</div>
 										

@@ -79,9 +79,9 @@
 											<thead>
 												<tr>
 													<th>Sl. No.</th>
-                									<th>ideducation_master</th>
-                									<th>education Name</th>
                 								
+                									<th>education Name</th>
+                								    <th>Action</th>
                 									
 												</tr>
 											</thead>
@@ -92,8 +92,9 @@
 												   
                                         <tr>
                                             <td><?php echo $i++; ?></td>
-                                            <td>{{ $entry->ideducation_master}}</td>
+                                           
                                             <td>{{ $entry->education_name}}</td>
+											<td><a href="{{url('settings/edit-new-education/'.$entry->ideducation_master)}}" data-toggle="tooltip"data-placement="bottom" title="Edit"><img  style="width: 14px;" src="{{ asset('assets/img/edit.png')}}"></a></td>
                                           
                                             
                                         </tr>

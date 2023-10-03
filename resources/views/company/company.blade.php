@@ -93,7 +93,7 @@
 							<td>1</td>
 							<td>{{ $companies_rs->com_name }}</td>
                                                                            
-							<td>@if($companies_rs->address!=''){{ $companies_rs->address }} @if($companies_rs->address2!='null'),{{ $companies_rs->address2 }}@endif,{{  $companies_rs->road }},{{  $companies_rs->city }},{{  $companies_rs->zip }},{{  $companies_rs->country }}@endif</td>
+							<td>@if($companies_rs->address!=''){{ $companies_rs->address }} @if($companies_rs->address2!='null'),{{ $companies_rs->address2 }}@endif,{{  $companies_rs->road }}{{  $companies_rs->city }}{{  $companies_rs->zip }}{{  $companies_rs->country }}@endif</td>
                            
                             <td>{{ $companies_rs->website }}</td>
                               <td>{{ $companies_rs->email }}</td>

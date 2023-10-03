@@ -2029,6 +2029,8 @@ Route::post('settings/rate-update-save','App\Http\Controllers\SettingController@
 Route::get('settings/vw-ifsc', 'App\Http\Controllers\SettingController@getIfsc');
 Route::get('settings/add-new-ifsc', 'App\Http\Controllers\SettingController@viewAddNewIfsc');
 Route::post('settings/add-new-ifsc', 'App\Http\Controllers\SettingController@saveIfscData');
+Route::get('settings/edit-ifsc/{id}', 'App\Http\Controllers\SettingController@editviewAddNewIfsc');
+Route::post('settings/update-ifsc', 'App\Http\Controllers\SettingController@updatesaveIfscData');
 
 Route::get('settings/vw-caste', 'App\Http\Controllers\SettingController@getCaste');
 Route::get('settings/add-new-caste', 'App\Http\Controllers\SettingController@viewAddNewCaste');
@@ -2045,10 +2047,17 @@ Route::post('settings/update-sub-cast', 'App\Http\Controllers\SettingController@
 Route::get('settings/vw-religion', 'App\Http\Controllers\SettingController@getReligion');
 Route::get('settings/add-new-religion', 'App\Http\Controllers\SettingController@viewAddNewReligion');
 Route::post('settings/add-new-religion', 'App\Http\Controllers\SettingController@saveReligionData');
+Route::get('settings/edit-new-religion/{id}', 'App\Http\Controllers\SettingController@editViewsaveReligionData');
+Route::post('settings/update-new-religion', 'App\Http\Controllers\SettingController@updateViewsaveReligionData');
+
+
 
 Route::get('settings/vw-education', 'App\Http\Controllers\SettingController@getEducation');
 Route::get('settings/add-new-education', 'App\Http\Controllers\SettingController@viewAddNewEducation');
 Route::post('settings/add-new-education', 'App\Http\Controllers\SettingController@saveEducationData');
+Route::get('settings/edit-new-education/{id}', 'App\Http\Controllers\SettingController@editViewEducationData');
+Route::post('settings/update-new-education', 'App\Http\Controllers\SettingController@editEducationData');
+
 
 Route::get('settings/vw-department', 'App\Http\Controllers\SettingController@getDepartment');
 Route::get('settings/add-new-department', 'App\Http\Controllers\SettingController@viewAddNewDepartment');

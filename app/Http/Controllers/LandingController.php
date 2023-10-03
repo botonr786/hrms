@@ -171,7 +171,7 @@ class LandingController extends Controller
                 //$toemail = 'm.subhasish@gmail.com';
                 Mail::send("mailre", $data, function ($message) use ($toemail) {
                     $message
-                        ->to($toemail, "Workpermitcloud")
+                        ->to($toemail, "EITClimbr")
                         ->subject("New Organisation Registered");
                     $message->from("noreply@eitclimbr.in", "Climbr");
                 });
@@ -189,7 +189,7 @@ class LandingController extends Controller
                     $toemail
                 ) {
                     $message
-                        ->to($toemail, "Workpermitcloud")
+                        ->to($toemail, "EITClimbr")
                         ->subject("Organisation Details");
                     $message->from("noreply@eitclimbr.in", "Climbr");
                 });
@@ -205,7 +205,7 @@ class LandingController extends Controller
                 $toemail = $request->email;
                 Mail::send("mailor", $data, function ($message) use ($toemail) {
                     $message
-                        ->to($toemail, "Workpermitcloud")
+                        ->to($toemail, "EITClimbr")
                         ->subject(
                             "Welcome to climber Cloud HR Management System"
                         );

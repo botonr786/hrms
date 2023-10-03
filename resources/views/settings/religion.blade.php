@@ -79,9 +79,10 @@
 											<thead>
 												<tr>
 													<th>Sl. No.</th>
-                									<th>idreligion_master</th>
+                									
                 									<th>Religion Name</th>
                 									<th>Status</th>
+													<th>Action</th>
                 									
 												</tr>
 											</thead>
@@ -92,9 +93,11 @@
 												   
                                         <tr>
                                             <td><?php echo $i++; ?></td>
-                                            <td>{{ $entry->idreligion_master}}</td>
+                                            
                                             <td>{{ $entry->religion_name}}</td>
                                             <td>{{ $entry->status}}</td>
+											<td><a href="{{url('settings/edit-new-religion/'.$entry->idreligion_master)}}" data-toggle="tooltip"data-placement="bottom" title="Edit"><img  style="width: 14px;" src="{{ asset('assets/img/edit.png')}}"></a></td>
+
                                             
                                         </tr>
                                     @endforeach  

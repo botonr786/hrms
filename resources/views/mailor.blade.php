@@ -9,8 +9,8 @@
 <table style="width:100%;">
   <thead>
     <tr>
-	  <td style="color: #29b9ff;font-size: 20px;">Work Permit Cloud</td>
-	  <td style="    text-align: right;"><img width="120" src="http://workpermitcloud.co.uk/hrms/public/assets/img/comp-logo.jpg" alt="" /></td>
+	  <td style="color: #29b9ff;font-size: 20px;">EITClimbr</td>
+	  <td style="text-align: right;"><img width="120" src="https://eitclimbr.in/img/logo.png" alt="" /></td>
 	</tr>
   </thead>
 </table>
@@ -18,8 +18,8 @@
   <tr>
     <td>
 	  <p>Hello {{ $f_name }}  {{ $l_name }},</p>
-	  <p>Thank you for registering with Work Permit Cloud. As a next step, you have to create organisation profile. To do this please click on the link below</p>
-	  <p><a href="http://workpermitcloud.co.uk/hrms">http://workpermitcloud.co.uk/hrms/</a></p>
+	  <p>Thank you for registering with EITClimbr. As a next step, you have to create organisation profile. To do this please click on the link below</p>
+	  <p><a href="https://eitclimbr.in/">https://eitclimbr.in/</a></p>
 	  <p>Username: {{ $email }}</p>
 	  <p>Password: {{ $pass}}</p>
 	  <p>Please find below some helpful tips to complete organisation profile easily.</p>
@@ -35,13 +35,13 @@
 <li style="padding-bottom:7px;">It is very important that you complete organisation profile as fully as possible. Without the relevant information and documents, we will not be able to help you with sponsorship application. </li>
 </ul>
 
-<p>Your journey starts from here. Please do not hesitate to contact us info@workpermitcloud.co.uk if you have any questions. We are here to help!</p>
+<p>Your journey starts from here. Please do not hesitate to contact us info@eitpl.in if you have any questions. We are here to help!</p>
 <p>Thanking you</p>
 
-<h5 style="margin-bottom:0;color: #29b9ff;font-size: 16px;">Work Permit Cloud Team</h5>
-<p style="margin-top:0;margin-bottom:0;">Phone: 020-808-723-43<br />
-Email:info@workpermitcloud.co.uk<br />
-www.workpermitcloud.co.uk
+<h5 style="margin-bottom:0;color: #29b9ff;font-size: 16px;">EITClimbr</h5>
+<p style="margin-top:0;margin-bottom:0;">Phone:8336933521<br />
+Email:info@eitpl.in<br />
+https://eitclimbr.in/
 </p>
 	</td>
   </tr>

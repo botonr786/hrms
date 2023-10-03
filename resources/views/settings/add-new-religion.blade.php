@@ -79,7 +79,7 @@
 
 										
 										<div class="form-group">
-											<label for="inputFloatingLabel" class="placeholder">religion Name</label>
+											<label for="inputFloatingLabel" class="placeholder">Religion Name</label>
 												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="religion_name" />
 										</div>
 										

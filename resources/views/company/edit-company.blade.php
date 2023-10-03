@@ -89,8 +89,7 @@
 										<div class="col-md-4">
 						<div class="form-group">
 
-							<label for="inputFloatingLabel" class="placeholder">Organisation Name  <a  style="padding: 5px 10px;top: 0;
-    text-decoration: none !important;" href="https://find-and-update.company-information.service.gov.uk" class="sampleupload" target="_blank">Find</a> <span class="star">(*)</span></label>
+							<label for="inputFloatingLabel" class="placeholder">Organisation Name <span class="star">(*)</span></label>
 
 												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" required=""  name="com_name"  value="{{ $Roledata->com_name}}">
 
@@ -121,8 +120,7 @@
 							<div class="col-md-4">
 											<div class="form-group">
 
-												<label for="inputFloatingLabel7" class="placeholder"> Registration No.  <a  style="padding: 5px 10px;top: 0;
-    text-decoration: none !important;" href="https://find-and-update.company-information.service.gov.uk" class="sampleupload" target="_blank">Find</a> </label>
+												<label for="inputFloatingLabel7" class="placeholder"> Registration No.  </label>
 
 												<input id="inputFloatingLabel7" type="text" class="form-control input-border-bottom"  name="com_reg"  value="@if($Roledata->com_reg){{  $Roledata->com_reg }}@endif">
 
@@ -563,20 +561,7 @@
 
 										   </div>
 											</div>
-												<div class="col-md-3">
-
-											 <div class="form-group">
-											 	<label for="se_add" class="placeholder">Select Address </label>
-												<select class="form-control input-border-bottom" id="se_add"  name="se_add" onchange="countryfunjj(this.value);">
-													<option value="">&nbsp;</option>
-
-
-												</select>
-
-											</div>
-
-
-											</div>
+												
 											<div class="col-md-3">
 											  <div class="form-group">
 											  	<label for="address" class="placeholder">Address Line 1  </label>
@@ -612,24 +597,15 @@
 											 	<label for="country" class="placeholder">Country </label>
 												<select class="form-control input-border-bottom" id="country"  name="country" onchange="countryfun(this.value);">
 													 @foreach($cuurenci_master as $desig)
-                     <option value="{{$desig->country}}" <?php if ($Roledata->country == '') {if ($desig->country == 'United Kingdom') {echo 'selected';}}if ($Roledata->country == $desig->country) {echo 'selected';}?>>{{$desig->country}}</option>
-                       @endforeach
+														<option value="{{$desig->country_name}}" <?php if ($Roledata->country == '') {if ($desig->country_name == $desig->country_name) {echo 'selected';}}if ($Roledata->country == $desig->country_name) {echo 'selected';}?>>{{$desig->country_name}}</option>
+													@endforeach
 												</select>
 
 											</div>
 
 
 											</div>
-										<!--	<div class="col-md-3">
-												<div class="form-group form-floating-label">
-												<select class="form-control input-border-bottom" id="currency"  name="currency">
-													@foreach($cuurenci_master as $desig)
-                     <option value="{{$desig->code}}" <?php if ($Roledata->currency == $desig->code) {echo 'selected';}?>>{{$desig->code}}</option>
-                       @endforeach
-												</select>
-												<label for="currency" class="placeholder">Currency  </label>
-											</div>
-											</div>-->
+										
 										</div>
 
 

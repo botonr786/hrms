@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<link rel="icon" href="{{ asset('img/favicon.png')}}" type="image/x-icon"/>
 	<title>HRMS</title>
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-<link rel="icon" href="{{ asset('assets/img/icon.ico')}}" type="image/x-icon"/>
+	
+	
+	<!-- Fonts and icons -->
 	<script src="{{ asset('assets/js/plugin/webfont/webfont.min.js')}}"></script>
-		<script>
+	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
-			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../assets/css/fonts.min.css']},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['{{ asset('assets/css/fonts.min.css')}}']},
 			active: function() {
 				sessionStorage.fonts = true;
 			}
@@ -28,35 +28,38 @@
 </head>
 <body>
 	<div class="wrapper">
-		
-  @include('settings.include.header')
+	  @include('settings.include.header')
 		<!-- Sidebar -->
 		
 		  @include('settings.include.sidebar')
 		<!-- End Sidebar -->
 		<div class="main-panel">
 			<div class="page-header">
-						<!-- <h2 class="text-white pb-2 fw-bold" style="padding-left:20px;">class</h2> -->
-						
+						<!-- <h4 class="page-title">HCM Master</h4> -->
 						<ul class="breadcrumbs">
 							<li class="nav-home">
 								<a href="{{url('settingdashboard')}}">
-								Home
+									Home
 								</a>
 							</li>
 							 <li class="separator">
-								/
+							/
 							</li>
-							 <li class="nav-item">
+							<li class="nav-item">
 								<a href="#">HCM Master</a>
 							</li>
 							<li class="separator">
-							/
+								/
+							</li>
+							<li class="nav-item">
+									<a href="{{url('settings/vw-education')}}">education</a>
+							</li>
+							<li class="separator">
+								/
 							</li>
 							<li class="nav-item active">
-								<a href="{{url('settings/vw-ifsc')}}">ifsc</a>
+								<a href="#"> New education</a>
 							</li>
-							
 						</ul>
 					</div>
 			<div class="content">
@@ -66,43 +69,30 @@
 						<div class="col-md-12">
 							<div class="card custom-card">
 								<div class="card-header">
-									<h4 class="card-title"><i class="far fa-building"></i>ifsc 
-<span>		<a href="{{ url('settings/add-new-ifsc') }}" data-toggle="tooltip"data-placement="bottom" title="Add New"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
-@if(Session::has('message'))										
-							<div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
-					@endif
-									
+									<h4 class="card-title"><i class="far fa-building"></i> New education</h4>
 								</div>
-								<div class="card-body">
-									<div class="table-responsive">
-										<table id="basic-datatables" class="display table table-striped table-hover" >
-											<thead>
-												<tr>
-													<th>Sl. No.</th>
-                									<th>ifsc</th>
-                									<th>Bank Name</th>
-                									<th>Bank address</th>
-													<th>Action</th>
-                									
-												</tr>
-											</thead>
+								<div class="card-body" style="">
+									<form action="{{url('settings/update-new-education')}}" method="post" enctype="multipart/form-data">
+			 {{csrf_field()}}
+									<div class="row">
+										<div class="col-md-4">
 
-											<tbody>
-											<?php $i = 1; ?>   
-											@foreach($enteries as $entry)
-												   
-                                        <tr>
-                                            <td><?php echo $i++; ?></td>
-                                            <td>{{ $entry->ifsc_no}}</td>
-                                            <td>{{ $entry->bank_name}}</td>
-                                            <td>{{ $entry->bank_address}}</td>
-											<td><a href="{{url('settings/edit-ifsc/'.$entry->ifsc_no)}}" data-toggle="tooltip"data-placement="bottom" title="Edit"><img  style="width: 14px;" src="{{ asset('assets/img/edit.png')}}"></a></td>
-                                            
-                                        </tr>
-                                    @endforeach  
-											</tbody>
-										</table>
-									</div>
+										
+										<div class="form-group">
+											<label for="inputFloatingLabel" class="placeholder">Education Name</label>
+                                            <input type="hidden" name="edu_id" value="<?php print_r($education->ideducation_master) ?>">
+												<input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="education_name" value="<?php print_r($education->education_name) ?>" />
+										</div>
+										
+
+
+											</div>
+											</div>
+											<div class="row form-group">
+										<div class="col-md-2"><button type="submit" class="btn btn-default">Submit</button></div>
+										</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -113,7 +103,7 @@
 					</div>
 				</div>
 			</div>
-				 @include('settings.include.footer')
+ @include('settings.include.footer')
 		</div>
 		
 	</div>

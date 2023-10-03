@@ -160,9 +160,11 @@ class RecruitmentController extends Controller
                 
             $data['oldcust'] = DB::table('company_job_list')->where('emid', $data['Roledata']->reg)->get();
             $data['depert'] = DB::table('department')->get();
-            $jobId=$data['oldcust']['0']->id;
-            if ( $jobId) {
-                $dt = DB::table('company_job_list')->where('id', '=',  $jobId)->get();
+            if(count($data['oldcust'])==0){
+               return view('recruitment/add-new-job-list', $data);
+            }else{
+                $jobId=$data['oldcust']['0']->id;
+                   $dt = DB::table('company_job_list')->where('id', '=',  $jobId)->get();
                 if (count($dt) > 0) {
                     $data['departments'] = DB::table('company_job_list')->where('id', '=',  $jobId)->get();
 
@@ -171,10 +173,8 @@ class RecruitmentController extends Controller
 
                     return redirect('recruitment/add-new-job-list', $data);
                 }
-
-            } else {
-                return view('recruitment/add-new-job-list', $data);
             }
+            
         } else {
             return redirect('/');
         }
