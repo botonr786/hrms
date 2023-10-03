@@ -344,7 +344,7 @@ class EmployeeController extends Controller
                 $updateData = [
                     // "emid" => $userObj->employee_id,
                     // "emp_code" => $employeeId,
-                    "emp_old_code"=> $request->emp_old_code,
+                    "old_emp_code"=> $request->emp_old_code,
                     "salutation" => $request->salutation,
                     "emp_fname" => $request->emp_fname,
                     "emp_mname" => $request->emp_mname,
@@ -610,7 +610,7 @@ class EmployeeController extends Controller
         $insertData = [
             "emid" => $userObj->employee_id,
             "emp_code" => $employeeId,
-            "emp_old_code"=> $request->emp_old_code,
+            "old_emp_code"=> $request->emp_old_code,
             "salutation" => $request->salutation,
             "emp_fname" => $request->emp_fname,
             "emp_mname" => $request->emp_mname,
@@ -2203,7 +2203,7 @@ class EmployeeController extends Controller
                 $filename = "";
             }
 
-            $id = Input::get("q");
+            $id = $request->get("q");
 
             if ($id) {
                 //edit mode

@@ -39,7 +39,7 @@
 }
 .row:nth-child(odd) {
     background-color: #f7f7f7;
-
+}
 </style>
 </head>
 <body>

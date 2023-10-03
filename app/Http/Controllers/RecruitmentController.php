@@ -793,7 +793,7 @@ class RecruitmentController extends Controller
         if (!empty(Session::get('emp_email'))) {
             $job = DB::table('candidate')->where('id', '=', $request->id)->first();
             //$jobHistory = DB::table('candidate_history')->where('id', '=', $request->id)->where('email', '=', $job->email)->get();
-//dd($request->all());
+            //dd($request->all());
             if(isset($request->status)){
                 $data = array(
                     'job_id' => $request->job_id,
@@ -889,7 +889,8 @@ class RecruitmentController extends Controller
     }
 
     public function viewshortcandidatedetails($short_id)
-    {if (!empty(Session::get('emp_email'))) {
+    {
+        if (!empty(Session::get('emp_email'))) {
 
         $data['job'] = DB::table('candidate')->where('id', '=', base64_decode($short_id))->where(function ($query) {
             $query->where('candidate.status', '=', 'Short listed')
