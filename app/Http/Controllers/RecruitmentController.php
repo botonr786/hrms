@@ -429,6 +429,7 @@ class RecruitmentController extends Controller
 
     public function saveJobPostData(Request $request)
     {
+       
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
@@ -440,7 +441,7 @@ class RecruitmentController extends Controller
 
                 ->where('email', '=', $email)
                 ->first();
-        //    print_r(Input::get('id'));die;
+           
             if (Input::get('id')) {$ckeck_dept = DB::table('company_job')->where('job_code', strtoupper(trim($request->job_code)))->where('id', '!=', Input::get('id'))->where('emid', $Roledata->reg)->first();
                 if (!empty($ckeck_dept)) {
                     Session::flash('message', 'Job Code  Already Exists.');
@@ -493,7 +494,8 @@ class RecruitmentController extends Controller
                 Session::flash('message', 'Job Post Information Successfully Updated.');
                 return redirect('recruitment/job-post');
             } else {
-                $ckeck_dept = DB::table('company_job')->where('job_code', strtoupper(trim($request->job_code)))->where('emid', $Roledata->reg)->first();
+                $ckeck_dept = DB::table('company_job')->where('soc',$request->soc)->first();
+                // dd($ckeck_dept);
                 if (!empty($ckeck_dept)) {
                     Session::flash('message', 'Job Code  Already Exists.');
                     return redirect('recruitment/job-post');
