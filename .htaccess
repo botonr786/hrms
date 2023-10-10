@@ -46,6 +46,6 @@ RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteCond %{REQUEST_URI} !^/public/
 
-RewriteRule ^(css|js|img|assets|empassets|employee|fonts|employee_doc|employee_logo|employee_quli_doc|employee_upload_doc|employee_vis_doc|employeeassets|company_upload_doc|candidate_resume|carrassests|employee_quli_doc2|candidate_cover_letter|employee_ps_add|employee_per_add|assetsemcor|candidate_up_doc|employee_pap_up|employee_ps_stat|pdf|addtohomescreen|upcsv|proof|billpdf|msg_file|msg_file_user|job_post|level_proof|key_proof|can_file_user|rcrop|demos|dist|libs|src|tasks)/(.*)$ public/$1/$2 [L,NC]
+RewriteRule ^(css|js|img|assets|empassets|employee|fonts|employee_doc|employee_logo|employee_quli_doc|employee_upload_doc|employee_vis_doc|employeeassets|company_upload_doc|candidate_resume|carrassests|employee_quli_doc2|candidate_cover_letter|employee_ps_add|employee_per_add|assetsemcor|candidate_up_doc|employee_pap_up|emp_pic|employee_ps_stat|pdf|addtohomescreen|upcsv|proof|billpdf|msg_file|msg_file_user|job_post|level_proof|key_proof|can_file_user|rcrop|demos|dist|libs|src|tasks)/(.*)$ public/$1/$2 [L,NC]
     
 </IfModule>

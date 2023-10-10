@@ -5,7 +5,7 @@
 				<a href="{{url('employerdashboard')}}" class="logo">
 					
 					<!--<img src="assets/img/logo.svg" alt="navbar brand" class="navbar-brand">-->
-					<h2 style="margin-top:10px;color:#1572e8"><img src="{{ asset('img/logo.png')}}" alt="" width="200"></h2>
+					<h2 style="margin-top:5px;color:#1572e8"><img src="{{ asset('img/logo.png')}}" alt="" width="170"></h2>
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
