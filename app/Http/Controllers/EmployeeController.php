@@ -368,7 +368,7 @@ class EmployeeController extends Controller
                     "eligibleforpromotion" => $request->eligibleforpromotion,
                     "employeetype" => $request->employeetype,
                     "renewdate" => $request->renewdate,
-                    "profileimage" => $request->profileimage,
+                    // "profileimage" => $request->profileimage,
                     "reportingauthority" => $request->reportingauthority,
                     "leaveauthority" => $request->leaveauthority,
                     "grade" => $request->grade,
@@ -414,7 +414,7 @@ class EmployeeController extends Controller
                     "pas_iss_date" => $request->pas_iss_date,
                     "pass_exp_date" => $request->pass_exp_date,
                     "pass_review_date" => $request->pass_review_date,
-                    "pass_docu" => $request->pass_docu,
+                    // "pass_docu" => $request->pass_docu,
                     "cur_pass" => $request->cur_pass,
                     "cur_passss" => $request->cur_passss,
                     "remarks" => $request->remarks,
@@ -442,6 +442,24 @@ class EmployeeController extends Controller
                 ];
                 DB::table('employee')->where('id',$employee_id)->update($updateData);
                 //end employee update
+
+            //profile image upload
+            if ($request->hasFile('profileimage')) {
+                $image = $request->file('profileimage');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('/emp_pic'), $imageName);
+                DB::table('employee')->where('id',$employee_id)->update(["profileimage"=>$imageName]);
+            }
+            //end profile image
+            //passport upload
+            if ($request->hasFile('pass_docu')) {
+                $image = $request->file('pass_docu');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('/emp_pic'), $imageName);
+                DB::table('employee')->where('id',$employee_id)->update(["pass_docu"=>$imageName]);
+            }
+            //end passposrt upload
+
 
         $documentNames = $request->input("document_name");
         $employeeId = $request->input("empid");
@@ -709,6 +727,24 @@ class EmployeeController extends Controller
         ];
       
         $service_details_id = DB::table("employee")->insertGetId($insertData);
+
+        //profile image upload
+        if ($request->hasFile('profileimage')) {
+            $image = $request->file('profileimage');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/emp_pic'), $imageName);
+            DB::table('employee')->where('id',$service_details_id)->update(["profileimage"=>$imageName]);
+        }
+        //end profile image
+        //passport upload
+        if ($request->hasFile('pass_docu')) {
+            $image = $request->file('pass_docu');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/emp_pic'), $imageName);
+            DB::table('employee')->where('id',$service_details_id)->update(["pass_docu"=>$imageName]);
+        }
+        //end passposrt upload
+        
 
         //pay structure
 

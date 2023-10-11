@@ -75,7 +75,7 @@
 											<thead>
 												<tr>
 													  <th>Sl. No.</th>
-                													<th>SOC Code</th>
+                													<th>Job Code</th>
 													<th>Job Title</th>
 												
 																	<th>Action</th>

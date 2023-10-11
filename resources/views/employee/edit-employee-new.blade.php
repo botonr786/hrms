@@ -183,7 +183,7 @@
                               </div>
                            </div>
                            <div class="text-right">
-                              <div id="divImageMediaPreview" class="profile_img"></div>
+                              <div id="divImageMediaPreview" class="profile_img"><img src="{{asset('emp_pic/'.$employee_rs->profileimage)}}"/></div>
                            </div>
                            <div class="card-body">
                               <main class="content" role="content">

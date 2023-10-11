@@ -472,7 +472,7 @@
           }
             function chngdepartmentdesp(empid){
            var soc=$( "#soc option:selected" ).val();
-          
+          console.log(soc);
            	$.ajax({
          type:'GET',
          url:'{{url('pis/getjobpostByIdlkkkll')}}/'+empid+'/'+soc,

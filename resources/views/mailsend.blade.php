@@ -7,10 +7,11 @@ $desig='';
 if(!empty($offer->reportauthor)){
    
     $employee=DB::table('employee')->where('emid', '=',$Roledata->reg )->where('emp_code', '=',$offer->reportauthor)->first();
+    
     $name=$employee->emp_fname.' '.$employee->emp_mname.' '.$employee->emp_lname;
-    $num=$employee->emp_ps_phone;
-    $email=$employee->emp_ps_email;
-    $desig=$employee->emp_designation;
+    $num=$employee->em_phone;
+    $email=$employee->em_email;
+    $desig=$employee->Desigination;
 }else{
    $name=$job_d->author;
     $num=$job_d->con_num;
