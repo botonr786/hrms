@@ -344,7 +344,7 @@
 
 						?>	 
 						<li class="@if (Request::Segment(2)=='vw-yearly-bonus') active @endif">
-						<a href="{{url('payroll/vw-yearly-bonus')}}">
+						<a href="#">
 						<span class="sub-item">Bonus Generation</span>
 						</a>
 						</li>
@@ -356,7 +356,7 @@
 							}else{
 							?>
 						<li class="@if (Request::Segment(2)=='vw-yearly-bonus') active @endif">
-						<a href="{{url('payroll/vw-yearly-bonus')}}">
+						<a href="#">
 						<span class="sub-item">Bonus Generation</span>
 						</a>
 						</li>
@@ -371,7 +371,7 @@
 
 						?>	 
 						<li class="@if (Request::Segment(2)=='vw-voucher-payroll-generation') active @endif">
-						<a href="{{url('payroll/vw-voucher-payroll-generation')}}">
+						<a href="#">
 						<span class="sub-item">Yearly Employee Encashments</span>
 						</a>
 						</li>
@@ -383,7 +383,7 @@
 							}else{
 							?>
 						<li class="@if (Request::Segment(2)=='vw-voucher-payroll-generation') active @endif">
-						<a href="{{url('payroll/vw-voucher-payroll-generation')}}">
+						<a href="#">
 						<span class="sub-item">Yearly Employee Encashments</span>
 						</a>
 						</li>

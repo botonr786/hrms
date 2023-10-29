@@ -67,7 +67,7 @@ class PayrollGenerationController extends Controller
             $data['req_month'] = $request->month;
 
             $employee_rs = MonthlyEmployeeCooperative::join('employee', 'employee.emp_code', '=', 'monthly_employee_cooperatives.emp_code')
-                ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.Designation', 'employee.old_emp_code', 'monthly_employee_cooperatives.*')
+                ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'monthly_employee_cooperatives.*')
                 ->where('monthly_employee_cooperatives.month_yr', '=', $request->month)
                 // ->where('monthly_employee_cooperatives.status', '=', 'process')
                 // ->where('monthly_employee_cooperatives.emp_code', '=', '7086')
@@ -128,8 +128,6 @@ class PayrollGenerationController extends Controller
             $employee_rs = MonthlyEmployeeCooperative::join('employee', 'employee.emp_code', '=', 'monthly_employee_cooperatives.emp_code')
                 ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'monthly_employee_cooperatives.*')
                 ->where('monthly_employee_cooperatives.month_yr', '=', $request['month_yr'])
-                // ->where('monthly_employee_cooperatives.status', '=', 'process')
-                // ->where('monthly_employee_cooperatives.emp_code', '=', '7086')
                 ->orderBy('employee.emp_fname', 'asc')
                 ->get();
 
@@ -160,14 +158,12 @@ class PayrollGenerationController extends Controller
 
             $result = '';
 
-            $emplist = Employee::where('status', '=', 'active')
-                ->where('emp_status', '!=', 'TEMPORARY')
-                ->where('employee.emp_status', '!=', 'EX-EMPLOYEE')
-                ->where('employee.emp_status', '!=', 'EX- EMPLOYEE')
-            // ->where('employee.emp_code', '=', '1831')
-                //->orderBy('emp_fname', 'asc')
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+            $emplist = Employee::where('status', 'active')
+                        ->where('emp_status', '!=', 'TEMPORARY')
+                        ->where('emp_status', '!=', 'EX-EMPLOYEE')
+                        ->where('emp_status', '!=', 'EX-EMPLOYEE')
+                        ->orderByRaw('CAST(old_emp_code AS UNSIGNED)')
+                        ->get();
             foreach ($emplist as $mainkey => $emcode) {
 
                 $process_payroll = $this->getEmpPayroll($emcode->emp_code, $payrolldate[0], $payrolldate[1]);
@@ -566,13 +562,15 @@ class PayrollGenerationController extends Controller
 
             $result = '';
 
-            $emplist = Employee::where('status', '=', 'active')
-                //->where('emp_status', '!=', 'TEMPORARY')
-                ->where('employee.emp_status', '!=', 'EX-EMPLOYEE')
-                ->where('employee.emp_status', '!=', 'EX- EMPLOYEE')
-            // ->where('employee.emp_code', '=', '5571')
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+            $emplist = Employee::where('status', 'active')
+            ->where('emp_status', '!=', 'TEMPORARY')
+            ->where('emp_status', '!=', 'EX-EMPLOYEE')
+            ->where('emp_status', '!=', 'EX-EMPLOYEE')
+            ->orderByRaw('CAST(old_emp_code AS UNSIGNED)')
+            ->get();
+        
+
+                 
 
             foreach ($emplist as $mainkey => $emcode) {
 
@@ -755,11 +753,11 @@ class PayrollGenerationController extends Controller
             $data['req_month'] = $request->month;
 
             $employee_rs = MonthlyEmployeeItax::join('employee', 'employee.emp_code', '=', 'monthly_employee_itaxes.emp_code')
-                ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'monthly_employee_itaxes.*')
-                ->where('monthly_employee_itaxes.month_yr', $request->month)
-                // ->where('monthly_employee_itaxes.status', 'process')
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+                            ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'monthly_employee_itaxes.*')
+                            ->where('monthly_employee_itaxes.month_yr', $request->month)
+                            // ->where('monthly_employee_itaxes.status', 'process')
+                            ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) asc')
+                            ->get();
 
             //dd($employee_rs);
             //$data['result'] = array();
@@ -919,15 +917,13 @@ class PayrollGenerationController extends Controller
         //     ->get();
 
 
-            $employee_rs = MonthlyEmployeeAllowance::join('employee', 'employee.emp_code', '=', 'monthly_employee_allowances.emp_code')
-                ->join('process_attendances', 'employee.emp_code', '=', 'process_attendances.employee_code')
-                ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'monthly_employee_allowances.*','process_attendances.no_of_working_days','process_attendances.no_of_days_absent','process_attendances.no_of_days_leave_taken','process_attendances.no_of_present','process_attendances.no_of_tour_leave','process_attendances.no_of_days_salary')
-                ->where('monthly_employee_allowances.month_yr', $request->month)
-                ->where('process_attendances.month_yr', '=', $request->month)
-                // ->where('process_attendances.status', '=', 'A')
-                // ->where('monthly_employee_allowances.status', 'process')
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+        $employee_rs = MonthlyEmployeeAllowance::join('employee', 'employee.emp_code', '=', 'monthly_employee_allowances.emp_code')
+                    ->join('process_attendances', 'employee.emp_code', '=', 'process_attendances.employee_code')
+                    ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'monthly_employee_allowances.*','process_attendances.no_of_working_days','process_attendances.no_of_days_absent','process_attendances.no_of_days_leave_taken','process_attendances.no_of_present','process_attendances.no_of_tour_leave','process_attendances.no_of_days_salary')
+                    ->where('monthly_employee_allowances.month_yr', $request->month)
+                    ->where('process_attendances.month_yr', '=', $request->month)
+                    ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) ASC')
+                    ->get();
 
            //dd($employee_rs);
 
@@ -1043,17 +1039,13 @@ class PayrollGenerationController extends Controller
             //     ->orderBy('emp_fname', 'asc')
             //     ->get();
 
-            $emplist = Process_attendance::join('employee', 'employee.emp_code', '=', 'process_attendances.employee_code')
-                ->select('employee.*', 'process_attendances.*')
-                ->where('process_attendances.month_yr', '=', $request['month_yr'])
-                // ->where('process_attendances.status', '=', 'A')
-                //->where('employee.emp_status', '!=', 'TEMPORARY')
-                ->where('employee.emp_status', '!=', 'EX-EMPLOYEE')
-                ->where('employee.emp_status', '!=', 'EX- EMPLOYEE')
-                ->where('employee.status', '=', 'active')
-            // ->where('employee.emp_code', '=', '1831')
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+                $emplist = Process_attendance::join('employee', 'employee.emp_code', '=', 'process_attendances.employee_code')
+                            ->select('employee.*', 'process_attendances.*')
+                            ->where('process_attendances.month_yr', $request['month_yr'])
+                            ->where('employee.emp_status', '!=', 'EX-EMPLOYEE')
+                            ->where('employee.status', 'active')
+                            ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) asc')
+                            ->get();
 
                 //dd($emplist);
 
@@ -1606,11 +1598,11 @@ class PayrollGenerationController extends Controller
             $data['previous_month_days'] = $previous_month_days;
 
             $employee_rs = MonthlyEmployeeOvertime::join('employee', 'employee.emp_code', '=', 'monthly_employee_overtimes.emp_code')
-                ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'monthly_employee_overtimes.*')
-                ->where('monthly_employee_overtimes.month_yr', $request->month)
-                ->where('monthly_employee_overtimes.status', 'process')
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+                            ->select('employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.designation', 'employee.old_emp_code', 'monthly_employee_overtimes.*')
+                            ->where('monthly_employee_overtimes.month_yr', $request->month)
+                            ->where('monthly_employee_overtimes.status', 'process')
+                            ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) ASC')
+                            ->get();
 
             //dd($employee_rs);
 
@@ -1712,16 +1704,12 @@ class PayrollGenerationController extends Controller
 
 
             $emplist = Process_attendance::join('employee', 'employee.emp_code', '=', 'process_attendances.employee_code')
-                ->select('employee.*', 'process_attendances.*')
-                ->where('process_attendances.month_yr', '=', $request['month_yr'])
-                // ->where('process_attendances.status', '=', 'A')
-               // ->where('employee.emp_status', '!=', 'TEMPORARY')
-                ->where('employee.emp_status', '!=', 'EX-EMPLOYEE')
-                ->where('employee.emp_status', '!=', 'EX- EMPLOYEE')
-                ->where('employee.status', '=', 'active')
-            // ->where('employee.emp_code', '=', '1831')
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+                        ->select('employee.*', 'process_attendances.*')
+                        ->where('process_attendances.month_yr', '=', $request['month_yr'])
+                        ->where('employee.emp_status', '!=', 'EX-EMPLOYEE')
+                        ->where('employee.status', 'active')
+                        ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) ASC')
+                        ->get();
 
             if (count($emplist) == 0) {
                 Session::flash('error', 'Please process the attandance for the month before generating overtimes.');
@@ -2209,10 +2197,10 @@ class PayrollGenerationController extends Controller
         if (!empty($email)) {
             //$data['payroll_rs'] = Payroll_detail::get();
             $data['payroll_rs'] = Payroll_detail::join('employee', 'employee.emp_code', '=', 'payroll_details.employee_id')
-                ->select('employee.old_emp_code', 'payroll_details.*')
-                ->where('payroll_details.month_yr','=',$request->month)
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+                                ->select('employee.old_emp_code', 'payroll_details.*')
+                                ->where('payroll_details.month_yr', '=', $request->month)
+                                ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) ASC')
+                                ->get();
 
             $data['rate_master'] = Rate_master::get();
             $data['monthlist'] = Payroll_detail::select('month_yr')->distinct('month_yr')->get();
@@ -2345,14 +2333,11 @@ class PayrollGenerationController extends Controller
             $result = '';
 
             $emplist = Employee::where('employee.status', '=', 'active')
-                ->where('employee.emp_status', '!=', 'TEMPORARY')
-                ->where('employee.emp_status', '!=', 'EX-EMPLOYEE')
-                ->where('employee.emp_status', '!=', 'EX- EMPLOYEE')
-            // ->where('employee.emp_code', '=', '7218')
-                ->whereNotIn('employee.emp_code', $process_attendance_emp)
-                // ->whereNotIn('employee.emp_code', $already_payroll_generated)
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+                        ->where('employee.emp_status', '!=', 'TEMPORARY')
+                        ->where('employee.emp_status', '!=', 'EX-EMPLOYEE')
+                        ->whereNotIn('employee.emp_code', $process_attendance_emp)
+                        ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) ASC')
+                        ->get();
             
             foreach ($emplist as $mainkey => $emcode) {
 
@@ -4184,10 +4169,10 @@ class PayrollGenerationController extends Controller
         if (!empty($email)) {
 
             $data['payroll_rs'] = Payroll_detail::join('employee', 'employee.emp_code', '=', 'payroll_details.employee_id')
-                ->select('employee.old_emp_code', 'payroll_details.*')
-                ->where('payroll_details.emp_adjust_days','>',0)
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+                                ->select('employee.old_emp_code', 'payroll_details.*')
+                                ->where('payroll_details.emp_adjust_days', '>', 0)
+                                ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) ASC')
+                                ->get();
             $data['rate_master'] = Rate_master::get();
             //dd($data['payroll_rs'][0]);
             return view('payroll/view-adjust-payroll-generation', $data);
@@ -4347,10 +4332,9 @@ class PayrollGenerationController extends Controller
         if (!empty($email)) {
 
             $data['payroll_rs'] = PayrollDummy::join('employee', 'employee.emp_code', '=', 'payroll_dummies.employee_id')
-                ->select('employee.old_emp_code', 'payroll_dummies.*')
-                
-                ->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')
-                ->get();
+                                ->select('employee.old_emp_code', 'payroll_dummies.*')
+                                ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) ASC')
+                                ->get();
             $data['rate_master'] = Rate_master::get();
             //dd($data['payroll_rs'][0]);
             return view('payroll/view-voucher-payroll-generation', $data);
@@ -4364,7 +4348,9 @@ class PayrollGenerationController extends Controller
         $email = Session::get('emp_email');
         if (!empty($email)) {
 
-            $data['Employee'] = Employee::where('status', '=', 'active')->orderByRaw('cast(employee.old_emp_code as unsigned)', 'asc')->get();
+            $data['Employee'] = Employee::where('status', '=', 'active')
+                                ->orderByRaw('CAST(employee.old_emp_code AS UNSIGNED) ASC')
+                                ->get();
             return view('payroll/voucher-payroll-generation', $data);
         } else {
             return redirect('/');
