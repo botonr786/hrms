@@ -30,26 +30,26 @@
 			 </div>
 		  </div>
 		  <?php
-			 $usetype = Session::get('user_type'); 
+			 $usetype = Session::get('user_type');
 			 if( $usetype=='employee'){
-			 $usemail = Session::get('user_email'); 
-			 $users_id = Session::get('users_id'); 
-			 $dtaem=DB::table('users')      
-					  
-					   ->where('id','=',$users_id) 
+			 $usemail = Session::get('user_email');
+			 $users_id = Session::get('users_id');
+			 $dtaem=DB::table('users')
+
+					   ->where('id','=',$users_id)
 					   ->first();
-			 $Roles_auth = DB::table('role_authorization')      
-						->where('emid','=',$dtaem->emid) 
-					   ->where('member_id','=',$dtaem->email) 
+			 $Roles_auth = DB::table('role_authorization')
+						->where('emid','=',$dtaem->emid)
+					   ->where('member_id','=',$dtaem->email)
 					   ->get()->toArray();
 			 $arrrole=array();
 			 foreach($Roles_auth as $valrol){
 			 $arrrole[]=$valrol->menu;
-			 }	
-			 
 			 }
-			 
-			 
+
+			 }
+
+
 			 ?>
 		  <ul class="nav nav-primary">
 			 <li class="nav-item @if (Request::Segment(2)=='dashboard') active @endif">
@@ -62,9 +62,9 @@
 				<a href="company.php">
 					<i class="fas fa-layer-group"></i>
 					<p>Company</p>
-					
+
 				</a>
-				
+
 				</li>-->
 			 <li class="nav-item @if (Request::Segment(2)=='view-loans') active @endif">
 				<a data-toggle="collapse" href="#sidebarLayouts">
@@ -74,12 +74,12 @@
 				</a>
 				<div class="collapse" id="sidebarLayouts">
 				   <ul class="nav nav-collapse">
-					<?php 
+					<?php
 					if( $usetype=='employee'){
 					if(in_array('79', $arrrole))
 					{
-					
-					?>	
+
+					?>
 				 <li class="@if (Request::Segment(2)=='view-loans') active @endif">
 					<a href="{{url('loans/view-loans')}}">
 					<span class="sub-item">View Loans</span>
@@ -97,10 +97,10 @@
 					<span class="sub-item">View Loans</span>
 					</a>
 				 </li>
-				 <?php	
+				 <?php
 					}
-					?>	
-				  
+					?>
+
 				   </ul>
 				</div>
 			 </li>
@@ -112,12 +112,12 @@
 				</a>
 				<div class="collapse" id="sidebarReport">
 				   <ul class="nav nav-collapse">
-					  <?php 
+					  <?php
 						 if( $usetype=='employee'){
 						 if(in_array('79', $arrrole))
 						 {
-						 
-						 ?>	
+
+						 ?>
 					  <li class="@if (Request::Segment(2)=='adjustment-report') active @endif">
 						 <a href="{{url('loans/adjustment-report')}}">
 						 <span class="sub-item">Adjustment Report</span>
@@ -135,17 +135,17 @@
 						 <span class="sub-item">Adjustment Report</span>
 						 </a>
 					  </li>
-					  <?php	
+					  <?php
 						 }
 						 ?>
-						 <?php 
+						 <?php
 						 if( $usetype=='employee'){
 						 if(in_array('79', $arrrole))
 						 {
-						 
-						 ?>	
-					  <li class="@if (Request::Segment(2)=='report-monthly-attendance') active @endif">
-						 <a href="{{url('attendance/report-monthly-attendance')}}">
+
+						 ?>
+					  <li class="@if (Request::Segment(2)=='check-advance-salary') active @endif">
+						 <a href="{{url('loans/check-advance-salary')}}">
 						 <span class="sub-item">Check List</span>
 						 </a>
 					  </li>
@@ -156,22 +156,22 @@
 						 }
 							 }else{
 							 ?>
-					  <li class="@if (Request::Segment(2)=='report-monthly-attendance') active @endif">
-						 <a href="{{url('attendance/report-monthly-attendance')}}">
+					  <li class="@if (Request::Segment(2)=='check-advance-salary') active @endif">
+						 <a href="{{url('loans/check-advance-salary')}}">
 						 <span class="sub-item">Check List</span>
 						 </a>
 					  </li>
-					  <?php	
+					  <?php
 						 }
 						 ?>
-						 <?php 
+						 <?php
 						 if( $usetype=='employee'){
 						 if(in_array('79', $arrrole))
 						 {
-						 
-						 ?>	
-					  <li class="@if (Request::Segment(2)=='report-monthly-attendance') active @endif">
-						 <a href="{{url('attendance/report-monthly-attendance')}}">
+
+						 ?>
+					  <li class="@if (Request::Segment(2)=='vw-loan-report') active @endif">
+						 <a href="{{url('loans/vw-loan-report')}}">
 						 <span class="sub-item">Loan Report</span>
 						 </a>
 					  </li>
@@ -182,12 +182,12 @@
 						 }
 							 }else{
 							 ?>
-					  <li class="@if (Request::Segment(2)=='report-monthly-attendance') active @endif">
-						 <a href="{{url('attendance/report-monthly-attendance')}}">
+					  <li class="@if (Request::Segment(2)=='vw-loan-report') active @endif">
+						 <a href="{{url('loans/vw-loan-report')}}">
 						 <span class="sub-item">Loan Report</span>
 						 </a>
 					  </li>
-					  <?php	
+					  <?php
 						 }
 						 ?>
 				   </ul>

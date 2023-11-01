@@ -246,7 +246,7 @@ class LoanController extends Controller
             return redirect('/');
         }
     }
-    
+
     public function viewAdjustLoan($id)
     {
         $email = Session::get('emp_email');
@@ -274,15 +274,13 @@ class LoanController extends Controller
 
                $data['ClassName'] = 'adjustment-report';
 
-                $employee_rs = Loan::join('employee', 'employee.emp_code', '=', 'loans.emp_code')
-                ->select('employee.salutation','employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.Designation', 'employee.old_emp_code','employee.emp_pf_no', 'loans.*')
-                //->where(DB::raw('DATE_FORMAT(loans.start_month, "%m/%Y")'), '<=', $request->month)
-                //->where('loan_type', '=', $request->loan_type)
-                ->where('deduction', '=', 'Y')
-                ->where('loans.loan_amount', '>', 0)
-                ->where('loans.adjust_amount', '>', 0)
-                ->orderByRaw('cast(employee.emp_code as unsigned)', 'asc')
-                ->get();
+               $employee_rs = Loan::join('employee', 'employee.emp_code', '=', 'loans.emp_code')
+               ->select('employee.salutation', 'employee.emp_fname', 'employee.emp_mname', 'employee.emp_lname', 'employee.Designation', 'employee.old_emp_code', 'employee.emp_pf_no', 'loans.*')
+               ->where('deduction', '=', 'Y')
+               ->where('loans.loan_amount', '>', 0)
+               ->where('loans.adjust_amount', '>', 0)
+               ->orderBy('employee.emp_code', 'asc')
+               ->get();
 
 
             $data['result'] = $employee_rs;
@@ -313,6 +311,33 @@ class LoanController extends Controller
             return Excel::download(new ExcelFileExportAdjustAmount($month_yr,$loan_type), 'Adjustment-report.xlsx');
         }
         else {
+            return redirect('/');
+        }
+    }
+
+    public function ViewLoanRepo()
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+            $data['monthlist'] = Payroll_detail::select('month_yr')->distinct('month_yr')->get();
+            $data['result'] ='';
+            return view('loan.monthly-loan-report', $data);
+        } else {
+            return redirect('/');
+        }
+    }
+    public function checkAdvanceSalary()
+    {
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+            $data['monthlist'] = Loan::select(["start_month"])
+            ->orderBy('start_month')
+            ->groupBy(DB::raw('MONTH(start_month)'))
+            ->get();
+
+            $data['result'] ='';
+            return view('loan.check-advance-salary', $data);
+        } else {
             return redirect('/');
         }
     }

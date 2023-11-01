@@ -27,9 +27,9 @@
                         </form>
                     </div>
                     </div>
-                   
+
                     <div class="card-body">
-                    @if(Session::has('message'))										
+                    @if(Session::has('message'))
                     <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                     <br><br>
                     @endif
@@ -160,8 +160,7 @@ function doSumMisc() {
       }, 0 );
 	$(".total_misc").html(total);
 }
-        
+
     </script>
 
     @endsection
-   

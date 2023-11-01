@@ -104,7 +104,7 @@ Route::get('attendance/report-monthly-attendance', 'App\Http\Controllers\Attenda
 Route::post('attendance/report-monthly-attendance', 'App\Http\Controllers\Attendance\ProcessAttendanceController@getMonthlyAttendanceReport');
 Route::post('attendance/xls-export-attendance-report', 'App\Http\Controllers\Attendance\ProcessAttendanceController@attandence_xlsexport');
 
-//loan routes start 
+//loan routes start
 Route::get('loans/view-loans', 'App\Http\Controllers\Loan\LoanController@viewLoan');
 Route::get('loans/add-loan', 'App\Http\Controllers\Loan\LoanController@addLoan');
 Route::post('loans/save-loan', 'App\Http\Controllers\Loan\LoanController@saveLoan');
@@ -116,6 +116,15 @@ Route::post('loans/update-loan-adjustment', 'App\Http\Controllers\Loan\LoanContr
 Route::get('loans/view-adjust-loan/{id}', 'App\Http\Controllers\Loan\LoanController@viewAdjustLoan');
 Route::get('loans/adjustment-report', 'App\Http\Controllers\Loan\LoanController@loanAdjustmentReport');
 Route::post('loans/xls-export-adjustment-report', 'App\Http\Controllers\Loan\LoanController@adjustment_report_xlsexport');
+
+Route::get('loans/vw-loan-report', 'App\Http\Controllers\Loan\LoanController@ViewLoanRepo');
+Route::post('loans/vw-loan-report', 'App\Http\Controllers\Loan\LoanController@showLoanRepo');
+Route::post('loans/prn-loan-report', 'App\Http\Controllers\Loan\LoanController@printLoanRepo');
+Route::post('loans/xls-export-loan-report', 'App\Http\Controllers\Loan\LoanController@loan_repo_xlsexport');
+
+Route::get('loans/check-advance-salary', 'App\Http\Controllers\Loan\LoanController@checkAdvanceSalary');
+Route::post('loans/check-advance-salary', 'App\Http\Controllers\Loan\LoanController@showCheckAdvanceSalary');
+Route::post('loans/xls-export-check-advance-salary', 'App\Http\Controllers\Loan\LoanController@advance_salary_xlsexport');
 
 
 //loan routes end
@@ -201,7 +210,7 @@ Route::get('payroll/dashboard', 'App\Http\Controllers\Payroll\PayrollGenerationC
 
 //payroll end
 
-   
+
 
 //plans
 Route::get('superadmin/plans', 'App\Http\Controllers\AdminController@getPlans');
@@ -219,7 +228,7 @@ Route::get('pis/calulate-expiry-date/{plan_id}/{start_date}', function ($plan_id
         ->where('status', '=', 'active')
         ->first();
 
-    $expiry_date=''; 
+    $expiry_date='';
     if(!empty($plan)){
         $expiry_date=date('Y-m-d', strtotime($start_date." +".$plan->validity." days"));
        //dd($expiry_date);
@@ -260,7 +269,7 @@ Route::get('pis/get-interview-question-sections/{type}', function ($type) {
 
     $records = DB::table('intervi
     ew_question_sections')
-    
+
     ->where('type', '=', $type)
         ->get();
 
@@ -1431,7 +1440,7 @@ Route::get('pis/getremidnamepaykkByIdauthof/{empid}', function ($empid) {
             ->where('employee_id', '=', $bank->member_id)
             ->first();
 
-        $result_status1 .= '<option value="' . $Roledataroluuuser->employee_id . '"'; 
+        $result_status1 .= '<option value="' . $Roledataroluuuser->employee_id . '"';
         $result_status1 .= '> ' . $Roledataroluuuser->name . '</option>';
     }
 
@@ -2663,7 +2672,7 @@ Route::get('settings/get-add-row-item/{row}', function ($row) {
 
     $result = ' <tr class="itemslot" id="' . $row . '" >
 					    <td>' . $row . '</td>
-						 <td> 
+						 <td>
                          <select class="form-control" name="document_name[]">
                          <option></option>
                          <option value="aadhar card">Aadhar Card</option>
@@ -2685,7 +2694,7 @@ Route::get('settings/get-add-row-acc/{row}', function ($row) {
 
     $result = ' <tr class="itemslot" id="' . $row . '" >
 					    <td>' . $row . '</td>
-						 <td> 
+						 <td>
                          <select class="form-control" name="emp_document_name[]">
                          <option></option>
                          <option value="10 th">10 th</option>
@@ -2696,19 +2705,19 @@ Route::get('settings/get-add-row-acc/{row}', function ($row) {
                        </select>
                          </td>
                          <td>
-                                                              
+
                            <input type="text" name="boardss[]" class="form-control">
                          </td>
                          <td>
-                                                               
+
                             <input type="date" name="yearofpassing[]" class="form-control">
                         </td>
                                                               <td>
-                                                                
+
                                                                 <input type="text" name="emp_grade[]" class="form-control">
                                                               </td>
                                                               <td>
-                                                              
+
                                                                 <input type="file" name="emp_document_upload[]" class="form-control">
                                                               </td>
 						 <td><button class="btn-success" type="button" id="add' . $row . '" onClick="accademinewrow(' . $row . ')" data-id="' . $row . '"> <i class="fas fa-plus"></i> </button>
@@ -2722,24 +2731,24 @@ Route::get('settings/get-add-row-pro/{row}', function ($row) {
 
     $result = ' <tr class="itemslot" id="' . $row . '" >
 					    <td>' . $row . '</td>
-						 <td> 
+						 <td>
                          <td>
                          <input type="text" name="Organization[]" class="form-control" placeholder="Organization">
                      </td>
                        <td>
-                       
+
                        <input type="text" name="Desigination[]" class="form-control" placeholder="Desigination">
                        </td>
                        <td>
-                        
+
                          <input type="date" name="formdate[]" class="form-control">
                        </td>
                        <td>
-                         
+
                          <input type="date" name="todate[]" class="form-control">
                        </td>
                        <td>
-                       
+
                          <input type="file" name="emp1_document_upload[]" class="form-control">
                        </td>
 						 <td><button class="btn-success" type="button" id="add' . $row . '" onClick="proaddnewrow(' . $row . ')" data-id="' . $row . '"> <i class="fas fa-plus"></i> </button>
@@ -2752,7 +2761,7 @@ Route::get('settings/get-add-row-mic/{row}', function ($row) {
 
     $result = ' <tr class="itemslot" id="' . $row . '" >
 					    <td>' . $row . '</td>
-						 
+
                          <td>
                          <select class="form-control" name="emp_traning">
                          <option>Select</option>
@@ -2761,9 +2770,9 @@ Route::get('settings/get-add-row-mic/{row}', function ($row) {
                          <option value="other">others</option>
                         </select>
                      </td>
-                      
+
                        <td>
-                       
+
                          <input type="file" name="traning1_document_upload[]" class="form-control">
                        </td>
 						 <td><button class="btn-success" type="button" id="add' . $row . '" onClick="proaddnewrow(' . $row . ')" data-id="' . $row . '"> <i class="fas fa-plus"></i> </button>
@@ -3623,7 +3632,7 @@ Route::get('pis/getEmployeetaxempByIdnewemployee/{empid}', function ($empid) {
     $truotherdocpload_id++;
     if ($countpayuppasother != 0) {
 
-        
+
         foreach ($employee_otherd_doc_rs as $empuprs) {
             if ($empuprs->doc_issue_date != '' && $empuprs->doc_issue_date != '1970-01-01') {$doc_date = $empuprs->doc_issue_date;} else {
                 $doc_date = '';
@@ -3732,7 +3741,7 @@ onchange="getreviewnatdateother(' . $truotherdocpload_id . ');">
 											</div>
 						</div>';
 
-            
+
             if ($truotherdocpload_id == ($countpayuppasother)) {
                 $reslt .= '<div class="col-md-4" style="margin-top:27px;"><button class="btn-success" type="button"  id="adduploadother' . $truotherdocpload_id . '" onClick="addnewrowuploadother(' . $truotherdocpload_id . ')" data-id="' . $truotherdocpload_id . '"><i class="fas fa-plus"></i> </button></div>';
 
@@ -3741,7 +3750,7 @@ onchange="getreviewnatdateother(' . $truotherdocpload_id . ');">
 
 				    </br>';
             $truotherdocpload_id++;
-                   
+
         }
     }
     if ($countpayuppasother == 0) {
@@ -4078,11 +4087,11 @@ Route::get('pis/getEmployeedailyattandeaneshightById/{empid}', function ($empid)
         ->where('email', '=', $email)
         ->first();
 
-   
+
     $employee_rs = DB::table('employee')
 
         ->where('designation', '=', $empid)
-       
+
         ->where('emid', '=', $Roledata->reg)
         ->where(function ($query) {
 
@@ -4090,7 +4099,7 @@ Route::get('pis/getEmployeedailyattandeaneshightById/{empid}', function ($empid)
                 ->orWhere('employee.emp_status', '!=', 'LEFT');
         })
         ->get();
-       
+
     $result = '';
     $result_status1 = "  <option value=''>Select</option>
 	<option value=''>All</option>";
@@ -4112,7 +4121,7 @@ Route::get('pis/getEmployeedailyattandeaneById/{empid}', function ($empid) {
     $employee_rs = DB::table('employee')
         ->where('employeetype',$empid)
         ->get();
-       
+
     $result = '';
     $result_status1 = "  <option value=''>Select</option>
     <option value=''>All</option>";
@@ -4351,7 +4360,7 @@ Route::get('pis/getEmployeedailyattandeaneshightdutyById/{empid}', function ($em
         ->where('id', '=', $employee_desigrs->department_code)
         ->where('emid', '=', $Roledata->reg)
         ->first();
-       
+
     $employee_rs = DB::table('employee')
 
         ->where('designation', '=',$designation_name)
@@ -4370,7 +4379,7 @@ Route::get('pis/getEmployeedailyattandeaneshightdutyById/{empid}', function ($em
 });
 
 Route::get('pis/getEmployeedesigBydutytshiftId/{empid}', function ($empid) {
-   
+
     $email = Session::get('emp_email');
     $Roledata = DB::table('registration')
 
@@ -4382,12 +4391,12 @@ Route::get('pis/getEmployeedesigBydutytshiftId/{empid}', function ($empid) {
         ->where('designation', '=', $empid)
         ->where('emid', '=', $Roledata->reg)
         ->get();
-       
+
     $result = '';
     $result_status1 = "";
     $du = 1;
     foreach ($employee_rs as $bank) {
-        
+
         if ($du == '1') {
             $chedu = 'checked';
         } else {
@@ -4573,7 +4582,7 @@ Route::get('pis/getInterviewCandidateInfo/{candidate_id}', function ($candidate_
         ->join('company_job','company_job.id','=','candidate.job_id')
         ->where('company_job.emid', $Roledata->reg)
         ->where('candidate.id','=',$candidate_id)
-        
+
         ->first();
 
     //dd($candidates);
@@ -4581,7 +4590,7 @@ Route::get('pis/getInterviewCandidateInfo/{candidate_id}', function ($candidate_
     echo json_encode($candidates);
 
 });
-    
+
 Route::get('recruitment/interviews', 'App\Http\Controllers\RecruitmentController@viewInterviews');
 Route::get('recruitment/interview/{id}', 'App\Http\Controllers\RecruitmentController@viewInterviewDetail');
 Route::get('recruitment/interview/edit/{id}', 'App\Http\Controllers\RecruitmentController@editInterviewDetail');
